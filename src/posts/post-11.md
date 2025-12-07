@@ -1,10 +1,10 @@
 ---
-title: 博客搭建记录
+title: "博客搭建记录"
 date: 2025-11-24
 layout: layouts/post.njk
 tags: [post, blog, CS]
 cover: /forelang/assets/img/cover-2.jpg
-summary: 博客搭建记录 的摘要演示，便于目录页/搜索展示。
+summary: "博客搭建记录 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

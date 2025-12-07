@@ -1,10 +1,10 @@
 ---
-title: 光学中的相位与干涉
+title: "光学中的相位与干涉"
 date: 2025-12-03
 layout: layouts/post.njk
 tags: [post, 光学]
 cover: /forelang/assets/img/cover-3.jpg
-summary: 光学中的相位与干涉 的摘要演示，便于目录页/搜索展示。
+summary: "光学中的相位与干涉 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

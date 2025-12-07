@@ -1,10 +1,10 @@
 ---
-title: LaTeX 公式速查
+title: "LaTeX 公式速查"
 date: 2025-11-27
 layout: layouts/post.njk
 tags: [post, 数学, LaTeX]
 cover: /forelang/assets/img/cover-1.jpg
-summary: LaTeX 公式速查 的摘要演示，便于目录页/搜索展示。
+summary: "LaTeX 公式速查 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

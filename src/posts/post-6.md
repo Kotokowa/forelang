@@ -1,10 +1,10 @@
 ---
-title: 随笔：学习与效率
+title: "随笔：学习与效率"
 date: 2025-12-06
 layout: layouts/post.njk
 tags: [post, 随笔]
 cover: /forelang/assets/img/cover-3.jpg
-summary: 随笔：学习与效率 的摘要演示，便于目录页/搜索展示。
+summary: "随笔：学习与效率 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

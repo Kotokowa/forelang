@@ -1,10 +1,10 @@
 ---
-title: 正则变换与哈密顿-雅可比方程
+title: "正则变换与哈密顿-雅可比方程"
 date: 2025-12-01
 layout: layouts/post.njk
 tags: [post, 力学]
 cover: /forelang/assets/img/cover-2.jpg
-summary: 正则变换与哈密顿-雅可比方程 的摘要演示，便于目录页/搜索展示。
+summary: "正则变换与哈密顿-雅可比方程 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

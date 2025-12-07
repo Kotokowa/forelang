@@ -1,10 +1,10 @@
 ---
-title: 日本語メモ
+title: "日本語メモ"
 date: 2025-11-25
 layout: layouts/post.njk
 tags: [post, 日本語]
 cover: /forelang/assets/img/cover-5.jpg
-summary: 日本語メモ 的摘要演示，便于目录页/搜索展示。
+summary: "日本語メモ 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

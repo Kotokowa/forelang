@@ -1,10 +1,10 @@
 ---
-title: 算法笔记：二分与三分
+title: "算法笔记：二分与三分"
 date: 2025-12-05
 layout: layouts/post.njk
 tags: [post, 算法, CS]
 cover: /forelang/assets/img/cover-5.jpg
-summary: 算法笔记：二分与三分 的摘要演示，便于目录页/搜索展示。
+summary: "算法笔记：二分与三分 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

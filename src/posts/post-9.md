@@ -1,10 +1,10 @@
 ---
-title: 图解FFT
+title: "图解FFT"
 date: 2025-11-26
 layout: layouts/post.njk
 tags: [post, 信号处理, 数学]
 cover: /forelang/assets/img/cover-4.jpg
-summary: 图解FFT 的摘要演示，便于目录页/搜索展示。
+summary: "图解FFT 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

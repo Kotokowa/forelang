@@ -1,10 +1,10 @@
 ---
-title: CS：用Python写个爬虫
+title: "CS：用Python写个爬虫"
 date: 2025-12-04
 layout: layouts/post.njk
 tags: [post, CS, Python]
 cover: /forelang/assets/img/cover-4.jpg
-summary: CS：用Python写个爬虫 的摘要演示，便于目录页/搜索展示。
+summary: "CS：用Python写个爬虫 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

@@ -1,10 +1,10 @@
 ---
-title: 大学英语词测试词汇表
+title: "大学英语词测试词汇表"
 date: 2025-12-02
 layout: layouts/post.njk
 tags: [post, 英语, 词库]
 cover: /forelang/assets/img/cover-1.jpg
-summary: 大学英语词测试词汇表 的摘要演示，便于目录页/搜索展示。
+summary: "大学英语词测试词汇表 的摘要演示，便于目录页/搜索展示。"
 ---
 
 [toc]

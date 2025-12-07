@@ -27,8 +27,6 @@ module.exports = function(eleventyConfig) {
     return `${Math.max(1,Math.round(words/250))} min`;
   });
   eleventyConfig.addFilter("indexOf", (arr, page)=>arr.findIndex(i=>i.url===page.url));
-  eleventyConfig.addFilter("url", u=>u);
-
   // HTML -> TOC (extract h2/h3 headings from rendered HTML)
   eleventyConfig.addFilter("toc", function (html) {
     if(!html) return "";
