@@ -10,6 +10,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy({"src/assets/favicon.ico": "favicon.ico"});
   eleventyConfig.addPassthroughCopy("src/robots.txt");
+  eleventyConfig.addPassthroughCopy("src/posts/**/*.pdf");
+
 
   // Watch JS/CSS
   eleventyConfig.addWatchTarget("src/assets");

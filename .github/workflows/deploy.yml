@@ -27,7 +27,11 @@ jobs:
           node-version: '20'
       - name: Install & Build
         run: |
-          npm ci || npm i
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm i
+          fi
           npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
