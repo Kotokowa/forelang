@@ -5,7 +5,7 @@
 html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans",sans-serif;background:var(--bg);color:var(--text);scroll-behavior:smooth}
 a{color:inherit;text-decoration:none}img{max-width:100%;display:block}.container{width:min(1100px,96%);margin:0 auto}
 .topbar{position:sticky;top:0;z-index:1000;background:var(--brand-alpha);backdrop-filter:saturate(180%) blur(4px);box-shadow:0 1px 0 rgba(0,0,0,.06)}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:2px 8px;min-height:36px;line-height:1}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:2px 8px;min-height:34px;line-height:1}
 .nav-left,.nav-right{display:flex;align-items:center;gap:.6rem}
 .brand{font-weight:700;font-size:1rem;cursor:pointer}
 .dropdown{position:relative}
@@ -18,8 +18,8 @@ a{color:inherit;text-decoration:none}img{max-width:100%;display:block}.container
 .search{flex:1;display:flex;align-items:center;gap:.5rem;max-width:480px}
 .search input{flex:1;padding:.2rem .6rem;border-radius:1rem;border:1px solid #d7ecf7;background:#fff;height:28px}
 [data-theme=dark] .search input{background:#222;border-color:#333;color:#fff}
-.avatar{width:24px;height:24px;border-radius:50%;overflow:hidden;border:1px solid #fff;cursor:pointer}
-.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.nav-avatar{width:24px;height:24px;border-radius:50%;overflow:hidden;border:1px solid #fff;cursor:pointer}
+.nav-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .avatar-wrap{position:relative}
 .avatar-card{position:absolute;right:0;top:100%;background:var(--bg);color:var(--text);border-radius:.6rem;box-shadow:0 10px 30px rgba(0,0,0,.1);width:300px;padding:.6rem;display:none}
 .avatar-wrap:hover .avatar-card,.avatar-wrap:focus-within .avatar-card{display:block}
@@ -57,3 +57,6 @@ a{color:inherit;text-decoration:none}img{max-width:100%;display:block}.container
 .prevnext a .label{position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.6));display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem}
 .backTop{position:fixed;right:1rem;bottom:1.2rem;padding:.5rem .7rem;border-radius:999px;background:#fff;box-shadow:0 8px 30px rgba(0,0,0,.12);cursor:pointer;display:none}
 @media (max-width:980px){.grid{grid-template-columns:1fr}.toc{display:none}.search{display:none}}
+
+.hero-avatar{width:96px;height:96px;border-radius:50%;overflow:hidden;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.hero-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
