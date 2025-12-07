@@ -1,10 +1,10 @@
 ---
-title: "LaTeX 公式速查"
-date: 2025-11-27
+title: "md代码示例"
+date: 2025-12-02
 layout: layouts/post.njk
-tags: [post, 数学, LaTeX]
+tags: [blog]
 cover: /forelang/assets/img/cover-1.jpg
-summary: "LaTeX 公式速查 的摘要演示，便于目录页/搜索展示。"
+summary: "md代码示例"
 ---
 
 [toc]
