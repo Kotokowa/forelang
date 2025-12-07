@@ -1,8 +1,11 @@
 ---
-title: 大学英语测试词汇表
+title: FET考前准备
 tags: [外语, English]
 mathjax: true
 date: 2025-12-07
+layout: layouts/post.njk
+cover: https://pic2.zhimg.com/v2-60492f59bde9561e30d21c65cb665e51_1440w.jpg
+summary: "临考这 1 小时总体建议，分各个模块讲述"
 ---
 
 先直接来干货，毕竟你只剩 1 小时了，我尽量讲得短、实用、能立刻用得上。

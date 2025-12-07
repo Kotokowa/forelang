@@ -3,7 +3,7 @@ title: "md代码示例"
 date: 2025-12-02
 layout: layouts/post.njk
 tags: [blog, code]
-cover: /forelang/assets/img/cover-1.jpg
+cover: /forelang/assets/img/cover-demo.jpg
 summary: "md代码示例"
 ---
 
