@@ -1,5 +1,5 @@
 ---
-title: English: Phrasal Verbs
+title: English Phrasal Verbs
 date: 2025-11-28
 layout: layouts/post.njk
 tags: [post, English]
