@@ -24,7 +24,7 @@
   <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
 </head>
 <body>
-  {% include "partials/nav.njk" %}
+  {% if not hideNav %}{% include "partials/nav.njk" %}{% endif %}
   <main id="swup" class="main" data-swup>
     {{ content | safe }}
   </main>

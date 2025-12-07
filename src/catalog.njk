@@ -24,10 +24,10 @@ permalink: /catalog/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNum
   <section class="right">
     {% for p in posts %}
       <article class="entry">
-        <div class="media"><img src="{{ p.data.cover | default(site.base + 'assets/img/cover-demo.jpg') }}" alt=""></div>
+        <div class="media"><a href="{{ p.url | url }}"><img src="{{ p.data.cover | default(site.base + 'assets/img/cover-demo.jpg') }}" alt=""></a></div>
         <div class="content">
           <div class="meta">{{ p.date | date }} · {{ p.data.tags | join(', ') }}</div>
-          <h3><a href="{{ p.url }}">{{ p.data.title }}</a></h3>
+          <h3><a href="{{ p.url | url }}">{{ p.data.title }}</a></h3>
           <p>{{ p.data.summary | default(p.templateContent) | striptags | truncate(160) }}</p>
         </div>
       </article>

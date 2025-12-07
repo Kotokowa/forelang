@@ -11,7 +11,7 @@ permalink: /latest/index.html
         <div class="cover"><img src="{{ p.data.cover | default(site.base + 'assets/img/cover-demo.jpg') }}"></div>
         <div class="body">
           <div class="meta">{{ p.date | date }}</div>
-          <h3><a href="{{ p.url }}">{{ p.data.title }}</a></h3>
+          <h3><a href="{{ p.url | url }}">{{ p.data.title }}</a></h3>
           <p class="small" style="color:var(--muted)">{{ p.data.summary | default(p.templateContent) | striptags | truncate(160) }}</p>
         </div>
       </article>

@@ -9,7 +9,7 @@
         <div class="dropdown-menu">
           <ul>
             {% for p in collections.posts | slice(0,5) %}
-              <li><a href="{{ p.url }}">{{ p.data.title }}</a></li>
+              <li><a href="{{ p.url | url }}">{{ p.data.title }}</a></li>
             {% endfor %}
             <li><a href="{{ site.base }}latest/">查看全部 →</a></li>
           </ul>
