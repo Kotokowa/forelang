@@ -1,0 +1,58 @@
+
+<nav class="topbar">
+  <div class="nav container">
+    <div class="nav-left">
+      <div class="brand"><a href="{{ site.base }}">Kotokowa</a></div>
+
+      <div class="dropdown">
+        <button>最新文章</button>
+        <div class="dropdown-menu">
+          <ul>
+            {% for p in collections.posts | limit(5) %}
+              <li><a href="{{ p.url }}">{{ p.data.title }}</a></li>
+            {% endfor %}
+            <li><a href="{{ site.base }}latest/">查看全部 →</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>友链</button>
+        <div class="dropdown-menu">
+          <ul>
+            {% for f in friends %}
+              <li><a href="{{ f.url }}" target="_blank" rel="noopener">{{ f.name }}</a></li>
+            {% endfor %}
+            <li><a href="{{ site.base }}friends/">管理与更多 →</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="search">
+        <input id="search-input" type="search" placeholder="搜索文章…" aria-label="搜索文章">
+        <ul id="search-panel" class="small"></ul>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <div class="avatar-wrap">
+        <a class="avatar" href="{{ site.about_url }}"><img src="{{ site.avatar }}" alt="avatar"/></a>
+        <div class="avatar-card">
+          <div class="avatar-row icons">
+            <a href="{{ site.email }}" title="邮件" aria-label="email"><i class="fa-regular fa-envelope"></i></a>
+            <a href="https://github.com/kotokowa" title="GitHub" aria-label="github"><i class="fa-brands fa-github"></i></a>
+            <a href="https://space.bilibili.com/" title="bilibili" aria-label="bilibili"><i class="fa-brands fa-bilibili"></i></a>
+          </div>
+          <div id="site-run-days" class="avatar-row small"></div>
+          <div class="avatar-row small"><button id="fortune-btn" class="btn btn-ghost small">抽取今日运势</button></div>
+          <div id="fortune-out" class="avatar-row small"></div>
+          <div class="avatar-row small"><a href="{{ site.donate_url }}" target="_blank" rel="noopener">捐赠 →</a></div>
+        </div>
+      </div>
+
+      <button id="theme-toggle" class="toggle" title="切换深浅色"><i class="fa-regular fa-lightbulb"></i></button>
+      <div class="date" id="today-date"></div>
+      <a class="github" href="{{ site.repo }}" target="_blank" rel="noopener">fork on Github</a>
+    </div>
+  </div>
+</nav>

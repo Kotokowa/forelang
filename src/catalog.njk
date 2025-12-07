@@ -1,0 +1,50 @@
+
+---
+layout: layouts/base.njk
+title: 目录
+pagination:
+  data: collections.posts
+  size: 10
+  alias: posts
+permalink: /catalog/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber + 1 }}/{% endif %}index.html
+---
+<div class="container list" style="gap:2rem">
+  <aside class="tag-cloud">
+    <div>tags：</div>
+    {% for t in collections.tagList %}
+      {% set size = "md" %}
+      {% if t.count <= 2 %}{% set size = "xs" %}
+      {% elif t.count <= 5 %}{% set size = "sm" %}
+      {% elif t.count <= 8 %}{% set size = "md" %}
+      {% elif t.count <= 12 %}{% set size = "lg" %}
+      {% else %}{% set size = "xl" %}{% endif %}
+      <a href="{{ site.base }}tags/{{ t.tag | slug }}/" data-size="{{ size }}">{{ t.tag }}</a>
+    {% endfor %}
+  </aside>
+
+  <section class="right">
+    {% for p in posts %}
+      <article class="card">
+        <div class="cover"><img src="{{ p.data.cover | default(site.base + 'assets/img/cover-demo.jpg') }}" alt=""></div>
+        <div class="body">
+          <div class="meta">{{ p.date | date }} · {{ p.data.tags | join(', ') }}</div>
+          <h3 style="margin:.2rem 0"><a href="{{ p.url }}">{{ p.data.title }}</a></h3>
+          <p style="color:var(--muted)">{{ p.data.summary | default(p.templateContent) | striptags | truncate(160) }}</p>
+        </div>
+      </article>
+    {% endfor %}
+
+    <div class="paginate">
+      <div>
+        {% if pagination.href.previous %}
+          <a class="page-btn" href="{{ pagination.href.previous }}">← prev</a>
+        {% endif %}
+      </div>
+      <div>
+        {% if pagination.href.next %}
+          <a class="page-btn" href="{{ pagination.href.next }}">next →</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</div>

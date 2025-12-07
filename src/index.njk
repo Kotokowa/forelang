@@ -1,0 +1,27 @@
+
+---
+layout: layouts/base.njk
+title: 首页
+permalink: /index.html
+---
+<section class="hero" style="background-image:url('{{ site.background }}')">
+  <a class="avatar" href="{{ site.about_url }}" title="自我介绍">
+    <img src="{{ site.avatar }}" alt="profile">
+  </a>
+  <div class="title">Kotokowa</div>
+  <div style="color:#66ccff;font-size:1.2rem;margin-top:-.4rem">{{ site.title }}</div>
+  <div class="actions">
+    <a class="btn btn-ghost" href="{{ site.base }}random/">随机文章</a>
+    <a class="btn btn-brand" href="{{ site.base }}catalog/">展开目录</a>
+  </div>
+
+  <div style="position:absolute;left:1rem;bottom:1rem;text-align:left">
+    <div id="site-total" class="small"></div>
+    <div id="site-today" class="small"></div>
+  </div>
+
+  <div style="position:absolute;right:1rem;bottom:1rem;text-align:right">
+    <button id="fortune-btn" class="btn btn-ghost small">抽取今日运势</button>
+    <div id="fortune-out" class="small"></div>
+  </div>
+</section>

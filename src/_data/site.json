@@ -1,0 +1,12 @@
+{
+  "title": "kotokowa-forelang",
+  "name": "Kotokowa",
+  "base": "/forelang/",
+  "repo": "https://github.com/kotokowa/forelang",
+  "email": "mailto:youremail@example.com",
+  "avatar": "/forelang/assets/img/profile.jpg",
+  "background": "/forelang/assets/img/home-bg.jpg",
+  "donate_url": "https://example.com/donate",
+  "about_url": "/forelang/about/",
+  "favicon": "/forelang/favicon.ico"
+}

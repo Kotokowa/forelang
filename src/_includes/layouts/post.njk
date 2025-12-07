@@ -1,0 +1,50 @@
+
+---
+layout: layouts/base.njk
+---
+<div id="article-sentinel" class="article-hero" style="background-image:url('{{ cover | default(site.base + 'assets/img/cover-demo.jpg') }}')">
+  <h1 class="article-title">{{ title }}</h1>
+</div>
+
+<div class="container">
+  <aside class="toc">
+    <!-- markdown-it TOC will inject here if user adds [toc] -->
+    {{ content | toc | safe }}
+  </aside>
+
+  <article class="article">
+    <div class="meta">{{ date | date }} · {{ content | readingTime }}</div>
+    {{ content | safe }}
+
+    <div class="article-end">
+      <div class="small">copyright：{{ site.name }}</div>
+      <div class="small">link of this page: {{ page.url | url }}</div>
+      {% if tags and tags.length %}
+      <div class="tags">
+        {% for t in tags %}
+          {% if t != "post" %}
+            <a href="{{ site.base }}tags/{{ t | slug }}/">{{ t }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% set all = collections.posts %}
+      {% set index = all | indexOf(page) %}
+      {% set prev = all[index + 1] %}
+      {% set next = all[index - 1] %}
+      <div class="prevnext">
+        {% if prev %}
+          <a href="{{ prev.url }}" style="background-image:url('{{ prev.data.cover | default(site.base + 'assets/img/cover-demo.jpg') }}'); background-size:cover; background-position:center">
+            <span class="label">← {{ prev.data.title }}</span>
+          </a>
+        {% endif %}
+        {% if next %}
+          <a href="{{ next.url }}" style="background-image:url('{{ next.data.cover | default(site.base + 'assets/img/cover-demo.jpg') }}'); background-size:cover; background-position:center">
+            <span class="label">{{ next.data.title }} →</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </article>
+</div>

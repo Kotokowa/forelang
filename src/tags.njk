@@ -1,0 +1,14 @@
+
+---
+layout: layouts/base.njk
+title: 标签
+permalink: /tags/index.html
+---
+<div class="container">
+  <h1>所有标签</h1>
+  <div class="tag-cloud">
+    {% for t in collections.tagList %}
+      <a href="{{ site.base }}tags/{{ t.tag | slug }}/" data-size="md">{{ t.tag }} ({{ t.count }})</a>
+    {% endfor %}
+  </div>
+</div>
