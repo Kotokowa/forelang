@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>University English Proficiency Mock E-test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+    h1, h2, h3 {
+      text-align: center;
+      margin: 8px 0;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    h2 {
+      font-size: 20px;
+    }
+    h3 {
+      font-size: 18px;
+    }
+    .paper-block {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin: 18px 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .meta {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .timer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #222;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      font-size: 14px;
+    }
+    .timer-label {
+      font-weight: 600;
+    }
+    .timer-value {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 6px 4px 0;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+    }
+    .btn-primary:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    .btn-download {
+      background: #059669;
+      color: #fff;
+    }
+    .question {
+      margin: 10px 0 12px;
+    }
+    .question p {
+      margin: 4px 0 6px;
+    }
+    .options label {
+      display: block;
+      margin: 2px 0;
+    }
+    input[type="text"] {
+      width: 80%;
+      padding: 4px 6px;
+      margin: 2px 0 6px;
+      border-radius: 4px;
+      border: 1px solid #d1d5db;
+    }
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      resize: vertical;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    audio {
+      width: 100%;
+      margin: 4px 0 10px;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .result-block {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #111827;
+      color: #e5e7eb;
+      border-radius: 8px;
+      padding: 12px 14px;
+      overflow-x: auto;
+    }
+    .small-note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+    .audio-info {
+      font-size: 13px;
+      color: #374151;
+    }
+    .audio-info a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .audio-info a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div class="timer-bar">
+  <div>
+    <span class="timer-label">当前部分：</span>
+    <span id="current-section-name">未开始</span>
+  </div>
+  <div>
+    <span class="timer-label">本部分剩余时间：</span>
+    <span id="section-timer" class="timer-value">00:00</span>
+  </div>
+</div>
+
+<div class="container">
+  <h1>University English Proficiency Mock E-test</h1>
+  <p style="text-align:center;font-size:13px;color:#6b7280;">
+    （基于英语水平测试样卷结构改编 &ndash; 全新原创内容）
+  </p>
+
+  <!-- Intro Section -->
+  <div id="intro-section" class="paper-block section active">
+    <div class="section-title">考试说明</div>
+    <div class="meta">
+      总时长约 100 分钟。请确保你的网络可以播放以下在线音频。
+    </div>
+    <p>本试卷共四部分：</p>
+    <ol>
+      <li><strong>Part I Listening</strong>（听写 + 听力选择，21 题，推荐 35 分钟）</li>
+      <li><strong>Part II Writing</strong>（写作，≥ 180 词，推荐 25 分钟）</li>
+      <li><strong>Part III Reading</strong>（阅读理解，选择题 + 简答题，推荐 25 分钟）</li>
+      <li><strong>Part IV Translation</strong>（汉译英，推荐 15 分钟）</li>
+    </ol>
+    <p><br> The test is free of use. Get more from kotokowa.github.io/forelang</p>
+    <p>每部分限时，时间到会自动切换到下一部分，不能返回上一部分修改答案。</p>
+
+    <h3>听力音频来源（VOA Learning English）</h3>
+    <ul class="audio-info">
+      <li>
+        <strong>听写：</strong>
+        What Is the Relationship Between Age and Happiness? &mdash; Health Report<br>
+        音频链接：
+        <a href="https://online2.tingclass.net/lesson/shi0529/0008/8387/20130306a.mp3" target="_blank">
+          https://online2.tingclass.net/lesson/shi0529/0008/8387/20130306a.mp3
+        </a>
+      </li>
+      <li>
+        <strong>Section B 听力：</strong>
+        Teen Smoking in US Drops to Lowest Level in 25 Years<br>
+        音频链接：
+        <a href="https://voa-audio.voanews.eu/vle/2024/10/22/b3402424-473f-48e6-a126-f25ff66b86e7_hq.mp3?download=1" target="_blank">
+          VOA Teen Smoking mp3
+        </a>
+      </li>
+      <li>
+        <strong>Section C 听力：</strong>
+        AI App Helps People with ADHD<br>
+        音频链接：
+        <a href="https://voa-audio.voanews.eu/vle/2024/08/26/01000000-c0a8-0242-0089-08dcc5e51b62.mp3?download=1" target="_blank">
+          VOA AI App for ADHD mp3
+        </a>
+      </li>
+    </ul>
+
+    <p class="small-note">
+      如果某个音频无法播放，可以将链接复制到浏览器地址栏单独打开；或将 mp3 下载到本地后，把本页面中对应 <code>audio</code> 标签的 <code>src</code> 改为本地文件名。
+    </p>
+
+    <button class="btn btn-primary" onclick="startExam()">开始考试</button>
+  </div>
+
+  <!-- Part I Listening -->
+  <div id="section-listening" class="paper-block section">
+    <div class="section-title">Part I Listening Comprehension</div>
+    <div class="meta">
+      推荐时间：35 分钟。<br>
+      注意：本部分包括听写与客观题。所有听写请尽量按照音频原词填写；数字可用阿拉伯数字。
+    </div>
+
+    <!-- Section A: Dictation -->
+    <h3>Section A: Spot Dictation (L1–L7)</h3>
+    <p>
+      Directions: You will hear a short passage about age and happiness. Listen carefully
+      and complete the blanks L1&ndash;L7 with the exact words or numbers you hear.
+      You may play the audio multiple times within the time limit.
+    </p>
+    <audio controls preload="none">
+      <source src="https://online2.tingclass.net/lesson/shi0529/0008/8387/20130306a.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <p class="small-note">
+      提示：数字可以写成阿拉伯数字（例如：2008, 50, 85）。
+    </p>
+
+    <div class="question">
+      <p>L1: ____________________________</p>
+      <input type="text" id="L1" placeholder="L1">
+      <p>L2: ____________________________</p>
+      <input type="text" id="L2" placeholder="L2">
+      <p>L3: ____________________________</p>
+      <input type="text" id="L3" placeholder="L3">
+      <p>L4: ____________________________</p>
+      <input type="text" id="L4" placeholder="L4">
+      <p>L5: ____________________________</p>
+      <input type="text" id="L5" placeholder="L5">
+      <p>L6: ____________________________</p>
+      <input type="text" id="L6" placeholder="L6">
+      <p>L7: ____________________________</p>
+      <input type="text" id="L7" placeholder="L7">
+    </div>
+
+    <!-- Section B: News Report -->
+    <h3>Section B: News Report (Questions 1–6)</h3>
+    <p>
+      Directions: You will hear a news report about teen smoking in the United States.
+      After listening, answer Questions 1&ndash;6 by choosing the best answer (A, B, C or D).
+    </p>
+    <audio controls preload="none">
+      <source src="https://voa-audio.voanews.eu/vle/2024/10/22/b3402424-473f-48e6-a126-f25ff66b86e7_hq.mp3?download=1" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <div class="question">
+      <p>1. What is the main finding of the report?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ1" value="A"> A. Most American teens have tried e-cigarettes.</label>
+        <label><input type="radio" name="LQ1" value="B"> B. Teen tobacco use in the US has fallen to its lowest level in decades.</label>
+        <label><input type="radio" name="LQ1" value="C"> C. More middle school students smoke than high school students.</label>
+        <label><input type="radio" name="LQ1" value="D"> D. The number of teen smokers has stayed almost the same.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>2. According to the report, what happened to e-cigarette use among US teens?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ2" value="A"> A. It slightly increased in the last ten years.</label>
+        <label><input type="radio" name="LQ2" value="B"> B. It has stayed about the same.</label>
+        <label><input type="radio" name="LQ2" value="C"> C. It dropped to its lowest level in ten years.</label>
+        <label><input type="radio" name="LQ2" value="D"> D. It nearly disappeared among teenagers.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>3. What does the report say about traditional cigarette smoking among high school students since 1999?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ3" value="A"> A. It has increased steadily to nearly 30%.</label>
+        <label><input type="radio" name="LQ3" value="B"> B. It fell from nearly 30% to under 2%.</label>
+        <label><input type="radio" name="LQ3" value="C"> C. It first dropped, then rose again sharply.</label>
+        <label><input type="radio" name="LQ3" value="D"> D. It has not changed at all.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>4. According to government records, which products are most commonly used by teens?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ4" value="A"> A. Nicotine patches.</label>
+        <label><input type="radio" name="LQ4" value="B"> B. Traditional cigarettes.</label>
+        <label><input type="radio" name="LQ4" value="C"> C. E-cigarettes.</label>
+        <label><input type="radio" name="LQ4" value="D"> D. Hookahs.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>5. Which group saw an increase in tobacco use according to the study?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ5" value="A"> A. Girls.</label>
+        <label><input type="radio" name="LQ5" value="B"> B. Hispanic students.</label>
+        <label><input type="radio" name="LQ5" value="C"> C. American Indian and Alaska Native students.</label>
+        <label><input type="radio" name="LQ5" value="D"> D. White students who use nicotine patches.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>6. What can we infer as a remaining concern for researchers?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ6" value="A"> A. Many teens now depend on nicotine patches.</label>
+        <label><input type="radio" name="LQ6" value="B"> B. Tobacco companies have stopped marketing to youth.</label>
+        <label><input type="radio" name="LQ6" value="C"> C. Some groups of teens still have high smoking rates.</label>
+        <label><input type="radio" name="LQ6" value="D"> D. The survey ignored middle school students.</label>
+      </div>
+    </div>
+
+    <!-- Section C: Lecture -->
+    <h3>Section C: Lecture (Questions 7–14)</h3>
+    <p>
+      Directions: You will hear a lecture-style report about AI tools that support people
+      with ADHD. After listening, answer Questions 7&ndash;14 by choosing the best answer.
+    </p>
+    <audio controls preload="none">
+      <source src="https://voa-audio.voanews.eu/vle/2024/08/26/01000000-c0a8-0242-0089-08dcc5e51b62.mp3?download=1" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <div class="question">
+      <p>7. What is the main topic of the lecture?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ7" value="A"> A. Using AI to create digital art.</label>
+        <label><input type="radio" name="LQ7" value="B"> B. AI tools designed to support people with ADHD.</label>
+        <label><input type="radio" name="LQ7" value="C"> C. Video games for children with ADHD.</label>
+        <label><input type="radio" name="LQ7" value="D"> D. New medicine for treating ADHD.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>8. According to the lecture, what problem do many people with ADHD face?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ8" value="A"> A. Remembering basic facts from school.</label>
+        <label><input type="radio" name="LQ8" value="B"> B. Breaking large tasks into smaller, manageable steps.</label>
+        <label><input type="radio" name="LQ8" value="C"> C. Understanding spoken directions.</label>
+        <label><input type="radio" name="LQ8" value="D"> D. Learning how to use smartphones.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>9. What does the tool called Goblin.tools mainly help users do?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ9" value="A"> A. Learn a new language.</label>
+        <label><input type="radio" name="LQ9" value="B"> B. Create and edit music.</label>
+        <label><input type="radio" name="LQ9" value="C"> C. Turn one task into a step-by-step to-do list.</label>
+        <label><input type="radio" name="LQ9" value="D"> D. Track daily exercise and diet.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>10. Why do some experts welcome these AI tools?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ10" value="A"> A. They believe AI will replace human therapists.</label>
+        <label><input type="radio" name="LQ10" value="B"> B. They think AI can offer low-cost support between doctor visits.</label>
+        <label><input type="radio" name="LQ10" value="C"> C. They are sure AI will cure ADHD completely.</label>
+        <label><input type="radio" name="LQ10" value="D"> D. They say AI is safer than all medicines.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>11. What is one concern researchers have about ADHD support apps?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ11" value="A"> A. They are difficult to download and install.</label>
+        <label><input type="radio" name="LQ11" value="B"> B. They often lack privacy protections and strong scientific evidence.</label>
+        <label><input type="radio" name="LQ11" value="C"> C. They are only available to children under 12.</label>
+        <label><input type="radio" name="LQ11" value="D"> D. They use too many colors and sounds.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>12. What advice does the lecture give to people considering these apps?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ12" value="A"> A. Stop taking any medicine before trying them.</label>
+        <label><input type="radio" name="LQ12" value="B"> B. Treat them as experiments and read the terms carefully.</label>
+        <label><input type="radio" name="LQ12" value="C"> C. Let the app make all important life decisions.</label>
+        <label><input type="radio" name="LQ12" value="D"> D. Use as many different apps as possible at the same time.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>13. According to the lecture, who might benefit from AI tools even without an ADHD diagnosis?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ13" value="A"> A. Only teachers and doctors.</label>
+        <label><input type="radio" name="LQ13" value="B"> B. Anyone who struggles with organization or time management.</label>
+        <label><input type="radio" name="LQ13" value="C"> C. Only children in primary school.</label>
+        <label><input type="radio" name="LQ13" value="D"> D. People who never use smartphones.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>14. What is the overall tone of the lecture toward AI apps for ADHD?</p>
+      <div class="options">
+        <label><input type="radio" name="LQ14" value="A"> A. Completely negative and pessimistic.</label>
+        <label><input type="radio" name="LQ14" value="B"> B. Uninterested and indifferent.</label>
+        <label><input type="radio" name="LQ14" value="C"> C. Cautiously optimistic.</label>
+        <label><input type="radio" name="LQ14" value="D"> D. Overly enthusiastic and uncritical.</label>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="goToNextSection()">下一部分 &raquo;</button>
+  </div>
+
+  <!-- Part II Writing -->
+  <div id="section-writing" class="paper-block section">
+    <div class="section-title">Part II Writing</div>
+    <div class="meta">
+      推荐时间：25 分钟。字数不少于 180 词。
+    </div>
+    <p>
+      Directions: The lecture you heard in Listening Section C describes how AI tools can
+      support people with ADHD or others who struggle with planning and organization. Write
+      an essay of <strong>at least 180 words</strong> on the following topic:
+    </p>
+    <p><strong>Topic:</strong> AI Assistants and the Future of Self-Management</p>
+    <p>In your essay, you should:</p>
+    <ul>
+      <li>summarize the main points of the lecture about AI tools for people with ADHD;</li>
+      <li>discuss the advantages and possible risks of using AI to manage tasks and time;</li>
+      <li>explain your own view on how much we should rely on such tools in daily study or work.</li>
+    </ul>
+    <p>You may use your own experiences or observations to support your ideas.</p>
+
+    <textarea id="writing-answer" placeholder="Write your essay here..."></textarea>
+
+    <button class="btn btn-primary" onclick="goToNextSection()">下一部分 &raquo;</button>
+  </div>
+
+  <!-- Part III Reading -->
+  <div id="section-reading" class="paper-block section">
+    <div class="section-title">Part III Reading Comprehension</div>
+    <div class="meta">
+      推荐时间：25 分钟。Section A 为选择题，Section B 为简答题。
+    </div>
+
+    <h3>Section A (Questions 15–29)</h3>
+
+    <!-- Passage 1 -->
+    <h4>Passage 1: Why People Collect Things (Questions 15–19)</h4>
+    <p>
+      Walk into almost any home and you are likely to find a collection of some kind:
+      stamps, coins, action figures, coffee mugs, postcards, or even houseplants.
+      To outsiders, these objects may look like ordinary items that simply take up
+      space. To collectors, however, they form a personal museum that tells a story
+      about who they are and what they value.
+    </p>
+    <p>
+      Psychologists say that people collect things for several reasons. One reason is
+      the search for identity. A person who loves travel may collect train tickets or
+      hotel key cards to remind themselves that they are curious and adventurous.
+      Collections also give people a sense of control. In a world that often feels
+      chaotic, arranging and caring for objects in a particular order can make life
+      feel more predictable and manageable.
+    </p>
+    <p>
+      Collecting can also be social. People who share a similar interest &mdash; for
+      example, fans of a certain sports team &mdash; often trade items and meet at
+      fairs or online forums. Through these activities, they build friendships and a
+      feeling of belonging. In some cases, collections gain financial value. Rare
+      coins or first-edition books may become a kind of informal investment, though
+      serious collectors usually say that emotional value matters more than money.
+    </p>
+    <p>
+      Of course, collecting can go too far. When people are unable to throw anything
+      away and their homes become dangerously crowded, professionals may describe the
+      situation as hoarding rather than collecting. The difference lies in purpose
+      and enjoyment. A healthy collector knows roughly what they are looking for and
+      can still live comfortably without every single item. A hoarder, by contrast,
+      feels deep anxiety at the thought of letting go.
+    </p>
+
+    <div class="question">
+      <p>15. What is the main purpose of the passage?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ15" value="A"> A. To explain why people like to collect things.</label>
+        <label><input type="radio" name="RQ15" value="B"> B. To teach people how to invest in valuable objects.</label>
+        <label><input type="radio" name="RQ15" value="C"> C. To criticize people who spend money on collections.</label>
+        <label><input type="radio" name="RQ15" value="D"> D. To describe the history of modern museums.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>16. Which of the following is <strong>NOT</strong> mentioned as a reason for collecting?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ16" value="A"> A. Searching for identity.</label>
+        <label><input type="radio" name="RQ16" value="B"> B. Feeling more in control.</label>
+        <label><input type="radio" name="RQ16" value="C"> C. Avoiding loneliness.</label>
+        <label><input type="radio" name="RQ16" value="D"> D. Making informal investments.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>17. According to the passage, collections can help people</p>
+      <div class="options">
+        <label><input type="radio" name="RQ17" value="A"> A. forget about their daily problems completely.</label>
+        <label><input type="radio" name="RQ17" value="B"> B. build friendships with people who share similar interests.</label>
+        <label><input type="radio" name="RQ17" value="C"> C. become experts in museum management.</label>
+        <label><input type="radio" name="RQ17" value="D"> D. avoid spending money on other hobbies.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>18. What is the main difference between collecting and hoarding?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ18" value="A"> A. Collectors only keep expensive objects.</label>
+        <label><input type="radio" name="RQ18" value="B"> B. Hoarders always collect items for investment.</label>
+        <label><input type="radio" name="RQ18" value="C"> C. Collectors have clear goals and still live comfortably.</label>
+        <label><input type="radio" name="RQ18" value="D"> D. Hoarders are usually more organized than collectors.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>19. What can we infer from the passage?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ19" value="A"> A. People should stop collecting because it wastes time.</label>
+        <label><input type="radio" name="RQ19" value="B"> B. A collection is meaningful only when it is very large.</label>
+        <label><input type="radio" name="RQ19" value="C"> C. Collections often reflect the personality of the owner.</label>
+        <label><input type="radio" name="RQ19" value="D"> D. Children are better collectors than adults.</label>
+      </div>
+    </div>
+
+    <!-- Passage 2 -->
+    <h4>Passage 2: The Debate over Daylight Saving Time (Questions 20–24)</h4>
+    <p>
+      Twice a year, many people move their clocks forward or backward by one hour.
+      This system, known as daylight saving time (DST), was first widely introduced
+      during the early twentieth century. At that time, supporters believed that
+      longer evening daylight would save energy and help factories and shops operate
+      more efficiently.
+    </p>
+    <p>
+      Today, however, the benefits of DST are under debate. Modern research suggests
+      that the system may not save much electricity, because people now use energy
+      for many different purposes, such as air conditioning and electronic devices.
+      In some regions, longer evenings in summer even mean that people drive more,
+      which can increase fuel use and pollution.
+    </p>
+    <p>
+      Health experts also raise questions about the practice. When clocks move
+      forward in spring, people suddenly lose one hour of sleep. Studies have found
+      a small but noticeable rise in traffic accidents and heart problems in the days
+      after this change. For people who already have sleep difficulties, the sudden
+      shift can be especially challenging.
+    </p>
+    <p>
+      Despite these concerns, many governments have been slow to change the system.
+      Some businesses like the fact that people are more willing to shop or eat out
+      when it stays light later in the evening. Tourism officials also argue that
+      longer daylight hours help local attractions. Yet an increasing number of
+      citizens and scientists are calling for a simpler solution: choose one time
+      and keep it all year.
+    </p>
+
+    <div class="question">
+      <p>20. Why was daylight saving time first widely introduced?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ20" value="A"> A. To make school schedules more flexible.</label>
+        <label><input type="radio" name="RQ20" value="B"> B. To help factories and shops save energy.</label>
+        <label><input type="radio" name="RQ20" value="C"> C. To reduce international travel costs.</label>
+        <label><input type="radio" name="RQ20" value="D"> D. To promote tourism in small towns.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>21. What do recent studies suggest about DST and energy use?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ21" value="A"> A. It clearly saves a large amount of electricity.</label>
+        <label><input type="radio" name="RQ21" value="B"> B. It has almost no effect on electricity use.</label>
+        <label><input type="radio" name="RQ21" value="C"> C. It greatly increases the need for heating in winter.</label>
+        <label><input type="radio" name="RQ21" value="D"> D. It completely replaces the need for air conditioning.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>22. According to the passage, what is one health concern related to DST?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ22" value="A"> A. People tend to overeat in the evening.</label>
+        <label><input type="radio" name="RQ22" value="B"> B. People suddenly lose one hour of sleep in spring.</label>
+        <label><input type="radio" name="RQ22" value="C"> C. People exercise too much when the days get longer.</label>
+        <label><input type="radio" name="RQ22" value="D"> D. People drink more coffee in winter.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>23. Why are some businesses in favor of keeping DST?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ23" value="A"> A. Workers can start their jobs later in the morning.</label>
+        <label><input type="radio" name="RQ23" value="B"> B. Customers are more willing to go out in the evening.</label>
+        <label><input type="radio" name="RQ23" value="C"> C. It reduces the number of weekends.</label>
+        <label><input type="radio" name="RQ23" value="D"> D. It lowers the cost of international trade.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>24. What solution do many citizens and scientists prefer?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ24" value="A"> A. Move clocks forward and backward more frequently.</label>
+        <label><input type="radio" name="RQ24" value="B"> B. Keep changing time in summer but not in winter.</label>
+        <label><input type="radio" name="RQ24" value="C"> C. Choose one time and keep it all year.</label>
+        <label><input type="radio" name="RQ24" value="D"> D. Cancel all time zones in the world.</label>
+      </div>
+    </div>
+
+    <!-- Passage 3 -->
+    <h4>Passage 3: Can Plants Learn? (Questions 25–29)</h4>
+    <p>
+      For a long time, scientists avoided using words like "memory" or "learning" to
+      describe plants. These terms seemed too closely connected with animals and
+      human brains. Plants do not have nervous systems, so it felt risky to suggest
+      that they could behave in similar ways. In recent years, however, a series of
+      experiments has reopened the question.
+    </p>
+    <p>
+      In one famous study, researchers worked with a climbing plant that normally
+      grows toward light. They placed a small fan next to the plant and turned the
+      fan on shortly before switching on a light from the opposite direction. After
+      repeating this pairing many times, the plant began to bend toward the fan even
+      when no light followed. To the researchers, this suggested that the plant had
+      learned to treat the sound and air from the fan as a signal for light.
+    </p>
+    <p>
+      Not all scientists agree with this interpretation. Some argue that the plant
+      might simply have been reacting to air movement or other physical changes in a
+      mechanical way. They caution against giving plants human-like qualities,
+      because such language can be misleading. Nevertheless, more and more studies
+      are finding that plants respond differently depending on their past
+      experiences, such as previous exposure to drought, salt, or insect attack.
+    </p>
+    <p>
+      Whether this should be called learning is still debated. What most researchers
+      do accept is that plants are far more active than they appear. They exchange
+      chemical messages through their roots and the air, adjust their growth to
+      compete for light, and in some cases even warn nearby plants of danger. The
+      next time you walk through a forest, you may feel that the plants around you
+      are quietly paying attention.
+    </p>
+
+    <div class="question">
+      <p>25. What question does the passage mainly discuss?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ25" value="A"> A. How plants make food through photosynthesis.</label>
+        <label><input type="radio" name="RQ25" value="B"> B. Whether plants can show something like learning or memory.</label>
+        <label><input type="radio" name="RQ25" value="C"> C. Why plants grow faster in forests than in cities.</label>
+        <label><input type="radio" name="RQ25" value="D"> D. How to increase the speed of plant growth.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>26. In the experiment with the climbing plant, what did the plant do?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ26" value="A"> A. It stopped reacting to both the fan and the light.</label>
+        <label><input type="radio" name="RQ26" value="B"> B. It bent toward the fan even when the light did not follow.</label>
+        <label><input type="radio" name="RQ26" value="C"> C. It grew faster but in a completely random direction.</label>
+        <label><input type="radio" name="RQ26" value="D"> D. It turned away from both fan and light.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>27. Why do some scientists disagree with the idea that the plant "learned"?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ27" value="A"> A. They believe the experiment was too expensive.</label>
+        <label><input type="radio" name="RQ27" value="B"> B. They think the plant simply reacted mechanically to air movement.</label>
+        <label><input type="radio" name="RQ27" value="C"> C. They say plants cannot survive in laboratory conditions.</label>
+        <label><input type="radio" name="RQ27" value="D"> D. They argue that fans disturb the soil too much.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>28. What do most researchers now agree on?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ28" value="A"> A. Plants are simple and passive forms of life.</label>
+        <label><input type="radio" name="RQ28" value="B"> B. Plants are more active and responsive than they appear.</label>
+        <label><input type="radio" name="RQ28" value="C"> C. Plants understand human speech very clearly.</label>
+        <label><input type="radio" name="RQ28" value="D"> D. Plants will eventually replace animals in experiments.</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>29. What is the writer's attitude toward the idea of plant learning?</p>
+      <div class="options">
+        <label><input type="radio" name="RQ29" value="A"> A. Completely negative.</label>
+        <label><input type="radio" name="RQ29" value="B"> B. Strongly confident without any doubt.</label>
+        <label><input type="radio" name="RQ29" value="C"> C. Curious and open-minded but cautious.</label>
+        <label><input type="radio" name="RQ29" value="D"> D. Uninterested.</label>
+      </div>
+    </div>
+
+    <h3>Section B (Questions 30–34)</h3>
+    <h4>Passage 4: Preparing for an Uncertain Job Market</h4>
+    <p>
+      For many years, a common picture of success was simple: study hard, graduate,
+      and then find a stable job with one company. In return for loyalty and good
+      performance, workers expected a steady salary and benefits until retirement.
+      In today's economy, this picture is rapidly disappearing. Technology,
+      automation and global competition are changing jobs so quickly that many
+      experts say the idea of a "job for life" is becoming outdated.
+    </p>
+    <p>
+      Universities face growing pressure to prepare students for this uncertain job
+      market. Some people argue that schools should train students for very specific
+      occupations, such as data analyst or financial engineer. Others believe that
+      this approach is too narrow and may leave graduates unprepared when these jobs
+      change or disappear. Instead, they suggest that universities should focus on
+      teaching transferable skills &mdash; abilities that can be used in many
+      different fields.
+    </p>
+    <p>
+      A recent international survey asked employers what they value most when hiring
+      new graduates. Surprisingly, many said that a student's major was less
+      important than skills such as critical thinking, communication and the ability
+      to learn quickly. Employers also mentioned curiosity, teamwork and a willingness
+      to solve unfamiliar problems. These qualities are hard to measure on paper, so
+      companies increasingly look at what applicants have actually done.
+    </p>
+    <p>
+      For students, this means that experience matters. Internships, part-time jobs,
+      volunteer work and research projects all help them test their interests and
+      show evidence of their abilities. Instead of waiting passively for the "perfect"
+      job after graduation, students are encouraged to build a portfolio of projects
+      that demonstrate real skills: a website they designed, a marketing plan they
+      developed, or an experiment they helped run in a laboratory.
+    </p>
+    <p>
+      The article concludes that no single program can guarantee success in such a
+      fast-changing world. However, students can improve their chances by combining
+      solid academic knowledge with practical experience and by developing a habit of
+      lifelong learning. In a sense, graduation should not be seen as the end of
+      education, but as the beginning of a career-long process of updating one's
+      skills and understanding.
+    </p>
+
+    <p>
+      Directions: Answer the following questions briefly. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.
+    </p>
+
+    <div class="question">
+      <p>30. What traditional idea about work is said to be becoming outdated?</p>
+      <input type="text" id="SA30" placeholder="Answer to Q30">
+    </div>
+
+    <div class="question">
+      <p>31. According to the survey, what do many employers value more than a student's major?</p>
+      <input type="text" id="SA31" placeholder="Answer to Q31">
+    </div>
+
+    <div class="question">
+      <p>32. What kind of experience is mentioned as helping students test their interests?</p>
+      <input type="text" id="SA32" placeholder="Answer to Q32">
+    </div>
+
+    <div class="question">
+      <p>33. Instead of waiting passively, what are students encouraged to build?</p>
+      <input type="text" id="SA33" placeholder="Answer to Q33">
+    </div>
+
+    <div class="question">
+      <p>34. What habit does the article say students need in a fast-changing world?</p>
+      <input type="text" id="SA34" placeholder="Answer to Q34">
+    </div>
+
+    <button class="btn btn-primary" onclick="goToNextSection()">下一部分 &raquo;</button>
+  </div>
+
+  <!-- Part IV Translation -->
+  <div id="section-translation" class="paper-block section">
+    <div class="section-title">Part IV Translation (Chinese to English)</div>
+    <div class="meta">
+      推荐时间：15 分钟。请尽量做到准确、连贯、语法正确。
+    </div>
+
+    <p><strong>Directions:</strong> Translate the following passage into English.</p>
+    <p>
+      随着移动互联网的发展，越来越多的大学生习惯用手机获取信息、完成作业甚至参加考试。
+      这种方式虽然带来了方便，但也使一些学生很难集中注意力。他们一边写报告，一边刷社交媒体，
+      很快就忘记了自己最初的学习目标。为了帮助学生更好地管理时间，一些高校开始推出“数字极简”项目：
+      在课堂上限制电子设备的使用，鼓励学生用纸笔做笔记，并定期组织无手机的学习活动。
+      很多参加项目的学生表示，刚开始他们感到不适应，但过了一段时间后，他们发现自己阅读得更深入，
+      也更容易进入“心流”状态。如何在充分利用技术优势的同时，保持必要的专注和自律，已经成为当代大学教育面临的重要课题。
+    </p>
+
+    <textarea id="translation-answer" placeholder="Write your English translation here..."></textarea>
+
+    <button class="btn btn-primary" onclick="finishExam()">提交并查看结果</button>
+  </div>
+
+  <!-- Result Section -->
+  <div id="result-section" class="paper-block section">
+    <div class="section-title">成绩与答题报告</div>
+    <p>
+      客观题（听力 + 阅读）已自动批改。写作与翻译部分需要你自行对照参考标准进行批改。
+    </p>
+    <h3>总体得分概览</h3>
+    <div id="score-summary" class="result-block"></div>
+
+    <h3>错题明细</h3>
+    <div id="wrong-details" class="result-block"></div>
+
+    <h3>完整答题报告（可下载为 txt）</h3>
+    <textarea id="report-textarea" readonly style="min-height:180px;"></textarea>
+    <br>
+    <button class="btn btn-download" onclick="downloadReport()">下载答题报告（txt）</button>
+  </div>
+</div>
+
+<script>
+  // ----- Exam Flow & Timer -----
+  const sections = [
+    { id: "section-listening", name: "Part I Listening", minutes: 35 },
+    { id: "section-writing", name: "Part II Writing", minutes: 25 },
+    { id: "section-reading", name: "Part III Reading", minutes: 25 },
+    { id: "section-translation", name: "Part IV Translation", minutes: 15 }
+  ];
+
+  let currentSectionIndex = -1;
+  let remainingSeconds = 0;
+  let timerHandle = null;
+  let globalReportText = "";
+
+  function $(id) {
+    return document.getElementById(id);
+  }
+
+  function startExam() {
+    // Hide intro, go to first section
+    const intro = $("intro-section");
+    if (intro) intro.classList.remove("active");
+    currentSectionIndex = 0;
+    showCurrentSection();
+  }
+
+  function showCurrentSection() {
+    // Hide all sections
+    const allPaperBlocks = document.querySelectorAll(".paper-block.section");
+    allPaperBlocks.forEach(b => b.classList.remove("active"));
+
+    if (currentSectionIndex >= 0 && currentSectionIndex < sections.length) {
+      const secConf = sections[currentSectionIndex];
+      const secDiv = $(secConf.id);
+      if (secDiv) secDiv.classList.add("active");
+      $("current-section-name").textContent = secConf.name;
+      startSectionTimer(secConf.minutes);
+    } else if (currentSectionIndex === sections.length) {
+      // Show result only (timer stopped in finishExam)
+      const resultDiv = $("result-section");
+      if (resultDiv) resultDiv.classList.add("active");
+      $("current-section-name").textContent = "Exam Finished";
+      $("section-timer").textContent = "00:00";
+    }
+  }
+
+  function startSectionTimer(minutes) {
+    if (timerHandle) {
+      clearInterval(timerHandle);
+      timerHandle = null;
+    }
+    remainingSeconds = minutes * 60;
+    updateTimerDisplay();
+    timerHandle = setInterval(() => {
+      remainingSeconds--;
+      if (remainingSeconds <= 0) {
+        clearInterval(timerHandle);
+        timerHandle = null;
+        remainingSeconds = 0;
+        updateTimerDisplay();
+        alert("本部分时间已结束，即将进入下一部分。");
+        goToNextSection();
+      } else {
+        updateTimerDisplay();
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const m = String(Math.floor(remainingSeconds / 60)).padStart(2, "0");
+    const s = String(remainingSeconds % 60).padStart(2, "0");
+    $("section-timer").textContent = m + ":" + s;
+  }
+
+  function goToNextSection() {
+    if (timerHandle) {
+      clearInterval(timerHandle);
+      timerHandle = null;
+    }
+    if (currentSectionIndex < sections.length - 1) {
+      currentSectionIndex++;
+      showCurrentSection();
+    } else if (currentSectionIndex === sections.length - 1) {
+      finishExam();
+    }
+  }
+
+  function finishExam() {
+    if (timerHandle) {
+      clearInterval(timerHandle);
+      timerHandle = null;
+    }
+    // Hide last working section
+    if (currentSectionIndex >= 0 && currentSectionIndex < sections.length) {
+      const secDiv = $(sections[currentSectionIndex].id);
+      if (secDiv) secDiv.classList.remove("active");
+    }
+    currentSectionIndex = sections.length; // mark finished
+    gradeExam();
+    showCurrentSection();
+  }
+
+  // ----- Grading Logic -----
+  function normalize(str) {
+    if (!str) return "";
+    return str.trim().toLowerCase().replace(/\s+/g, " ");
+  }
+
+  function matchesAny(user, expectedList) {
+    const u = normalize(user);
+    for (const raw of expectedList) {
+      const e = normalize(raw);
+      if (!e) continue;
+      if (u === e || u.includes(e)) return true;
+    }
+    return false;
+  }
+
+  function gradeExam() {
+    // Listening Dictation keys (multiple accepted variants)
+    const dictationKey = {
+      L1: ["health report"],
+      L2: ["more happy", "happier"],
+      L3: ["2008", "2008."],
+      L4: ["50", "fifty"],
+      L5: ["85", "eighty-five", "eighty five"],
+      L6: ["340000", "340,000", "three hundred forty thousand"],
+      L7: ["stony brook university", "stony brook"]
+    };
+
+    let dictTotal = Object.keys(dictationKey).length;
+    let dictCorrect = 0;
+    let dictWrong = [];
+
+    for (const key of Object.keys(dictationKey)) {
+      const userAns = $(key) ? $(key).value : "";
+      if (matchesAny(userAns, dictationKey[key])) {
+        dictCorrect++;
+      } else {
+        dictWrong.push({
+          id: key,
+          user: userAns,
+          correct: dictationKey[key][0]
+        });
+      }
+    }
+
+    // Listening MCQ keys
+    const listeningMCQKey = {
+      1: "B",
+      2: "C",
+      3: "B",
+      4: "C",
+      5: "C",
+      6: "C",
+      7: "B",
+      8: "B",
+      9: "C",
+      10: "B",
+      11: "B",
+      12: "B",
+      13: "B",
+      14: "C"
+    };
+    let listenMCQCorrect = 0;
+    let listenMCQTotal = 14;
+    let listenWrong = [];
+
+    for (let i = 1; i <= 14; i++) {
+      const name = "LQ" + i;
+      const sel = document.querySelector('input[name="' + name + '"]:checked');
+      const user = sel ? sel.value : "";
+      const correct = listeningMCQKey[i];
+      if (user === correct) {
+        listenMCQCorrect++;
+      } else {
+        listenWrong.push({
+          id: "Q" + i,
+          user: user || "(空)",
+          correct: correct
+        });
+      }
+    }
+
+    // Reading MCQ keys (15–29)
+    const readingMCQKey = {
+      15: "A",
+      16: "C",
+      17: "B",
+      18: "C",
+      19: "C",
+      20: "B",
+      21: "B",
+      22: "B",
+      23: "B",
+      24: "C",
+      25: "B",
+      26: "B",
+      27: "B",
+      28: "B",
+      29: "C"
+    };
+    let readMCQCorrect = 0;
+    let readMCQTotal = 15;
+    let readMCQWrong = [];
+
+    for (let i = 15; i <= 29; i++) {
+      const name = "RQ" + i;
+      const sel = document.querySelector('input[name="' + name + '"]:checked');
+      const user = sel ? sel.value : "";
+      const correct = readingMCQKey[i];
+      if (user === correct) {
+        readMCQCorrect++;
+      } else {
+        readMCQWrong.push({
+          id: "Q" + i,
+          user: user || "(空)",
+          correct: correct
+        });
+      }
+    }
+
+    // Reading Short Answer (30–34)
+    const readingShortKey = {
+      30: ["job for life", "the idea of a job for life"],
+      31: ["transferable skills"],
+      32: ["internship", "internships"],
+      33: ["a portfolio", "portfolio of projects", "portfolio"],
+      34: ["lifelong learning"]
+    };
+    let readShortTotal = 5;
+    let readShortCorrect = 0;
+    let readShortWrong = [];
+
+    for (let i = 30; i <= 34; i++) {
+      const id = "SA" + i;
+      const userAns = $(id) ? $(id).value : "";
+      const keyList = readingShortKey[i] || [];
+      if (keyList.length > 0 && matchesAny(userAns, keyList)) {
+        readShortCorrect++;
+      } else {
+        readShortWrong.push({
+          id: "Q" + i,
+          user: userAns || "(空)",
+          correct: keyList[0] || "(无标准答案)"
+        });
+      }
+    }
+
+    const listeningTotal = dictTotal + listenMCQTotal;
+    const listeningCorrect = dictCorrect + listenMCQCorrect;
+    const readingTotal = readMCQTotal + readShortTotal;
+    const readingCorrect = readMCQCorrect + readShortCorrect;
+
+    // Build score summary text
+    const summaryLines = [];
+    summaryLines.push("=== Module Scores ===");
+    summaryLines.push(
+      `Listening (Dictation + MCQ): ${listeningCorrect}/${listeningTotal} ` +
+      `(Dictation: ${dictCorrect}/${dictTotal}, MCQ: ${listenMCQCorrect}/${listenMCQTotal})`
+    );
+    summaryLines.push(
+      `Reading (MCQ + Short Answer): ${readingCorrect}/${readingTotal} ` +
+      `(MCQ: ${readMCQCorrect}/${readMCQTotal}, Short Answer: ${readShortCorrect}/${readShortTotal})`
+    );
+    summaryLines.push("");
+    summaryLines.push("Writing & Translation are not auto-graded. Please review them manually.");
+    $("score-summary").textContent = summaryLines.join("\n");
+
+    // Wrong details
+    const detailLines = [];
+    detailLines.push("=== Listening: Dictation (L1–L7) ===");
+    if (dictWrong.length === 0) {
+      detailLines.push("All dictation items correct.");
+    } else {
+      dictWrong.forEach(item => {
+        detailLines.push(
+          `${item.id}: Your answer = "${item.user || "(空)"}"; Correct = "${item.correct}"`
+        );
+      });
+    }
+    detailLines.push("");
+    detailLines.push("=== Listening: MCQ (Q1–Q14) ===");
+    if (listenWrong.length === 0) {
+      detailLines.push("All listening MCQs correct.");
+    } else {
+      listenWrong.forEach(item => {
+        detailLines.push(
+          `${item.id}: Your choice = "${item.user}"; Correct = "${item.correct}"`
+        );
+      });
+    }
+    detailLines.push("");
+    detailLines.push("=== Reading: MCQ (Q15–Q29) ===");
+    if (readMCQWrong.length === 0) {
+      detailLines.push("All reading MCQs correct.");
+    } else {
+      readMCQWrong.forEach(item => {
+        detailLines.push(
+          `${item.id}: Your choice = "${item.user}"; Correct = "${item.correct}"`
+        );
+      });
+    }
+    detailLines.push("");
+    detailLines.push("=== Reading: Short Answer (Q30–Q34) ===");
+    if (readShortWrong.length === 0) {
+      detailLines.push("All short-answer questions correct.");
+    } else {
+      readShortWrong.forEach(item => {
+        detailLines.push(
+          `${item.id}: Your answer = "${item.user}"; Expected (one possible) = "${item.correct}"`
+        );
+      });
+    }
+
+    $("wrong-details").textContent = detailLines.join("\n");
+
+    // Build full report text for download
+    const writingText = $("writing-answer") ? $("writing-answer").value : "";
+    const translationText = $("translation-answer") ? $("translation-answer").value : "";
+
+    const reportLines = [];
+    reportLines.push("English Mock E-test Report");
+    reportLines.push("==========================");
+    reportLines.push("");
+    reportLines.push(summaryLines.join("\n"));
+    reportLines.push("");
+    reportLines.push(detailLines.join("\n"));
+    reportLines.push("");
+    reportLines.push("=== Writing (raw answer) ===");
+    reportLines.push(writingText || "(no answer)");
+    reportLines.push("");
+    reportLines.push("=== Translation (raw answer) ===");
+    reportLines.push(translationText || "(no answer)");
+    reportLines.push("");
+    reportLines.push("End of Report.");
+    globalReportText = reportLines.join("\n");
+
+    $("report-textarea").value = globalReportText;
+  }
+
+  function downloadReport() {
+    if (!globalReportText) {
+      alert("请先完成考试并查看成绩，生成报告后再下载。");
+      return;
+    }
+    const blob = new Blob([globalReportText], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "english_mock_test_report.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+</body>
+</html>

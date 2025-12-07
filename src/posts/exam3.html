@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>English Mock Exam 2 - Computer-based</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei",
+        sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+      background: #f7f7f7;
+    }
+    h1, h2, h3, h4 {
+      margin-top: 0.4em;
+      margin-bottom: 0.4em;
+    }
+    .section {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .section.active {
+      display: block;
+    }
+    .timer {
+      font-size: 1.3em;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    .question-row {
+      margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .question-row p {
+      margin: 0;
+      flex: 1 1 100%;
+    }
+    .question-row select {
+      min-width: 72px;
+    }
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 14px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    button {
+      padding: 8px 16px;
+      margin-top: 12px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+      font-size: 14px;
+    }
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    select {
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    #result {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 2px solid #111827;
+    }
+    table.result-table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 6px;
+      font-size: 13px;
+    }
+    table.result-table th,
+    table.result-table td {
+      border: 1px solid #ddd;
+      padding: 4px 6px;
+      text-align: center;
+    }
+    .module-summary {
+      margin-top: 16px;
+      padding: 10px 12px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+    .finished-tag {
+      color: #16a34a;
+      font-weight: bold;
+      margin-left: 8px;
+      font-size: 0.9em;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #4b5563;
+    }
+    #controls {
+      margin-top: 8px;
+      padding: 10px 12px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    code {
+      background: #e5e7eb;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .paper-block {
+      margin: 8px 0 16px;
+      padding: 10px 12px;
+      background: #f9fafb;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+      max-height: 360px;
+      overflow-y: auto;
+      font-size: 0.92em;
+      white-space: normal;
+    }
+    .audio-block {
+      margin: 10px 0 16px;
+      padding: 10px 12px;
+      background: #f9fafb;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+    .audio-block h3 {
+      margin-top: 0;
+    }
+    .report-btn {
+      background: #059669;
+    }
+  </style>
+</head>
+<body>
+  <h1>English Mock Exam 2（机考模拟）</h1>
+  <p>
+    本试卷共四部分：Writing、Listening、Reading、Translation。<br>
+    客观题自动判分，主观题（写作、翻译）需你自己对照参考答案或给老师批改。<br>
+    听力音频为<span style="font-weight:bold;">在线音频</span>，需要联网才能播放。<br> The test is free of use. Get more from kotokowa.github.io/forelang
+  </p>
+
+  <ul>
+    <li>Part I Writing：30 分钟</li>
+    <li>Part II Listening：35 分钟（3 段听力，约 5 分钟时长）</li>
+    <li>Part III Reading：40 分钟（2 篇阅读，各 8 题）</li>
+    <li>Part IV Translation：30 分钟</li>
+  </ul>
+
+  <div class="note">
+    使用方法：<br>
+    1）把本文件保存为 <code>.html</code>，用浏览器打开；<br>
+    2）点击“开始考试”，按顺序完成四个部分；<br>
+    3）时间到会自动切换下一部分，你也可以提前结束当前部分；<br>
+    4）做完点击“结束整套试卷并查看成绩”；<br>
+    5）如需保存结果，点击“导出当前答题报告（txt）”。
+  </div>
+
+  <div id="controls">
+    <button id="startExamBtn">开始考试</button>
+    <span id="currentSectionLabel"></span>
+    <div class="timer" id="timerDisplay"></div>
+    <button id="downloadReportBtn" class="report-btn" type="button">
+      导出当前答题报告（txt）
+    </button>
+  </div>
+
+  <!-- Part I Writing -->
+  <div id="section-writing" class="section">
+    <h2>Part I Writing（30 分钟）</h2>
+    <div class="paper-block">
+      <p><strong>Directions:</strong></p>
+      <p>
+        In recent years, more and more university students have started to rely on
+        various AI tools in their study, such as writing assistants, automatic
+        translation and code generators. Some people believe these tools can boost
+        efficiency and creativity, while others worry that they may damage students'
+        ability to think independently.
+      </p>
+      <p>
+        Write an essay of about 180–220 words on the topic
+        <strong>“How to Use AI Tools Wisely in University Study”</strong>. You may
+        start your essay with the following sentence:
+      </p>
+      <p style="margin-left:1em;font-style:italic;">
+        Nowadays AI tools have become an inseparable part of university students' daily study.
+      </p>
+      <p>
+        You should state your viewpoint, give reasons or examples, and make a proper conclusion.
+      </p>
+    </div>
+    <textarea id="writingText" rows="12" placeholder="在此输入你的作文……"></textarea>
+    <button data-next-section="listening" class="finish-section-btn">
+      提前结束本部分并进入下一部分
+    </button>
+  </div>
+
+  <!-- Part II Listening -->
+  <div id="section-listening" class="section">
+    <h2>Part II Listening（35 分钟）</h2>
+    <p class="note">
+      说明：本部分共有 3 段材料，主要讲解三个英语表达：<strong>to mushroom</strong>、<strong>strike a chord</strong>、<strong>no-brainer</strong>。<br>
+      请听每段材料，并根据对表达含义与用法的理解完成选择题。每题只有一个正确选项。
+    </p>
+
+    <!-- Audio 1: To Mushroom -->
+    <div class="audio-block">
+      <h3>Section A（Questions 1–4） – “To Mushroom”</h3>
+      <p class="note">
+        音频链接：What Does It Mean “To Mushroom”?（VOA Words and Their Stories）<br>
+        你可以多听几遍，再做后面的 1–4 题。
+      </p>
+      <audio controls>
+        <source src="https://voa-audio.voanews.eu/vle/2025/03/12/1ce9321a-3e1c-461d-073b-08dd5c8b1668_hq.mp3?download=1" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+
+      <div class="paper-block">
+        <div class="question-row">
+          <p><strong>1.</strong> The expression “to mushroom” is used to mean that something ____.</p>
+          <select name="q1" id="q1">
+            <option value="">——</option>
+            <option value="A">A. slowly disappears over time</option>
+            <option value="B">B. changes its shape completely</option>
+            <option value="C">C. grows or increases very quickly</option>
+            <option value="D">D. becomes difficult to control physically</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>2.</strong> Which of the following situations best illustrates something “mushrooming”?</p>
+          <select name="q2" id="q2">
+            <option value="">——</option>
+            <option value="A">A. A small town doubles its population within a few years.</option>
+            <option value="B">B. A piece of ice slowly melts in the sun.</option>
+            <option value="C">C. A tree grows two centimeters in ten years.</option>
+            <option value="D">D. A rock remains exactly the same for centuries.</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>3.</strong> In the program, the word “mushroom” is mainly used as a ____.</p>
+          <select name="q3" id="q3">
+            <option value="">——</option>
+            <option value="A">A. noun</option>
+            <option value="B">B. verb</option>
+            <option value="C">C. adjective</option>
+            <option value="D">D. adverb</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>4.</strong> If “online courses have mushroomed in recent years”, it suggests that they ____.</p>
+          <select name="q4" id="q4">
+            <option value="">——</option>
+            <option value="A">A. have slightly decreased in number</option>
+            <option value="B">B. have become less popular and cheaper</option>
+            <option value="C">C. have increased very rapidly</option>
+            <option value="D">D. have stayed exactly the same</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio 2: Strike a Chord -->
+    <div class="audio-block">
+      <h3>Section B（Questions 5–8） – “Strike a Chord”</h3>
+      <p class="note">
+        音频链接：English in a Minute – Strike a Chord（VOA）<br>
+        这段约 1 分钟，主要讲解表达 “strike a chord” 的含义。
+      </p>
+      <audio controls>
+        <source src="https://voa-video-ns.akamaized.net/pangeavideo/2025/02/f/fb/fb48433f-c266-4947-df1b-08dd4a81f35f_240p.mp4?download=1" type="audio/mp4">
+        Your browser does not support the audio element.
+      </audio>
+
+      <div class="paper-block">
+        <div class="question-row">
+          <p><strong>5.</strong> “Strike a chord” is used when something ____.</p>
+          <select name="q5" id="q5">
+            <option value="">——</option>
+            <option value="A">A. physically hits a musical instrument</option>
+            <option value="B">B. creates a strong emotional response or sense of familiarity</option>
+            <option value="C">C. causes a loud and unpleasant noise</option>
+            <option value="D">D. completely confuses the audience</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>6.</strong> An advertisement that “strikes a chord” with people is one that ____.</p>
+          <select name="q6" id="q6">
+            <option value="">——</option>
+            <option value="A">A. most viewers ignore</option>
+            <option value="B">B. many viewers consider illegal</option>
+            <option value="C">C. many viewers feel relates to their own feelings or experience</option>
+            <option value="D">D. hardly anyone can understand</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>7.</strong> Which of the following would <strong>NOT</strong> usually be described as “striking a chord”?</p>
+          <select name="q7" id="q7">
+            <option value="">——</option>
+            <option value="A">A. A moving speech that makes the audience cry.</option>
+            <option value="B">B. A news story that many people can relate to.</option>
+            <option value="C">C. A brief reminder to drink more water every hour.</option>
+            <option value="D">D. A charity video that makes many viewers want to donate.</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>8.</strong> When something “strikes a chord with you”, you probably ____.</p>
+          <select name="q8" id="q8">
+            <option value="">——</option>
+            <option value="A">A. forget it almost at once</option>
+            <option value="B">B. feel extremely bored by it</option>
+            <option value="C">C. feel that it expresses something you care about</option>
+            <option value="D">D. want to argue about its grammar</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio 3: No Brainer -->
+    <div class="audio-block">
+      <h3>Section C（Questions 9–12） – “No-brainer”</h3>
+      <p class="note">
+        音频链接：English in a Minute – No Brainer（VOA）<br>
+        这段同样约 1 分钟，讲解名词 “no-brainer” 的用法。
+      </p>
+      <audio controls>
+        <source src="https://voa-video-ns.akamaized.net/pangeavideo/2025/02/2/2d/2d34abd4-64b9-45d2-ba72-651cab63f4af_240p.mp4?download=1" type="audio/mp4">
+        Your browser does not support the audio element.
+      </audio>
+
+      <div class="paper-block">
+        <div class="question-row">
+          <p><strong>9.</strong> A “no-brainer” is ____.</p>
+          <select name="q9" id="q9">
+            <option value="">——</option>
+            <option value="A">A. a decision that requires deep thought</option>
+            <option value="B">B. an obviously easy choice</option>
+            <option value="C">C. a medical operation on the brain</option>
+            <option value="D">D. a confusing puzzle with no answer</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>10.</strong> Which of the following is most likely to be called “a no-brainer”?</p>
+          <select name="q10" id="q10">
+            <option value="">——</option>
+            <option value="A">A. Choosing between two complex legal contracts.</option>
+            <option value="B">B. Deciding to wear a warm coat in freezing weather.</option>
+            <option value="C">C. Designing a rocket for a space mission.</option>
+            <option value="D">D. Solving an advanced physics problem.</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>11.</strong> When the host calls a decision “a no-brainer”, they suggest that ____.</p>
+          <select name="q11" id="q11">
+            <option value="">——</option>
+            <option value="A">A. you should not make this decision</option>
+            <option value="B">B. only a genius can understand it</option>
+            <option value="C">C. it is so easy that you hardly need to think</option>
+            <option value="D">D. there is no correct answer at all</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <p><strong>12.</strong> Which sentence uses “no-brainer” <strong>correctly</strong>?</p>
+          <select name="q12" id="q12">
+            <option value="">——</option>
+            <option value="A">A. This math exam is a no-brainer for me.</option>
+            <option value="B">B. He no-brainers his homework every night.</option>
+            <option value="C">C. She made a no-brainer piano yesterday.</option>
+            <option value="D">D. I will no-brainer to the airport.</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button data-next-section="reading" class="finish-section-btn">
+      提前结束本部分并进入下一部分
+    </button>
+  </div>
+
+  <!-- Part III Reading -->
+  <div id="section-reading" class="section">
+    <h2>Part III Reading Comprehension（40 分钟）</h2>
+
+    <!-- Reading Passage 1 -->
+    <h3>Section A（Questions 13–20）</h3>
+    <div class="paper-block">
+      <p><strong>Passage 1 – Remote Work and Small Towns</strong></p>
+      <p>
+        For many years, young professionals who wanted a successful career felt that
+        they had no choice but to move to big cities. Most well-paid jobs, important
+        meetings and networking events seemed to be concentrated in tall office
+        buildings in a few major business centers. Long commutes and high rents were
+        treated as an unavoidable price to pay for opportunity.
+      </p>
+      <p>
+        However, the rapid development of remote work has begun to change this
+        picture. With a stable Internet connection and a laptop, an employee can
+        attend online meetings from almost anywhere. Some workers have chosen to
+        leave expensive city centers and move to smaller towns or suburbs, where
+        they can enjoy lower housing costs and a slower pace of life while still
+        keeping their original jobs.
+      </p>
+      <p>
+        Yet remote work is far from a perfect solution. When your office is also
+        your bedroom or kitchen table, the boundary between work and life can easily
+        become blurred. Many remote workers find themselves checking e-mails late at
+        night, or feeling guilty if they are not always “online”. The very
+        technology that gives them more freedom can also make them feel that they
+        should be available at all times.
+      </p>
+      <p>
+        The rise of remote workers has also brought both opportunities and
+        challenges to small towns. On the one hand, newcomers bring fresh spending
+        power to local cafés, bookstores and co-working spaces. They may start new
+        businesses, organize cultural events and introduce different ideas. On the
+        other hand, if too many well-paid workers arrive in a short time, housing
+        prices may quickly go up. Local families can be pushed out of neighborhoods
+        where they have lived for generations, a process often described as
+        “gentrification”.
+      </p>
+      <p>
+        In response, some local governments are trying to attract remote workers in
+        a more balanced way. They improve digital infrastructure, build shared
+        offices and encourage newcomers to take part in community projects. At the
+        same time, they discuss how to protect long-term residents from sharp rent
+        increases. Whether remote work will permanently reshape the map of where
+        people live is still unclear, but it has already forced both cities and
+        small towns to rethink what a “good place to live” really means.
+      </p>
+    </div>
+
+    <div class="paper-block">
+      <div class="question-row">
+        <p><strong>13.</strong> What is the main idea of Passage 1?</p>
+        <select name="q13" id="q13">
+          <option value="">——</option>
+          <option value="A">A. Why small towns are always better than big cities.</option>
+          <option value="B">B. Why big cities will soon disappear because of remote work.</option>
+          <option value="C">C. How remote work is reshaping where people live and how small towns change.</option>
+          <option value="D">D. How to avoid using the Internet when working from home.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>14.</strong> Before the rise of remote work, many young professionals moved to big cities mainly because ____.</p>
+        <select name="q14" id="q14">
+          <option value="">——</option>
+          <option value="A">A. they preferred smaller and more expensive apartments</option>
+          <option value="B">B. most attractive jobs and networking chances were there</option>
+          <option value="C">C. they wanted to live far away from their parents</option>
+          <option value="D">D. public transportation was free in big cities</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>15.</strong> Which of the following is mentioned as an advantage of moving to a smaller town for remote workers?</p>
+        <select name="q15" id="q15">
+          <option value="">——</option>
+          <option value="A">A. They can enjoy lower housing costs while keeping their jobs.</option>
+          <option value="B">B. They can easily get promoted more quickly.</option>
+          <option value="C">C. They no longer need to attend online meetings.</option>
+          <option value="D">D. They will have more days of paid vacation.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>16.</strong> The phrase “the boundary between work and life can easily become blurred” (Para. 3) means that ____.</p>
+        <select name="q16" id="q16">
+          <option value="">——</option>
+          <option value="A">A. people clearly know when to stop working</option>
+          <option value="B">B. remote workers no longer need to work at all</option>
+          <option value="C">C. people spend more time commuting to work</option>
+          <option value="D">D. it becomes harder to separate work from personal life</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>17.</strong> According to the passage, what is one risk that remote workers bring to small towns?</p>
+        <select name="q17" id="q17">
+          <option value="">——</option>
+          <option value="A">A. The local cafés and bookstores may have to close.</option>
+          <option value="B">B. The Internet connection in big cities becomes weaker.</option>
+          <option value="C">C. Rising housing prices may push out local families.</option>
+          <option value="D">D. Local people are forced to work online as well.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>18.</strong> Which measure have some local governments taken in response to the trend?</p>
+        <select name="q18" id="q18">
+          <option value="">——</option>
+          <option value="A">A. They ban remote workers from renting apartments.</option>
+          <option value="B">B. They lower the speed of the local Internet.</option>
+          <option value="C">C. They close all co-working spaces in small towns.</option>
+          <option value="D">D. They build shared offices and improve digital infrastructure.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>19.</strong> The author’s attitude toward remote work in this passage is best described as ____.</p>
+        <select name="q19" id="q19">
+          <option value="">——</option>
+          <option value="A">A. strongly negative and worried</option>
+          <option value="B">B. completely optimistic and uncritical</option>
+          <option value="C">C. balanced and cautiously hopeful</option>
+          <option value="D">D. indifferent and uninterested</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>20.</strong> Which of the following statements is TRUE according to the passage?</p>
+        <select name="q20" id="q20">
+          <option value="">——</option>
+          <option value="A">A. All remote workers eventually return to big cities.</option>
+          <option value="B">B. Remote work has completely solved housing problems.</option>
+          <option value="C">C. Some local residents worry about not being able to afford their own neighborhoods.</option>
+          <option value="D">D. Local governments have decided to stop attracting newcomers.</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Reading Passage 2 -->
+    <h3>Section B（Questions 21–28）</h3>
+    <div class="paper-block">
+      <p><strong>Passage 2 – Digital Detox Tourism</strong></p>
+      <p>
+        On many travel websites today, it is easy to find advertisements for
+        “digital detox camps”. These holidays promise to take people to peaceful
+        mountains, quiet villages or remote islands where mobile phones must be
+        locked away and Wi-Fi is turned off. For a few days, participants are
+        encouraged to forget about social media, e-mail and online meetings, and to
+        enjoy long walks, face-to-face conversations and simple daily routines.
+      </p>
+      <p>
+        The popularity of such tours shows how tired many people have become of
+        constant notifications and endless scrolling. Office workers complain that
+        they can never fully relax because messages from colleagues or clients may
+        arrive at any moment. Parents worry that their children spend more time
+        with screens than with friends. Some people find it hard to focus on a
+        single book or task for more than a few minutes. For them, going on a
+        digital detox holiday seems like a chance to press a “reset” button.
+      </p>
+      <p>
+        However, critics point out that digital detox tourism is not a perfect
+        answer. First of all, many of these tours are expensive. Only people with
+        enough money and free time can afford to fly to an island just to switch
+        off their phones. In addition, even if tourists are offline, the staff who
+        cook their meals or drive their buses may still rely on smartphones to do
+        their jobs. As a result, some argue that digital detox has become a kind of
+        “luxury problem” that mainly belongs to people who already have many
+        choices in life.
+      </p>
+      <p>
+        The idea of completely escaping technology for a few days may also send the
+        wrong message. If people treat the trip as a magic cure, they may simply
+        return to exactly the same online habits once they get home. Many experts
+        suggest that what really matters is not a short holiday, but everyday
+        decisions: putting the phone in another room at night, turning off
+        unnecessary notifications, or setting clear times to check messages. In
+        this sense, a digital detox tour might be a helpful starting point, but it
+        only works when travellers are willing to change how they use technology in
+        their daily lives.
+      </p>
+    </div>
+
+    <div class="paper-block">
+      <div class="question-row">
+        <p><strong>21.</strong> What is the main purpose of “digital detox camps” mentioned in the passage?</p>
+        <select name="q21" id="q21">
+          <option value="">——</option>
+          <option value="A">A. To teach people how to design new apps.</option>
+          <option value="B">B. To offer a break from screens and help people rethink their digital habits.</option>
+          <option value="C">C. To provide cheaper Internet access for travellers.</option>
+          <option value="D">D. To replace traditional sightseeing tours completely.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>22.</strong> Which of the following is <strong>NOT</strong> mentioned as a reason why people sign up for such tours?</p>
+        <select name="q22" id="q22">
+          <option value="">——</option>
+          <option value="A">A. They feel stressed by constant work messages.</option>
+          <option value="B">B. They worry about their children's screen time.</option>
+          <option value="C">C. They find it difficult to concentrate on one task.</option>
+          <option value="D">D. They want to learn how to repair smartphones.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>23.</strong> According to the passage, one criticism of digital detox tourism is that ____.</p>
+        <select name="q23" id="q23">
+          <option value="">——</option>
+          <option value="A">A. such tours are always dangerous for travellers</option>
+          <option value="B">B. nobody actually gives up their phones on the trip</option>
+          <option value="C">C. it may turn into an expensive status symbol for the rich</option>
+          <option value="D">D. it is required by most employers and schools</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>24.</strong> What does the writer suggest about real change in digital habits?</p>
+        <select name="q24" id="q24">
+          <option value="">——</option>
+          <option value="A">A. It can be achieved simply by flying to a remote island.</option>
+          <option value="B">B. It depends on daily choices after people return home.</option>
+          <option value="C">C. It must be guided by professional tour leaders.</option>
+          <option value="D">D. It is impossible in modern society.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>25.</strong> The phrase “luxury problem” (Para. 3) is used to suggest that digital detox ____.</p>
+        <select name="q25" id="q25">
+          <option value="">——</option>
+          <option value="A">A. mainly concerns people who already have many resources</option>
+          <option value="B">B. is a problem caused by poor Internet service</option>
+          <option value="C">C. is a serious medical condition</option>
+          <option value="D">D. only exists in developing countries</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>26.</strong> Which of the following situations best matches the idea of “mindful use of technology” in the passage?</p>
+        <select name="q26" id="q26">
+          <option value="">——</option>
+          <option value="A">A. Keeping all notifications on and answering messages immediately.</option>
+          <option value="B">B. Putting the phone away during dinner and checking messages later.</option>
+          <option value="C">C. Watching online videos until after midnight every day.</option>
+          <option value="D">D. Buying a newer and faster smartphone every year.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>27.</strong> What is the writer’s tone toward digital detox tourism?</p>
+        <select name="q27" id="q27">
+          <option value="">——</option>
+          <option value="A">A. Completely negative and angry.</option>
+          <option value="B">B. Totally excited and uncritical.</option>
+          <option value="C">C. Sympathetic but also somewhat skeptical.</option>
+          <option value="D">D. Uninterested and bored.</option>
+        </select>
+      </div>
+
+      <div class="question-row">
+        <p><strong>28.</strong> According to the passage, digital detox tourism may be most helpful for people who ____.</p>
+        <select name="q28" id="q28">
+          <option value="">——</option>
+          <option value="A">A. hope the trip will magically solve all their problems</option>
+          <option value="B">B. want to reflect on their relationship with devices and keep small changes afterwards</option>
+          <option value="C">C. cannot afford to buy a smartphone</option>
+          <option value="D">D. are forced to join by their employers</option>
+        </select>
+      </div>
+    </div>
+
+    <button data-next-section="translation" class="finish-section-btn">
+      提前结束本部分并进入下一部分
+    </button>
+  </div>
+
+  <!-- Part IV Translation -->
+  <div id="section-translation" class="section">
+    <h2>Part IV Translation（30 分钟）</h2>
+    <div class="paper-block">
+      <p><strong>Directions:</strong></p>
+      <p>将下面一段中文翻译成英文：</p>
+      <p>
+        近年来，越来越多的中国城市开始建设“步行友好型街区”。这些街区通过拓宽人行道、增加公共座椅和绿化带，
+        鼓励市民放慢脚步，多在社区中散步、停留和交流。一些原本拥挤嘈杂的街道被改造成限行路段，只允许公共交通、
+        非机动车和行人通行。虽然在改造过程中难免会遇到交通拥堵等问题，但许多居民表示，他们更愿意生活在一个
+        安全、舒适、适合步行的社区，而不是被汽车噪音和尾气包围的城市。
+      </p>
+    </div>
+    <textarea id="translationText" rows="12" placeholder="在此输入你的英译答案……"></textarea>
+
+    <button id="finishAllBtn">结束整套试卷并查看成绩</button>
+  </div>
+
+  <div id="result"></div>
+
+<script>
+(function () {
+  // Section 配置：时间可以按需要微调
+  const sections = [
+    { id: "writing", label: "Part I Writing", durationMinutes: 30 },
+    { id: "listening", label: "Part II Listening", durationMinutes: 35 },
+    { id: "reading", label: "Part III Reading", durationMinutes: 40 },
+    { id: "translation", label: "Part IV Translation", durationMinutes: 30 },
+  ];
+
+  // 客观题答案键：1–12 听力，13–28 阅读
+  const answerKey = {
+    1: "C",
+    2: "A",
+    3: "B",
+    4: "C",
+    5: "B",
+    6: "C",
+    7: "C",
+    8: "C",
+    9: "B",
+    10: "B",
+    11: "C",
+    12: "A",
+    13: "C",
+    14: "B",
+    15: "A",
+    16: "D",
+    17: "C",
+    18: "D",
+    19: "C",
+    20: "C",
+    21: "B",
+    22: "D",
+    23: "C",
+    24: "B",
+    25: "A",
+    26: "B",
+    27: "C",
+    28: "B",
+  };
+
+  let currentSectionIndex = -1;
+  let timerId = null;
+  let timeRemaining = 0; // 秒
+
+  const timerDisplay = document.getElementById("timerDisplay");
+  const currentSectionLabel = document.getElementById("currentSectionLabel");
+  const resultDiv = document.getElementById("result");
+
+  function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    const mm = m.toString().padStart(2, "0");
+    const ss = s.toString().padStart(2, "0");
+    return mm + ":" + ss;
+  }
+
+  function updateTimerDisplay() {
+    if (timeRemaining < 0) timeRemaining = 0;
+    timerDisplay.textContent =
+      timeRemaining > 0
+        ? "本部分剩余时间：" + formatTime(timeRemaining)
+        : "本部分时间已到";
+  }
+
+  function startTimer(minutes) {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+    timeRemaining = minutes * 60;
+    updateTimerDisplay();
+
+    timerId = setInterval(() => {
+      timeRemaining--;
+      updateTimerDisplay();
+      if (timeRemaining <= 0) {
+        clearInterval(timerId);
+        timerId = null;
+        autoFinishCurrentSection();
+      }
+    }, 1000);
+  }
+
+  function getSectionLabel(sectionId) {
+    const s = sections.find((sec) => sec.id === sectionId);
+    return s ? s.label : "";
+  }
+
+  function showSection(sectionId) {
+    document
+      .querySelectorAll(".section")
+      .forEach((sec) => sec.classList.remove("active"));
+    const el = document.getElementById("section-" + sectionId);
+    if (el) {
+      el.classList.add("active");
+      currentSectionLabel.textContent =
+        "当前部分：" + getSectionLabel(sectionId);
+    }
+  }
+
+  function startSectionByIndex(index) {
+    if (index < 0 || index >= sections.length) return;
+    currentSectionIndex = index;
+    const sec = sections[index];
+    showSection(sec.id);
+    startTimer(sec.durationMinutes);
+  }
+
+  function disableInputsInSection(sectionId) {
+    const container = document.getElementById("section-" + sectionId);
+    if (!container) return;
+
+    const inputs = container.querySelectorAll("input, select, textarea, button");
+    inputs.forEach((el) => {
+      if (el.id === "finishAllBtn") return; // 总结束按钮保留
+      el.disabled = true;
+    });
+
+    if (!container.querySelector(".finished-tag")) {
+      const span = document.createElement("span");
+      span.className = "finished-tag";
+      span.textContent = "（本部分已结束）";
+      const h2 = container.querySelector("h2");
+      if (h2) h2.appendChild(span);
+    }
+  }
+
+  function autoFinishCurrentSection() {
+    const sec = sections[currentSectionIndex];
+    alert(sec.label + " 时间到，将自动进入下一部分。");
+    disableInputsInSection(sec.id);
+    if (currentSectionIndex < sections.length - 1) {
+      startSectionByIndex(currentSectionIndex + 1);
+    } else {
+      gradeExam();
+    }
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function collectObjectiveAnswers() {
+    const obj = {};
+    for (let i = 1; i <= 28; i++) {
+      const el = document.querySelector('[name="q' + i + '"]');
+      if (el) {
+        const value = (el.value || "").trim().toUpperCase();
+        obj[i] = value;
+      }
+    }
+    return obj;
+  }
+
+  function buildRawAnswerSummary(objective) {
+    const lines = [];
+    for (let i = 1; i <= 28; i++) {
+      const ans = objective[i] || "";
+      lines.push("Q" + i + ": " + (ans || "-"));
+    }
+    return lines.join("\n");
+  }
+
+  function gradeExam() {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+
+    // 禁用所有 section 输入
+    sections.forEach((sec) => disableInputsInSection(sec.id));
+
+    const objective = collectObjectiveAnswers();
+    const writingText = (document.getElementById("writingText").value || "").trim();
+    const translationText =
+      (document.getElementById("translationText").value || "").trim();
+
+    const modules = [
+      { id: "listening", label: "Part II Listening", from: 1, to: 12 },
+      { id: "reading", label: "Part III Reading", from: 13, to: 28 },
+    ];
+
+    let html = "<h2>考试结果</h2>";
+
+    // 主观题 – Writing
+    html += '<div class="module-summary">';
+    html += "<h3>Part I Writing（主观题，不自动判分）</h3>";
+    html +=
+      '<p class="note">建议对照参考范文或请老师批改。你的作文如下：</p>';
+    html +=
+      '<textarea rows="8" readonly>' +
+      escapeHtml(writingText) +
+      "</textarea>";
+    html += "</div>";
+
+    // 主观题 – Translation
+    html += '<div class="module-summary">';
+    html += "<h3>Part IV Translation（主观题，不自动判分）</h3>";
+    html +=
+      '<p class="note">建议自己对照参考译文，关注用词与句型。你的翻译如下：</p>';
+    html +=
+      '<textarea rows="8" readonly>' +
+      escapeHtml(translationText) +
+      "</textarea>";
+    html += "</div>";
+
+    // 客观题模块
+    modules.forEach((mod) => {
+      let correct = 0;
+      const wrong = [];
+
+      for (let i = mod.from; i <= mod.to; i++) {
+        const userAns = (objective[i] || "").toUpperCase();
+        const rightAns = (answerKey[i] || "").toUpperCase();
+        if (!rightAns) continue;
+        if (userAns === rightAns) {
+          correct++;
+        } else {
+          wrong.push({
+            number: i,
+            your: userAns || "未作答",
+            correct: rightAns,
+          });
+        }
+      }
+
+      const total = mod.to - mod.from + 1;
+      html += '<div class="module-summary">';
+      html +=
+        "<h3>" + mod.label + "：" + correct + " / " + total + "</h3>";
+
+      if (wrong.length === 0) {
+        html += "<p>本模块客观题全部答对，表现非常好！</p>";
+      } else {
+        html += "<p>错误题目及答案：</p>";
+        html +=
+          '<table class="result-table"><thead><tr><th>题号</th><th>你的答案</th><th>正确答案</th></tr></thead><tbody>';
+        wrong.forEach((item) => {
+          html +=
+            "<tr><td>" +
+            item.number +
+            "</td><td>" +
+            item.your +
+            "</td><td>" +
+            item.correct +
+            "</td></tr>";
+        });
+        html += "</tbody></table>";
+      }
+
+      html += "</div>";
+    });
+
+    // 全部客观题答案汇总
+    const rawSummary = buildRawAnswerSummary(objective);
+    html += '<div class="module-summary">';
+    html += "<h3>你的客观题答案汇总</h3>";
+    html +=
+      '<textarea rows="10" readonly>' +
+      escapeHtml(rawSummary) +
+      "</textarea>";
+    html += "</div>";
+
+    resultDiv.innerHTML = html;
+    resultDiv.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function downloadReport() {
+    const objective = collectObjectiveAnswers();
+    const writingText = (document.getElementById("writingText").value || "").trim();
+    const translationText =
+      (document.getElementById("translationText").value || "").trim();
+
+    const modules = [
+      { id: "listening", label: "Listening", from: 1, to: 12 },
+      { id: "reading", label: "Reading", from: 13, to: 28 },
+    ];
+
+    const lines = [];
+    lines.push("English Mock Exam 2 - Answer Report");
+    lines.push("===================================");
+    lines.push("");
+    lines.push("Writing (Part I) - your essay:");
+    lines.push(writingText || "[empty]");
+    lines.push("");
+    lines.push("Translation (Part IV) - your version:");
+    lines.push(translationText || "[empty]");
+    lines.push("");
+    lines.push("Objective Questions (auto-scored):");
+    lines.push("");
+
+    modules.forEach((mod) => {
+      let correct = 0;
+      const total = mod.to - mod.from + 1;
+      lines.push("[" + mod.label + "]");
+      for (let i = mod.from; i <= mod.to; i++) {
+        const userAns = (objective[i] || "").toUpperCase() || "-";
+        const rightAns = (answerKey[i] || "").toUpperCase() || "-";
+        if (rightAns !== "-" && userAns === rightAns) correct++;
+        lines.push(
+          "Q" +
+            i +
+            ": your=" +
+            userAns +
+            "  correct=" +
+            rightAns
+        );
+      }
+      lines.push("Subtotal: " + correct + " / " + total);
+      lines.push("");
+    });
+
+    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "mock_exam_2_report.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function setupEvents() {
+    const startBtn = document.getElementById("startExamBtn");
+    startBtn.addEventListener("click", () => {
+      if (
+        !confirm("确认开始考试吗？计时将立即启动，写作部分 30 分钟。")
+      )
+        return;
+      startBtn.disabled = true;
+      startSectionByIndex(0);
+    });
+
+    document
+      .querySelectorAll(".finish-section-btn")
+      .forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const nextId = btn.getAttribute("data-next-section");
+          const sec = sections[currentSectionIndex];
+          if (!sec) return;
+          if (
+            !confirm(
+              sec.label + "：确认提前结束本部分并进入下一部分吗？"
+            )
+          ) {
+            return;
+          }
+          disableInputsInSection(sec.id);
+          if (currentSectionIndex < sections.length - 1) {
+            const nextIndex = sections.findIndex((s) => s.id === nextId);
+            if (nextIndex !== -1) {
+              startSectionByIndex(nextIndex);
+            }
+          }
+        });
+      });
+
+    const finishAllBtn = document.getElementById("finishAllBtn");
+    finishAllBtn.addEventListener("click", () => {
+      if (!confirm("确认结束整套试卷并立即查看成绩吗？")) return;
+      gradeExam();
+    });
+
+    const downloadBtn = document.getElementById("downloadReportBtn");
+    downloadBtn.addEventListener("click", () => {
+      downloadReport();
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setupEvents();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>英语水平测试模拟卷 - 机考版</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 16px 80px;
+      line-height: 1.6;
+      background-color: #f7f7f9;
+    }
+    h1, h2, h3, h4 {
+      color: #333;
+    }
+    .section {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .question {
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed #ddd;
+    }
+    .question:last-child {
+      border-bottom: none;
+    }
+    label {
+      display: block;
+      margin: 2px 0;
+    }
+    input[type="text"] {
+      width: 260px;
+      padding: 4px 6px;
+      margin: 4px 0;
+      box-sizing: border-box;
+    }
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      box-sizing: border-box;
+      padding: 6px 8px;
+      font-family: inherit;
+    }
+    .small-input {
+      width: 120px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 6px 12px;
+      margin: 4px 4px 4px 0;
+      border-radius: 4px;
+      border: 1px solid #007bff;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn-secondary {
+      border-color: #6c757d;
+      background-color: #6c757d;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .info {
+      font-size: 13px;
+      color: #666;
+    }
+    #result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .audio-links {
+      font-size: 14px;
+      margin: 6px 0 10px;
+      padding: 6px 10px;
+      background: #eef5ff;
+      border-left: 3px solid #2f6fdd;
+    }
+    #gptPromptBox {
+      display: none;
+      border: 1px solid #999;
+      background: #fffef9;
+      padding: 10px;
+      margin: 16px 0;
+      border-radius: 6px;
+    }
+    #gptPromptText {
+      width: 100%;
+      height: 160px;
+      box-sizing: border-box;
+    }
+    #copyStatus {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #006400;
+    }
+    .student-info input {
+      width: 200px;
+      margin-right: 12px;
+    }
+    iframe {
+      max-width: 100%;
+    }
+    .timer-row {
+      margin: 4px 0 10px;
+      font-size: 14px;
+    }
+    .timer-time {
+      font-weight: bold;
+      font-family: "SF Mono","Menlo","Consolas",monospace;
+      margin: 0 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>英语水平测试模拟卷（机考版）</h1>
+  <p class="info">
+    说明：请按顺序完成各部分试题。完成后点击页面底部的「提交试卷并评分」，系统会自动对客观题（听力+阅读）评分，并生成 Markdown 格式的答题报告（自动下载）。<br> The test is free of use. Get more from kotokowa.github.io/forelang
+  </p>
+
+  <div class="section student-info">
+    <h2>考生信息</h2>
+    <label>姓名：<input type="text" id="studentName" placeholder="Name"></label>
+    <label>学号：<input type="text" id="studentId" placeholder="Student ID"></label>
+  </div>
+
+  <!-- 全局计时器：书面考试 100 分钟 -->
+  <div class="section">
+    <h2>计时器</h2>
+    <p><strong>书面考试（Part I–III）总时长：100 分钟</strong></p>
+    <div class="timer-row">
+      剩余时间：
+      <span id="writtenTimerDisplay" class="timer-time">100:00</span>
+      <button type="button" id="writtenTimerBtn" class="btn btn-secondary" onclick="toggleTimer('written')">开始</button>
+      <button type="button" class="btn btn-secondary" onclick="resetTimer('written')">重置</button>
+    </div>
+    <p class="info">提示：计时仅作练习参考，时间到不会强制关闭试卷，请自律完成各部分。</p>
+  </div>
+
+  <!-- Part I Listening -->
+  <div class="section">
+    <h2>Part I Listening (25%)</h2>
+
+    <!-- Section A Spot Dictation -->
+    <h3>Section A Spot Dictation</h3>
+    <div class="audio-links">
+      <p><strong>Dictation 自动朗读：</strong>
+        <button type="button" class="btn btn-secondary" onclick="playDictation()">播放 / 重播听写</button>
+      </p>
+      <p class="info">
+        浏览器将用英文语音朗读短文两遍（中间有停顿）。建议先阅读题目，再点击按钮开始。若浏览器不支持，请自行朗读或复制原文到其他 TTS 工具中播放。
+      </p>
+    </div>
+    <p class="info">
+      说明：根据所听短文填写空格中的英文单词或短语。
+    </p>
+
+    <div class="question">
+      <p>
+        In many big cities, convenience stores stay open 
+        <input type="text" id="L1" placeholder="L1"> hours a day. 
+        For teenagers, this may sound like 
+        <input type="text" id="L2" placeholder="L2">: you can buy snacks at midnight, stream movies until dawn, and still have a package delivered before breakfast.
+      </p>
+      <p>
+        But doctors warn that this culture of constant 
+        <input type="text" id="L3" placeholder="L3"> comes at a cost. 
+        Young people who regularly sleep fewer than seven hours a night are more likely to suffer from 
+        <input type="text" id="L4" placeholder="L4">. 
+        Their memory becomes less reliable, and they find it hard to 
+        <input type="text" id="L5" placeholder="L5"> in class.
+      </p>
+      <p>
+        Researchers suggest that families should agree on a digital “curfew”: after a certain time, phones and laptops are kept out of the bedroom. Turning off screens at least an hour before bed helps the brain slow down and prepares the body for deep, 
+        <input type="text" id="L6" placeholder="L6"> sleep, which in turn protects 
+        <input type="text" id="L7" placeholder="L7"> health.
+      </p>
+    </div>
+
+    <!-- Section B Conversations -->
+    <h3>Section B Multiple Choice Questions Based on Conversations</h3>
+    <div class="audio-links">
+      <p><strong>Conversation One 音频：</strong></p>
+      <iframe width="560" height="315"
+              src="https://www.youtube.com/embed/1AmS9h8g3E4"
+              title="Conversation One - English at Work 04"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+      <p class="info">如内嵌播放有问题，可访问原链接：<a href="https://www.youtube.com/watch?v=1AmS9h8g3E4" target="_blank">https://www.youtube.com/watch?v=1AmS9h8g3E4</a></p>
+
+      <p><strong>Conversation Two 音频：</strong></p>
+      <iframe width="560" height="315"
+              src="https://www.youtube.com/embed/NzYxS_Xy0oM"
+              title="Conversation Two - English at Work 06"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+      <p class="info">如内嵌播放有问题，可访问原链接：<a href="https://www.youtube.com/watch?v=NzYxS_Xy0oM" target="_blank">https://www.youtube.com/watch?v=NzYxS_Xy0oM</a></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Conversation One (Questions 1–2)</strong></p>
+      <p><strong>1.</strong> At the beginning of the conversation, how does Anna say she feels about her first day?</p>
+      <label><input type="radio" name="q1" value="A"> A) Relaxed and confident.</label>
+      <label><input type="radio" name="q1" value="B"> B) Excited but a little worried.</label>
+      <label><input type="radio" name="q1" value="C"> C) Completely unprepared.</label>
+      <label><input type="radio" name="q1" value="D"> D) Disappointed with her new job.</label>
+
+      <p><strong>2.</strong> What misunderstanding leads Anna to start cooking in the office?</p>
+      <label><input type="radio" name="q2" value="A"> A) She thinks “doing lunch” means preparing food for everyone.</label>
+      <label><input type="radio" name="q2" value="B"> B) She believes her job includes running the company canteen.</label>
+      <label><input type="radio" name="q2" value="C"> C) She thinks Tom has asked her to organize a cooking competition.</label>
+      <label><input type="radio" name="q2" value="D"> D) She confuses Tom’s order for a client with an invitation to a party.</label>
+    </div>
+
+    <div class="question">
+      <p><strong>Conversation Two (Questions 3–5)</strong></p>
+      <p><strong>3.</strong> What problem is Tom facing at the beginning of the conversation?</p>
+      <label><input type="radio" name="q3" value="A"> A) He has lost an important client’s documents.</label>
+      <label><input type="radio" name="q3" value="B"> B) He has double-booked several meetings.</label>
+      <label><input type="radio" name="q3" value="C"> C) He cannot log into his email account.</label>
+      <label><input type="radio" name="q3" value="D"> D) He has forgotten the deadline for a big project.</label>
+
+      <p><strong>4.</strong> How does Anna mainly offer to help Tom?</p>
+      <label><input type="radio" name="q4" value="A"> A) By cancelling some of his meetings.</label>
+      <label><input type="radio" name="q4" value="B"> B) By joining him in every client meeting.</label>
+      <label><input type="radio" name="q4" value="C"> C) By taking over part of his meeting schedule.</label>
+      <label><input type="radio" name="q4" value="D"> D) By asking the boss to reduce his workload.</label>
+
+      <p><strong>5.</strong> What is the main purpose of the phrases suggested by the narrator in this episode?</p>
+      <label><input type="radio" name="q5" value="A"> A) To complain about unfair treatment at work.</label>
+      <label><input type="radio" name="q5" value="B"> B) To offer help politely and professionally.</label>
+      <label><input type="radio" name="q5" value="C"> C) To give orders clearly to junior staff.</label>
+      <label><input type="radio" name="q5" value="D"> D) To refuse extra work without sounding rude.</label>
+    </div>
+
+    <!-- Section C Lectures -->
+    <h3>Section C Multiple Choice Questions Based on Academic Lectures</h3>
+    <div class="audio-links">
+      <p><strong>Lecture One – Language &amp; Brain 音频：</strong></p>
+      <iframe width="560" height="315"
+              src="https://www.youtube.com/embed/nzHY-muy2Mw"
+              title="Lecture One - Is being bilingual good for your brain?"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+      <p class="info">如内嵌播放有问题，可访问原链接：<a href="https://www.youtube.com/watch?v=nzHY-muy2Mw" target="_blank">https://www.youtube.com/watch?v=nzHY-muy2Mw</a></p>
+
+      <p><strong>Lecture Two – Environment &amp; Plastic 音频：</strong></p>
+      <iframe width="560" height="315"
+              src="https://www.youtube.com/embed/_pHDHijEzOo"
+              title="Lecture Two - The problem with plastic – and how we can solve it"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+      <p class="info">如内嵌播放有问题，可访问原链接：<a href="https://www.youtube.com/watch?v=_pHDHijEzOo" target="_blank">https://www.youtube.com/watch?v=_pHDHijEzOo</a></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Lecture One (Questions 6–9)</strong></p>
+
+      <p><strong>6.</strong> According to the speaker, what was once a common belief about raising bilingual children?</p>
+      <label><input type="radio" name="q6" value="A"> A) It would confuse them and slow their development.</label>
+      <label><input type="radio" name="q6" value="B"> B) It would automatically make them more intelligent.</label>
+      <label><input type="radio" name="q6" value="C"> C) It would prevent them from learning other skills.</label>
+      <label><input type="radio" name="q6" value="D"> D) It would make them forget their first language.</label>
+
+      <p><strong>7.</strong> What does the speaker say about the “bilingual advantage” in research?</p>
+      <label><input type="radio" name="q7" value="A"> A) All studies strongly support it.</label>
+      <label><input type="radio" name="q7" value="B"> B) Most studies prove it does not exist.</label>
+      <label><input type="radio" name="q7" value="C"> C) Some studies show it, while others find weaker effects.</label>
+      <label><input type="radio" name="q7" value="D"> D) It only appears in very young children.</label>
+
+      <p><strong>8.</strong> The lecture suggests that one important benefit of bilingualism is that it may</p>
+      <label><input type="radio" name="q8" value="A"> A) guarantee higher income in adult life.</label>
+      <label><input type="radio" name="q8" value="B"> B) delay certain forms of age-related cognitive decline.</label>
+      <label><input type="radio" name="q8" value="C"> C) eliminate the risk of dementia entirely.</label>
+      <label><input type="radio" name="q8" value="D"> D) allow children to learn any subject more quickly.</label>
+
+      <p><strong>9.</strong> Which of the following statements best captures the speaker’s overall message?</p>
+      <label><input type="radio" name="q9" value="A"> A) Only native speakers can truly become bilingual.</label>
+      <label><input type="radio" name="q9" value="B"> B) A few years of language classes at university are enough.</label>
+      <label><input type="radio" name="q9" value="C"> C) Using two languages regularly over many years brings the greatest gains.</label>
+      <label><input type="radio" name="q9" value="D"> D) Bilingualism is useful socially but has no measurable effect on the brain.</label>
+    </div>
+
+    <div class="question">
+      <p><strong>Lecture Two (Questions 10–14)</strong></p>
+
+      <p><strong>10.</strong> What is presented as the central paradox of plastic in the talk?</p>
+      <label><input type="radio" name="q10" value="A"> A) It is cheap to make but expensive to recycle.</label>
+      <label><input type="radio" name="q10" value="B"> B) It is both extremely useful and extremely damaging.</label>
+      <label><input type="radio" name="q10" value="C"> C) It is easy to ban but hard to replace.</label>
+      <label><input type="radio" name="q10" value="D"> D) It is popular with consumers but disliked by governments.</label>
+
+      <p><strong>11.</strong> Which of the following is mentioned as a major problem with current plastic use?</p>
+      <label><input type="radio" name="q11" value="A"> A) Most plastic items are designed to last for centuries.</label>
+      <label><input type="radio" name="q11" value="B"> B) Single-use plastic products are quickly thrown away.</label>
+      <label><input type="radio" name="q11" value="C"> C) People refuse to pay for plastic waste collection.</label>
+      <label><input type="radio" name="q11" value="D"> D) Only large companies are allowed to sell plastic.</label>
+
+      <p><strong>12.</strong> The speaker compares our approach to plastic to which of the following?</p>
+      <label><input type="radio" name="q12" value="A"> A) Treating a valuable material as if it were disposable.</label>
+      <label><input type="radio" name="q12" value="B"> B) Treating a dangerous chemical as if it were harmless food.</label>
+      <label><input type="radio" name="q12" value="C"> C) Treating a rare metal as if it were abundant water.</label>
+      <label><input type="radio" name="q12" value="D"> D) Treating a natural resource as if it were man-made.</label>
+
+      <p><strong>13.</strong> Which solution is highlighted as part of a wider system rather than a magic bullet?</p>
+      <label><input type="radio" name="q13" value="A"> A) Burning all plastic waste to produce electricity.</label>
+      <label><input type="radio" name="q13" value="B"> B) Shipping plastic waste to other countries。</label>
+      <label><input type="radio" name="q13" value="C"> C) Recycling and re-using plastic materials more intelligently。</label>
+      <label><input type="radio" name="q13" value="D"> D) Replacing every plastic product with glass or metal。</label>
+
+      <p><strong>14.</strong> According to the lecture, why do individual choices still matter?</p>
+      <label><input type="radio" name="q14" value="A"> A) Governments often copy what ordinary consumers do。</label>
+      <label><input type="radio" name="q14" value="B"> B) Small daily decisions add up and create pressure for broader change。</label>
+      <label><input type="radio" name="q14" value="C"> C) Industry leaders rarely listen to scientists。</label>
+      <label><input type="radio" name="q14" value="D"> D) Plastic pollution is mainly caused by households, not companies。</label>
+    </div>
+  </div>
+
+  <!-- Part II Essay Writing -->
+  <div class="section">
+    <h2>Part II Essay Writing (25%)</h2>
+    <p><strong>Topic:</strong> Rethinking Our Relationship with Plastic</p>
+    <p>
+      You have listened to Lecture Two about plastic and its environmental impacts. Write an essay of about 250 words.
+      Answer all of the following questions and support your viewpoint with specific reasons or examples:
+    </p>
+    <ol>
+      <li>What key problems about plastic did the speaker mention?</li>
+      <li>Which solutions do you personally find the most realistic or effective, and why?</li>
+      <li>As a university student in China, what concrete actions can you take in your daily life to reduce plastic waste?</li>
+    </ol>
+    <p>Write your essay below:</p>
+    <textarea id="essay1" placeholder="Write your essay here..."></textarea>
+    <button type="button" class="btn btn-secondary" onclick="generateGptPrompt('essay1','Part II Essay: Rethinking Our Relationship with Plastic (约250词)')">
+      用 ChatGPT 评分
+    </button>
+  </div>
+
+  <!-- Part III Reading -->
+  <div class="section">
+    <h2>Part III Reading (25%)</h2>
+
+    <!-- Section A Short Passages -->
+    <h3>Section A Multiple Choice Questions Based on Short Reading Passages</h3>
+
+    <div class="question">
+      <h4>Passage One – The Quiet Power of Boredom (Questions 15–19)</h4>
+      <p>
+        When people complain that modern life is too busy, they usually mean that there are too many emails to answer, too many deadlines to meet and too many messages on their phones. Ironically, however, one of the rarest experiences in this age of constant stimulation is simple boredom. The moment a queue moves slowly or a train is delayed, most of us immediately reach for a screen. We treat boredom as if it were a tiny emergency that must be solved at once.
+      </p>
+      <p>
+        Psychologists are beginning to argue that this fear of boredom may be making our lives poorer rather than richer. In several experiments, researchers asked participants to sit alone in a quiet room with nothing to do for fifteen minutes. People reported that the time passed painfully slowly. Yet when they were later tested on creativity, those who had just endured boredom came up with more original ideas than people who had previously done a mildly interesting task. Boredom, it seems, is not the absence of activity but an invitation to direct our attention inward.
+      </p>
+      <p>
+        Historically, boredom was less common because many tasks were physically demanding. A farmer ploughing a field may have been tired or worried, but he rarely had the chance to say he was “bored”。 Today, by contrast, we are surrounded by forms of entertainment specifically designed to prevent even a moment of mental emptiness。 Streaming platforms automatically play the next episode; social media feeds refresh endlessly; news alerts interrupt us with minor updates。 Each small distraction takes the edge off boredom, but together they form a thick fog that can hide our deeper thoughts。
+      </p>
+      <p>
+        This is not an argument for heroic self-denial。 There is nothing wrong with watching a funny video after a long day。 The problem arises when we become so unused to boredom that we never allow our minds to wander。 Some writers claim that their best ideas arrive when they are washing dishes or staring out of a window。 By refusing every dull minute, we may also be refusing the daydreams and questions that give direction to our lives。 A little boredom, carefully protected from the constant noise of devices, might be one of the most productive luxuries we still possess。
+      </p>
+
+      <p><strong>15.</strong> According to the passage, what is unusual in modern life?</p>
+      <label><input type="radio" name="q15" value="A"> A) Having no access to entertainment。</label>
+      <label><input type="radio" name="q15" value="B"> B) Feeling physically exhausted。</label>
+      <label><input type="radio" name="q15" value="C"> C) Experiencing genuine boredom。</label>
+      <label><input type="radio" name="q15" value="D"> D) Working under time pressure。</label>
+
+      <p><strong>16.</strong> The experiments described in Paragraph 2 suggest that boredom may</p>
+      <label><input type="radio" name="q16" value="A"> A) damage people’s memory。</label>
+      <label><input type="radio" name="q16" value="B"> B) increase physical stress。</label>
+      <label><input type="radio" name="q16" value="C"> C) reduce attention span。</label>
+      <label><input type="radio" name="q16" value="D"> D) stimulate creative thinking。</label>
+
+      <p><strong>17.</strong> The author mentions farmers in the past mainly to</p>
+      <label><input type="radio" name="q17" value="A"> A) show that boredom is a new kind of emotion。</label>
+      <label><input type="radio" name="q17" value="B"> B) contrast their working conditions with modern office work。</label>
+      <label><input type="radio" name="q17" value="C"> C) argue that boredom is worse in rural areas。</label>
+      <label><input type="radio" name="q17" value="D"> D) prove that boredom only affects educated people。</label>
+
+      <p><strong>18.</strong> Which of the following is NOT mentioned as a modern “anti-boredom” device?</p>
+      <label><input type="radio" name="q18" value="A"> A) Streaming services that autoplay。</label>
+      <label><input type="radio" name="q18" value="B"> B) Online games that require payment。</label>
+      <label><input type="radio" name="q18" value="C"> C) Social media feeds that constantly refresh。</label>
+      <label><input type="radio" name="q18" value="D"> D) News alerts about minor events。</label>
+
+      <p><strong>19.</strong> What does the author imply in the last paragraph?</p>
+      <label><input type="radio" name="q19" value="A"> A) We should avoid boredom at all costs。</label>
+      <label><input type="radio" name="q19" value="B"> B) Boredom is a sign of laziness。</label>
+      <label><input type="radio" name="q19" value="C"> C) Occasional boredom can be mentally valuable。</label>
+      <label><input type="radio" name="q19" value="D"> D) Devices will soon eliminate boredom completely。</label>
+    </div>
+
+    <div class="question">
+      <h4>Passage Two – Remote Work and the Future of Cities (Questions 20–24)</h4>
+      <p>
+        Before 2020, working from home was a privilege enjoyed by a relatively small group of employees。 For many managers, the office was not just a place to sit at a desk; it was a symbol of control and cooperation。 When the pandemic forced companies around the world to adopt remote work almost overnight, the change was widely described as a “global experiment”。 Several years later, the results of that experiment are still being debated。
+      </p>
+      <p>
+        On the one hand, surveys suggest that many workers value the flexibility remote work offers。 Without daily commuting, they gain extra hours that can be used for sleep, exercise or time with family。 Parents of young children, in particular, report that flexible schedules make it easier to stay in their jobs。 In some industries, companies have found that employees are just as productive—if not more so—when they are allowed to organize their own time。
+      </p>
+      <p>
+        On the other hand, cities built around daily commuting have begun to feel the impact of half-empty office towers。 Small cafés and restaurants that once depended on office workers for lunchtime business have struggled to survive。 Public transport systems, designed to carry huge crowds during rush hour, face financial pressure as passenger numbers fall。 Urban planners worry that if city centres become quiet for most of the week, the sense of shared public life may weaken。
+      </p>
+      <p>
+        Some economists argue that this transformation also creates unexpected opportunities。 Empty office space can sometimes be converted into housing, helping to ease shortages in expensive cities。 If fewer people commute every day, air pollution and traffic congestion may decrease。 Smaller towns and rural areas can attract residents who no longer need to live near a headquarters building。 However, these benefits are unevenly distributed: workers who must be physically present—such as nurses, cleaners or delivery drivers—may see little improvement in their working conditions。
+      </p>
+      <p>
+        Ultimately, the future of remote work is unlikely to be simply “at home” or “in the office”。 Many companies are experimenting with hybrid models, asking staff to come in on certain days for meetings and teamwork while allowing quiet tasks to be done elsewhere。 The success of these arrangements will depend not only on technology but also on trust。 If employers use digital tools mainly to monitor every click and keystroke, the promise of flexibility may quickly turn into a new form of surveillance。
+      </p>
+
+      <p><strong>20.</strong> Before 2020, remote work was generally regarded as</p>
+      <label><input type="radio" name="q20" value="A"> A) a legal right for most workers。</label>
+      <label><input type="radio" name="q20" value="B"> B) a temporary response to a crisis。</label>
+      <label><input type="radio" name="q20" value="C"> C) a rare benefit for some employees。</label>
+      <label><input type="radio" name="q20" value="D"> D) a threat to office culture。</label>
+
+      <p><strong>21.</strong> Which group is said to benefit especially from flexible schedules?</p>
+      <label><input type="radio" name="q21" value="A"> A) Recent university graduates。</label>
+      <label><input type="radio" name="q21" value="B"> B) Parents of small children。</label>
+      <label><input type="radio" name="q21" value="C"> C) Long-distance commuters。</label>
+      <label><input type="radio" name="q21" value="D"> D) Company executives。</label>
+
+      <p><strong>22.</strong> According to Paragraph 3, what is one negative effect of reduced commuting?</p>
+      <label><input type="radio" name="q22" value="A"> A) Rising prices for public transport tickets。</label>
+      <label><input type="radio" name="q22" value="B"> B) Overcrowded city parks。</label>
+      <label><input type="radio" name="q22" value="C"> C) Loss of customers for local businesses。</label>
+      <label><input type="radio" name="q22" value="D"> D) A shortage of office space。</label>
+
+      <p><strong>23.</strong> Why might smaller towns gain from the spread of remote work?</p>
+      <label><input type="radio" name="q23" value="A"> A) People can live there while working for distant employers。</label>
+      <label><input type="radio" name="q23" value="B"> B) They can attract large factories from big cities。</label>
+      <label><input type="radio" name="q23" value="C"> C) Local schools become easier to manage。</label>
+      <label><input type="radio" name="q23" value="D"> D) Office towers are already plentiful there。</label>
+
+      <p><strong>24.</strong> What concern does the writer raise about digital tools used in hybrid work?</p>
+      <label><input type="radio" name="q24" value="A"> A) They may replace managers completely。</label>
+      <label><input type="radio" name="q24" value="B"> B) They may make employees harder to train。</label>
+      <label><input type="radio" name="q24" value="C"> C) They may fail frequently during meetings。</label>
+      <label><input type="radio" name="q24" value="D"> D) They may become instruments of constant monitoring。</label>
+    </div>
+
+    <div class="question">
+      <h4>Passage Three – Counting Birds, Changing Minds (Questions 25–29)</h4>
+      <p>
+        Every January, thousands of ordinary people across the world step into their gardens, parks or balconies with a pair of binoculars and a notebook。 For one hour, they record every bird they can see and send the results to a central database。 This simple activity, known as a “citizen science” bird count, has become an important source of information for ecologists trying to understand how wildlife responds to climate change and urbanisation。
+      </p>
+      <p>
+        From a scientific point of view, the method has both strengths and weaknesses。 On the positive side, it allows researchers to collect data from millions of locations that would otherwise be impossible to visit。 Patterns emerge when records from many years are compared: some species are appearing earlier in spring; others are gradually moving northwards; some are disappearing entirely from certain regions。 On the negative side, volunteers vary in their skill and enthusiasm。 One person may correctly identify a rare warbler, while another may mistake it for a common sparrow。
+      </p>
+      <p>
+        Yet many scientists argue that the social benefits of citizen science are at least as important as the data it produces。 Taking part in a bird count encourages people to pay close attention to their local environment, noticing details that might otherwise be ignored—a song from a rooftop, a flash of colour in a hedge。 Participants often report that their sense of connection to nature increases after the event。 Some go on to join conservation groups or to campaign for better protection of green spaces in their neighbourhoods。
+      </p>
+      <p>
+        Critics worry that governments may use the popularity of citizen science as an excuse to reduce funding for professional research。 Organising large-scale surveys, they point out, still requires trained staff, careful planning and long-term analysis。 Nevertheless, even the critics rarely suggest abandoning public involvement altogether。 In a time when many people spend much of their day looking at screens, asking them to spend one hour looking at the sky may be a small but meaningful step towards a more informed and engaged society。
+      </p>
+
+      <p><strong>25.</strong> What is the main purpose of the bird-count activity described in Paragraph 1?</p>
+      <label><input type="radio" name="q25" value="A"> A) To entertain families during winter holidays。</label>
+      <label><input type="radio" name="q25" value="B"> B) To collect ecological data with public help。</label>
+      <label><input type="radio" name="q25" value="C"> C) To raise money for wildlife charities。</label>
+      <label><input type="radio" name="q25" value="D"> D) To teach children how to use binoculars。</label>
+
+      <p><strong>26.</strong> One weakness of citizen science mentioned in the passage is that</p>
+      <label><input type="radio" name="q26" value="A"> A) volunteers sometimes disagree with government policies。</label>
+      <label><input type="radio" name="q26" value="B"> B) the number of participants is too small。</label>
+      <label><input type="radio" name="q26" value="C"> C) volunteers may misidentify the birds they see。</label>
+      <label><input type="radio" name="q26" value="D"> D) it is too expensive to organise。</label>
+
+      <p><strong>27.</strong> According to the passage, taking part in bird counts can lead some people to</p>
+      <label><input type="radio" name="q27" value="A"> A) switch to scientific careers immediately。</label>
+      <label><input type="radio" name="q27" value="B"> B) move from cities to the countryside。</label>
+      <label><input type="radio" name="q27" value="C"> C) feel more emotionally attached to nature。</label>
+      <label><input type="radio" name="q27" value="D"> D) stop using digital devices altogether。</label>
+
+      <p><strong>28.</strong> What do critics fear about the rise of citizen science?</p>
+      <label><input type="radio" name="q28" value="A"> A) It may be used to justify cuts in official research funding。</label>
+      <label><input type="radio" name="q28" value="B"> B) It may make professional scientists unnecessary。</label>
+      <label><input type="radio" name="q28" value="C"> C) It may reduce public interest in environmental issues。</label>
+      <label><input type="radio" name="q28" value="D"> D) It may accidentally harm local wildlife。</label>
+
+      <p><strong>29.</strong> Which of the following best summarizes the author’s attitude?</p>
+      <label><input type="radio" name="q29" value="A"> A) Citizen science is unreliable and should be replaced。</label>
+      <label><input type="radio" name="q29" value="B"> B) Citizen science is useful both scientifically and socially。</label>
+      <label><input type="radio" name="q29" value="C"> C) Citizen science should focus only on birds, not other animals。</label>
+      <label><input type="radio" name="q29" value="D"> D) Citizen science is merely a fashionable hobby。</label>
+    </div>
+
+    <!-- Section B Short Answer -->
+    <h3>Section B Short Answer Questions Based on a Long Reading Passage</h3>
+    <div class="question">
+      <h4>Passage – Learning to Live Alone (SAQ1–SAQ5)</h4>
+      <p>
+        When Li Yan told her parents that she wanted to rent a small apartment and live alone, they were surprised。 In their generation, moving out before marriage was rare and sometimes even seen as a sign of family conflict。 But for Li Yan, who works in a busy design firm in Shanghai, living alone represents independence rather than distance。 After sharing crowded dormitories and noisy flats for almost a decade, she longed for a quiet space that was entirely her own。
+      </p>
+      <p>
+        The rise of single-person households is not unique to China。 In many large cities around the world, from Stockholm to São Paulo, more and more people are choosing—or being forced by circumstances—to live alone。 Some are young professionals like Li Yan; others are elderly widows, recent divorcees or migrants whose families are far away。 This trend worries some commentators, who fear that societies built on individual apartments behind locked doors will become colder and less cooperative。
+      </p>
+      <p>
+        Researchers who study loneliness warn that living alone and being lonely are not the same thing。 A person can feel desperately isolated in a crowded home, while another may enjoy a solitary evening with a book and a pot of tea。 Surveys suggest that what matters most is not the number of people in a household but the quality of relationships outside it。 Those who have close friends, participate in community activities or feel valued at work are less likely to report serious loneliness, even if they sleep in an empty flat。
+      </p>
+      <p>
+        For Li Yan, creating a sense of connection requires deliberate effort。 She keeps in touch with former classmates through group chats, has dinner with her parents every Sunday, and volunteers at a weekend art class for children in her neighbourhood。 These routines not only give structure to her week but also make her more attentive when she returns to her own apartment。 She says that doing the dishes or watering her plants after a long day now feels strangely satisfying instead of boring。
+      </p>
+      <p>
+        At the same time, living alone poses practical challenges。 Rent is high, and there is no one to share the bills if she loses her job。 When she caught a bad cold last winter, she had to order medicine online and make herself porridge, which took twice as long as simply asking a roommate for help。 She jokes that learning to live alone has taught her a set of unexpected “adult skills”: fixing a dripping tap with online tutorials, reading contracts carefully before signing them, and planning her shopping so that food does not go to waste。
+      </p>
+      <p>
+        Some sociologists see the growth of one-person households as part of a broader shift in values。 In the past, adulthood was often defined by a series of shared milestones—marriage, parenthood, a lifelong job。 Now, they argue, individuals are being encouraged to design their own biographies, collecting experiences rather than status symbols。 For better or worse, living alone has become one of the ways in which people try to answer the question: “What kind of life do I want to build?”
+      </p>
+
+      <p><strong>说明：</strong>每题答案不超过 3 个词。</p>
+
+      <p><strong>SAQ1.</strong> For Li Yan, living alone mainly symbolizes <input type="text" id="SAQ1" class="small-input" placeholder="≤3 words">。</p>
+      <p><strong>SAQ2.</strong> According to researchers, the key factor that protects people from loneliness is the quality of their <input type="text" id="SAQ2" class="small-input" placeholder="≤3 words">。</p>
+      <p><strong>SAQ3.</strong> Li Yan’s voluntary work at a children’s art class helps give <input type="text" id="SAQ3" class="small-input" placeholder="≤3 words"> to her week。</p>
+      <p><strong>SAQ4.</strong> One financial risk of living alone is having no one to <input type="text" id="SAQ4" class="small-input" placeholder="≤3 words"> if she becomes unemployed。</p>
+      <p><strong>SAQ5.</strong> Some sociologists think more people live alone because individuals are encouraged to design their own <input type="text" id="SAQ5" class="small-input" placeholder="≤3 words">。</p>
+    </div>
+  </div>
+
+  <!-- Part IV Speaking -->
+  <div class="section">
+    <h2>Part IV Speaking (25%)</h2>
+    <p class="info">本部分在真实考试中由考官配合录音完成。此处为机考自练版，可在文本框中写出要点或完整回答，再用 ChatGPT 帮你做口语内容评价。</p>
+
+    <h3>Section A Responding to a Short Talk (5 minutes)</h3>
+    <div class="timer-row">
+      本部分建议用时 5 分钟。计时：
+      <span id="speakingATimerDisplay" class="timer-time">05:00</span>
+      <button type="button" id="speakingATimerBtn" class="btn btn-secondary" onclick="toggleTimer('speakingA')">开始</button>
+      <button type="button" class="btn btn-secondary" onclick="resetTimer('speakingA')">重置</button>
+    </div>
+    <p>
+      You will listen to a short talk once about a recent survey on young people’s use of smartphones at night.
+      After the talk, you will have 3 minutes to answer the following questions.
+    </p>
+    <ol>
+      <li>According to the speaker, what major findings did the researchers make about how late-night smartphone use affects sleep and mood?</li>
+      <li>Do you think you have healthy habits when it comes to using your phone before bed? Why or why not?</li>
+    </ol>
+    <textarea id="speakingA" placeholder="写下你的英文答案要点或完整回答，用于口语练习和 ChatGPT 评分"></textarea>
+    <button type="button" class="btn btn-secondary" onclick="generateGptPrompt('speakingA','Speaking Section A: Responding to a short talk (about smartphone use at night)')">
+      用 ChatGPT 评分
+    </button>
+
+    <h3>Section B Talking about a Topic (5 minutes)</h3>
+    <div class="timer-row">
+      本部分建议用时 5 分钟。计时：
+      <span id="speakingBTimerDisplay" class="timer-time">05:00</span>
+      <button type="button" id="speakingBTimerBtn" class="btn btn-secondary" onclick="toggleTimer('speakingB')">开始</button>
+      <button type="button" class="btn btn-secondary" onclick="resetTimer('speakingB')">重置</button>
+    </div>
+    <p><strong>Topic:</strong> “Slow Moments in a Fast World”</p>
+    <p>
+      Imagine a cartoon that shows a student sitting on a park bench, surrounded by people walking quickly while staring at their phones.
+      The student has put their own phone away and is simply watching the sky.
+    </p>
+    <p>In your talk, you may include:</p>
+    <ul>
+      <li>What you notice in this cartoon and how it makes you feel.</li>
+      <li>Whether you think “slow moments” are necessary for students today.</li>
+      <li>What practical steps university students can take to protect such moments in their daily lives.</li>
+    </ul>
+    <textarea id="speakingB" placeholder="写下你的英文口语稿或要点"></textarea>
+    <button type="button" class="btn btn-secondary" onclick="generateGptPrompt('speakingB','Speaking Section B: Topic – \"Slow Moments in a Fast World\"')">
+      用 ChatGPT 评分
+    </button>
+  </div>
+
+  <!-- GPT Prompt Box -->
+  <div id="gptPromptBox">
+    <p><strong>已为你生成 ChatGPT 评分提示：</strong></p>
+    <p class="info">将下方文字复制并粘贴到 ChatGPT 中，即可请它帮你打分和给反馈。</p>
+    <textarea id="gptPromptText"></textarea>
+    <div id="copyStatus"></div>
+    <button type="button" class="btn btn-secondary" onclick="closeGptBox()">关闭</button>
+  </div>
+
+  <!-- Submit & result -->
+  <div class="section">
+    <button type="button" class="btn" onclick="gradeExam()">提交试卷并评分（自动生成答题报告）</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // 答案键：客观题
+    const answerKey = {
+      // Listening Section A text blanks
+      L1: { type: 'text', answers: ['twenty-four', 'twenty four', '24'] },
+      L2: { type: 'text', answers: ['paradise'] },
+      L3: { type: 'text', answers: ['availability'] },
+      L4: { type: 'text', answers: ['anxiety and depression'] },
+      L5: { type: 'text', answers: ['concentrate'] },
+      L6: { type: 'text', answers: ['refreshing'] },
+      // L7 多种合理写法
+      L7: { type: 'text', answers: ['their', 'students', "students'", 'young people', 'teenagers'] },
+
+      // Listening Section B & C MC
+      q1: { type: 'mc', answer: 'B' },
+      q2: { type: 'mc', answer: 'A' },
+      q3: { type: 'mc', answer: 'B' },
+      q4: { type: 'mc', answer: 'C' },
+      q5: { type: 'mc', answer: 'B' },
+      q6: { type: 'mc', answer: 'A' },
+      q7: { type: 'mc', answer: 'C' },
+      q8: { type: 'mc', answer: 'B' },
+      q9: { type: 'mc', answer: 'C' },
+      q10: { type: 'mc', answer: 'B' },
+      q11: { type: 'mc', answer: 'B' },
+      q12: { type: 'mc', answer: 'A' },
+      q13: { type: 'mc', answer: 'C' },
+      q14: { type: 'mc', answer: 'B' },
+
+      // Reading Section A MC
+      q15: { type: 'mc', answer: 'C' },
+      q16: { type: 'mc', answer: 'D' },
+      q17: { type: 'mc', answer: 'B' },
+      q18: { type: 'mc', answer: 'B' },
+      q19: { type: 'mc', answer: 'C' },
+      q20: { type: 'mc', answer: 'C' },
+      q21: { type: 'mc', answer: 'B' },
+      q22: { type: 'mc', answer: 'C' },
+      q23: { type: 'mc', answer: 'A' },
+      q24: { type: 'mc', answer: 'D' },
+      q25: { type: 'mc', answer: 'B' },
+      q26: { type: 'mc', answer: 'C' },
+      q27: { type: 'mc', answer: 'C' },
+      q28: { type: 'mc', answer: 'A' },
+      q29: { type: 'mc', answer: 'B' },
+
+      // Reading Section B SAQs
+      SAQ1: { type: 'text', answers: ['independence', 'personal independence'] },
+      SAQ2: { type: 'text', answers: ['relationships', 'social relationships', 'relationships outside it'] },
+      SAQ3: { type: 'text', answers: ['structure'] },
+      SAQ4: { type: 'text', answers: ['share the bills'] },
+      SAQ5: { type: 'text', answers: ['biographies', 'life stories'] }
+    };
+
+    // 计时器配置
+    const timers = {
+      written: {
+        duration: 100 * 60, // 100 分钟
+        remaining: 100 * 60,
+        intervalId: null,
+        running: false,
+        displayId: 'writtenTimerDisplay',
+        buttonId: 'writtenTimerBtn',
+        label: '书面考试（Part I–III）'
+      },
+      speakingA: {
+        duration: 5 * 60,
+        remaining: 5 * 60,
+        intervalId: null,
+        running: false,
+        displayId: 'speakingATimerDisplay',
+        buttonId: 'speakingATimerBtn',
+        label: '口语 Section A'
+      },
+      speakingB: {
+        duration: 5 * 60,
+        remaining: 5 * 60,
+        intervalId: null,
+        running: false,
+        displayId: 'speakingBTimerDisplay',
+        buttonId: 'speakingBTimerBtn',
+        label: '口语 Section B'
+      }
+    };
+
+    function normalizeText(str) {
+      return str.trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    function formatTime(seconds) {
+      const s = Math.max(0, Math.floor(seconds));
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0');
+    }
+
+    function initTimers() {
+      for (const key in timers) {
+        if (Object.prototype.hasOwnProperty.call(timers, key)) {
+          const t = timers[key];
+          t.remaining = t.duration;
+          const display = document.getElementById(t.displayId);
+          if (display) display.textContent = formatTime(t.duration);
+          const btn = document.getElementById(t.buttonId);
+          if (btn) btn.textContent = '开始';
+        }
+      }
+    }
+
+    window.addEventListener('load', initTimers);
+
+    function toggleTimer(key) {
+      const t = timers[key];
+      if (!t) return;
+      const display = document.getElementById(t.displayId);
+      const btn = document.getElementById(t.buttonId);
+      if (!display || !btn) return;
+
+      if (!t.running) {
+        // start
+        if (t.remaining <= 0) {
+          t.remaining = t.duration;
+        }
+        t.running = true;
+        btn.textContent = '暂停';
+        t.intervalId = setInterval(() => {
+          t.remaining -= 1;
+          if (t.remaining <= 0) {
+            t.remaining = 0;
+            clearInterval(t.intervalId);
+            t.intervalId = null;
+            t.running = false;
+            btn.textContent = '开始';
+            display.textContent = formatTime(t.remaining);
+            alert(t.label + ' 时间已到。');
+          } else {
+            display.textContent = formatTime(t.remaining);
+          }
+        }, 1000);
+      } else {
+        // pause
+        t.running = false;
+        btn.textContent = '开始';
+        clearInterval(t.intervalId);
+        t.intervalId = null;
+      }
+    }
+
+    function resetTimer(key) {
+      const t = timers[key];
+      if (!t) return;
+      const display = document.getElementById(t.displayId);
+      const btn = document.getElementById(t.buttonId);
+      if (!display || !btn) return;
+      clearInterval(t.intervalId);
+      t.intervalId = null;
+      t.running = false;
+      t.remaining = t.duration;
+      display.textContent = formatTime(t.remaining);
+      btn.textContent = '开始';
+    }
+
+    // 生成 ChatGPT 评分提示
+    function generateGptPrompt(answerId, taskDescription) {
+      const answerEl = document.getElementById(answerId);
+      if (!answerEl) return;
+      const answer = answerEl.value.trim();
+      if (!answer) {
+        alert('请先在回答框中输入内容。');
+        return;
+      }
+
+      const prompt = [
+        'You are an experienced English examiner.',
+        'Please grade the following student response.',
+        '',
+        'Task description:',
+        taskDescription,
+        '',
+        'Student response:',
+        answer,
+        '',
+        'Please do the following:',
+        '1. Give a score from 0 to 15 based on content, organization, language accuracy and vocabulary.',
+        '2. Briefly comment (in Chinese) on the strengths and weaknesses.',
+        '3. Provide 2–3 specific suggestions (in Chinese) for improvement.',
+        ''
+      ].join('\n');
+
+      const box = document.getElementById('gptPromptBox');
+      const textarea = document.getElementById('gptPromptText');
+      const statusEl = document.getElementById('copyStatus');
+      textarea.value = prompt;
+      statusEl.textContent = '';
+      box.style.display = 'block';
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(prompt).then(() => {
+          statusEl.textContent = '已自动复制到剪贴板，请粘贴到 ChatGPT 中进行评分。';
+        }).catch(() => {
+          statusEl.textContent = '无法自动复制，请手动复制上方提示文本到 ChatGPT。';
+        });
+      } else {
+        statusEl.textContent = '浏览器不支持自动复制，请手动复制上方提示文本到 ChatGPT。';
+      }
+    }
+
+    function closeGptBox() {
+      document.getElementById('gptPromptBox').style.display = 'none';
+      document.getElementById('copyStatus').textContent = '';
+    }
+
+    // 听写：使用浏览器 SpeechSynthesis 朗读短文两遍
+    function playDictation() {
+      const synth = window.speechSynthesis;
+      if (!synth) {
+        alert('当前浏览器不支持文字转语音，请自行朗读或使用其他设备播放。');
+        return;
+      }
+      synth.cancel();
+      const text = "In many big cities, convenience stores stay open twenty-four hours a day. For teenagers, this may sound like paradise: you can buy snacks at midnight, stream movies until dawn, and still have a package delivered before breakfast. But doctors warn that this culture of constant availability comes at a cost. Young people who regularly sleep fewer than seven hours a night are more likely to suffer from anxiety and depression. Their memory becomes less reliable, and they find it hard to concentrate in class. Researchers suggest that families should agree on a digital 'curfew': after a certain time, phones and laptops are kept out of the bedroom. Turning off screens at least an hour before bed helps the brain slow down and prepares the body for deep, refreshing sleep, which in turn protects their health.";
+
+      const utter1 = new SpeechSynthesisUtterance(text);
+      utter1.lang = 'en-US';
+      utter1.rate = 0.95;
+
+      const utter2 = new SpeechSynthesisUtterance(text);
+      utter2.lang = 'en-US';
+      utter2.rate = 0.9;
+
+      utter1.onend = () => {
+        setTimeout(() => {
+          synth.speak(utter2);
+        }, 2000); // 第二遍前停顿 2 秒
+      };
+
+      synth.speak(utter1);
+    }
+
+    function gradeExam() {
+      const name = document.getElementById('studentName').value.trim();
+      const sid = document.getElementById('studentId').value.trim();
+
+      // 听力 / 阅读 / 全部客观题 统计（按题目数量）
+      let listeningTotal = 0, listeningCorrect = 0;
+      let readingTotal = 0, readingCorrect = 0;
+      let overallTotal = 0, overallCorrect = 0;
+
+      const detailLines = [];
+
+      function gradeQuestion(key, label, category) {
+        const conf = answerKey[key];
+        if (!conf) return;
+
+        let userAnswer = '';
+        let isCorrect = false;
+
+        if (conf.type === 'mc') {
+          const selected = document.querySelector('input[name="' + key + '"]:checked');
+          userAnswer = selected ? selected.value : '';
+          isCorrect = !!userAnswer && userAnswer === conf.answer;
+        } else if (conf.type === 'text') {
+          const input = document.getElementById(key);
+          if (input) {
+            userAnswer = input.value.trim();
+            const normUser = normalizeText(userAnswer);
+            isCorrect = conf.answers.some(ans => normalizeText(ans) === normUser);
+          }
+        }
+
+        overallTotal++;
+        if (isCorrect) overallCorrect++;
+
+        if (category === 'listening') {
+          listeningTotal++;
+          if (isCorrect) listeningCorrect++;
+        } else if (category === 'reading') {
+          readingTotal++;
+          if (isCorrect) readingCorrect++;
+        }
+
+        const correctDisplay = conf.type === 'mc' ? conf.answer : (conf.answers[0] || '');
+        const safeUser = userAnswer || '未作答';
+        detailLines.push(`- ${label}  学生: \`${safeUser}\`； 标准答案: \`${correctDisplay}\`  ${isCorrect ? '✅' : '❌'}`);
+      }
+
+      // 听力 Section A
+      detailLines.push('### 听力 Section A 听写');
+      ['L1','L2','L3','L4','L5','L6','L7'].forEach((k, idx) => gradeQuestion(k, 'L' + (idx + 1), 'listening'));
+
+      // 听力 Section B & C
+      detailLines.push('');
+      detailLines.push('### 听力 Section B & C 选择题');
+      ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11','q12','q13','q14'].forEach((k, idx) => {
+        const num = idx + 1;
+        gradeQuestion(k, 'Q' + num, 'listening');
+      });
+
+      // 阅读 Section A
+      detailLines.push('');
+      detailLines.push('### 阅读 Section A 选择题');
+      const readingMcKeys = [];
+      for (let i = 15; i <= 29; i++) {
+        readingMcKeys.push('q' + i);
+      }
+      readingMcKeys.forEach((k, idx) => {
+        const num = 15 + idx;
+        gradeQuestion(k, 'Q' + num, 'reading');
+      });
+
+      // 阅读 Section B
+      detailLines.push('');
+      detailLines.push('### 阅读 Section B 简答题');
+      ['SAQ1','SAQ2','SAQ3','SAQ4','SAQ5'].forEach((k, idx) => {
+        const num = idx + 1;
+        gradeQuestion(k, 'SAQ' + num, 'reading');
+      });
+
+      const listeningPercent = listeningTotal ? Math.round(listeningCorrect / listeningTotal * 100) : 0;
+      const readingPercent = readingTotal ? Math.round(readingCorrect / readingTotal * 100) : 0;
+      const overallPercent = overallTotal ? Math.round(overallCorrect / overallTotal * 100) : 0;
+
+      // 主观题内容
+      const essay = document.getElementById('essay1').value.trim();
+      const speakingA = document.getElementById('speakingA').value.trim();
+      const speakingB = document.getElementById('speakingB').value.trim();
+
+      const reportLines = [];
+      reportLines.push('# 英语水平测试机考报告');
+      reportLines.push('');
+      reportLines.push(`- 姓名: ${name || '（未填写）'}`);
+      reportLines.push(`- 学号: ${sid || '（未填写）'}`);
+      reportLines.push('');
+      reportLines.push('## 客观题统计（按题目数量，不加权）');
+      reportLines.push('');
+      reportLines.push(`- 听力客观题: ${listeningCorrect} / ${listeningTotal} (${listeningPercent}%)`);
+      reportLines.push(`- 阅读客观题: ${readingCorrect} / ${readingTotal} (${readingPercent}%)`);
+      reportLines.push(`- 全部客观题合计: ${overallCorrect} / ${overallTotal} (${overallPercent}%)`);
+      reportLines.push('');
+      reportLines.push('## 客观题详情');
+      reportLines.push('');
+      reportLines.push(...detailLines);
+      reportLines.push('');
+      reportLines.push('## 主观题作答（未自动评分）');
+      reportLines.push('');
+      reportLines.push('### Part II Essay Writing');
+      reportLines.push('');
+      reportLines.push(essay ? essay : '（未作答）');
+      reportLines.push('');
+      reportLines.push('### Part IV Speaking Section A');
+      reportLines.push('');
+      reportLines.push(speakingA ? speakingA : '（未作答）');
+      reportLines.push('');
+      reportLines.push('### Part IV Speaking Section B');
+      reportLines.push('');
+      reportLines.push(speakingB ? speakingB : '（未作答）');
+      reportLines.push('');
+
+      const reportText = reportLines.join('\n');
+
+      // 页面显示简要结果
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML =
+        '听力客观题：' + listeningCorrect + ' / ' + listeningTotal + '（' + listeningPercent + '%）<br>' +
+        '阅读客观题：' + readingCorrect + ' / ' + readingTotal + '（' + readingPercent + '%）<br>' +
+        '全部客观题合计：' + overallCorrect + ' / ' + overallTotal + '（' + overallPercent + '%）' +
+        '<br>详细答题报告已自动生成并下载为 Markdown 文件。';
+
+      // 触发下载 Markdown 报告
+      const blob = new Blob([reportText], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const filenameSafeName = name || 'student';
+      a.href = url;
+      a.download = 'exam-report-' + filenameSafeName + '.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>English Proficiency Mock Test (Online Version)</title>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --accent: #fbbc04;
+      --danger: #d93025;
+      --bg: #f5f7fb;
+      --border-radius: 8px;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      margin: 0;
+      color: #1f2933;
+      line-height: 1.6;
+    }
+    header, main, footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+    }
+    header {
+      border-bottom: 2px solid #e0e3eb;
+      background: #ffffff;
+    }
+    header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.6rem;
+    }
+    header p {
+      margin: 0.1rem 0;
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+    main {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    footer {
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: center;
+      padding-bottom: 2rem;
+    }
+    h2, h3 {
+      margin-top: 0;
+    }
+    .section-card {
+      background: #ffffff;
+      border-radius: var(--border-radius);
+      margin-bottom: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 2px 6px rgba(15,23,42,0.04);
+      position: relative;
+    }
+    .section-header-bar {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .section-header-bar h2 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .section-subtitle {
+      font-size: 0.92rem;
+      color: #6b7280;
+      margin-bottom: 0.4rem;
+    }
+    .timer {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+    .timer-label {
+      font-weight: 600;
+      margin-right: 0.25rem;
+    }
+    .timer-display {
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .section-card.locked {
+      opacity: 0.7;
+    }
+    .section-card.locked::after {
+      content: "本部分答题时间已结束，答案已锁定";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--danger);
+      background: rgba(255,255,255,0.85);
+      text-align: center;
+      padding: 1rem;
+      pointer-events: none;
+    }
+    .audio-block {
+      margin: 0.5rem 0 1rem;
+      font-size: 0.9rem;
+    }
+    .audio-block p {
+      margin: 0.1rem 0 0.25rem;
+    }
+    .audio-block a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .audio-block a:hover {
+      text-decoration: underline;
+    }
+    .question-block {
+      margin-bottom: 1rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: 6px;
+      border: 1px solid #e4e6ef;
+      background: #fbfcff;
+    }
+    .question-title {
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      font-size: 0.95rem;
+    }
+    .question-note {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 0.35rem;
+    }
+    .options {
+      margin-left: 0.5rem;
+      font-size: 0.94rem;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 0.25rem;
+      cursor: pointer;
+    }
+    .inline-blank {
+      width: 140px;
+      max-width: 40%;
+      padding: 0.25rem 0.35rem;
+      border-radius: 4px;
+      border: 1px solid #d1d5db;
+      font-size: 0.9rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 0.5rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      resize: vertical;
+    }
+    input[type="text"] {
+      padding: 0.25rem 0.35rem;
+      border-radius: 4px;
+      border: 1px solid #d1d5db;
+      font-size: 0.9rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: none;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(15,23,42,0.15);
+    }
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      box-shadow: none;
+    }
+    .global-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin: 1rem 0 1.25rem;
+    }
+    #results-panel {
+      background: #ffffff;
+      border-radius: var(--border-radius);
+      padding: 1rem 1.25rem;
+      box-shadow: 0 2px 6px rgba(15,23,42,0.04);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .result-line {
+      margin: 0.15rem 0;
+    }
+    .result-line strong {
+      min-width: 6rem;
+      display: inline-block;
+    }
+    .small-note {
+      font-size: 0.82rem;
+      color: #6b7280;
+      margin-top: 0.3rem;
+    }
+    .subjective-question {
+      margin-top: 0.5rem;
+    }
+    .subjective-question-header {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 0.4rem;
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: #e0edff;
+      color: #1e40af;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      margin-right: 0.4rem;
+    }
+    .part-intro {
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+      color: #4b5563;
+    }
+    ul {
+      padding-left: 1.1rem;
+    }
+    li {
+      margin-bottom: 0.25rem;
+    }
+    .section-footer-nav {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    @media (max-width: 720px) {
+      .section-header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      header, main, footer {
+        padding: 0.75rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>English Proficiency Mock Test</h1>
+  <p>英语水平测试在线模拟卷（2020 年修订版 · 自编新题）</p>
+  <p>本试卷共四部分：听力、写作、阅读、口语。客观题自动评分，主观题支持 ChatGPT 辅助评分。<br> The test is free of use. Get more from kotokowa.github.io/forelang</p>
+</header>
+
+<main>
+  <!-- Part I Listening -->
+  <section class="section-card" id="listening-section" data-section-container="listening">
+    <div class="section-header-bar">
+      <div>
+        <span class="section-tag">Part I</span>
+        <h2>Listening (25%)</h2>
+        <div class="section-subtitle">Section A: Spot Dictation · Section B &amp; C: Multiple-choice Questions</div>
+      </div>
+      <div class="timer">
+        <span class="timer-label">本部分剩余时间：</span>
+        <span class="timer-display" data-timer-for="listening">--:--</span>
+      </div>
+    </div>
+    <p class="part-intro">
+      Directions: You will hear three recorded texts. Each recording will be played twice in a real exam.
+      Here you may replay them freely for practice. Answer the questions while or after listening.
+    </p>
+
+    <!-- Section A Spot Dictation -->
+    <article>
+      <h3>Section A · Spot Dictation (L1–L7)</h3>
+      <div class="audio-block">
+        <p><strong>Audio 1:</strong> Are You Getting Enough Sleep? (VOA Learning English · Health &amp; Lifestyle)</p>
+        <audio controls preload="none" data-section="listening">
+          <source src="https://voa-audio.voanews.eu/vle/2017/05/11/85b54be5-dbbd-41cb-8f35-fc3759d2cfea.mp3?download=1" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <p class="small-note">
+          音频直链：
+          <a href="https://voa-audio.voanews.eu/vle/2017/05/11/85b54be5-dbbd-41cb-8f35-fc3759d2cfea.mp3?download=1" target="_blank" rel="noopener">
+            点击在新标签页打开
+          </a>
+        </p>
+      </div>
+      <p class="part-intro">
+        Directions: Listen to the beginning of the report. The following is a transcript with some missing words.
+        Each blank stands for <strong>one word</strong>. Write the words you hear in the boxes (L1–L7).
+      </p>
+
+      <div class="question-block">
+        <div class="question-note">
+          From VOA Learning English, this is the Health &amp; Lifestyle report. We spend about one-third of our lives
+          <strong>(L1)</strong>
+          <input type="text" class="inline-blank" data-question-id="L_D_1" data-section="listening" autocomplete="off">
+          . This may sound like a lot of time, but it is not
+          <strong>(L2)</strong>
+          <input type="text" class="inline-blank" data-question-id="L_D_2" data-section="listening" autocomplete="off">
+          . Our bodies need sleep to stay healthy. Not getting enough sleep, or as we sometimes say
+          <strong>(L3)</strong>
+          <input type="text" class="inline-blank" data-question-id="L_D_3" data-section="listening" autocomplete="off">
+          , can make us sick.
+        </div>
+        <div class="question-note" style="margin-top:0.6rem;">
+          Sleep and our <strong>(L4)</strong>
+          <input type="text" class="inline-blank" data-question-id="L_D_4" data-section="listening" autocomplete="off">
+          system. The immune system protects the body from diseases and infections. Not getting enough sleep
+          <strong>(L5)</strong>
+          <input type="text" class="inline-blank" data-question-id="L_D_5" data-section="listening" autocomplete="off">
+          this protective system. The Mayo Clinic is a <strong>(L6)</strong>
+          <input type="text" class="inline-blank" data-question-id="L_D_6" data-section="listening" autocomplete="off">
+          research hospital in the United States. Its website explains that when we sleep our bodies
+          <strong>(L7)</strong>
+          <input type="text" class="inline-blank" data-question-id="L_D_7" data-section="listening" autocomplete="off">
+          proteins that support sleep and help us fight infections.
+        </div>
+      </div>
+    </article>
+
+    <!-- Section B Listening MCQ 1–5 -->
+    <article>
+      <h3>Section B · Multiple-choice Questions Based on an Interview (Questions 1–5)</h3>
+      <div class="audio-block">
+        <p><strong>Audio 2:</strong> Telework: The Pros and Cons (VOA Learning English · Health &amp; Lifestyle)</p>
+        <audio controls preload="none" data-section="listening">
+          <source src="https://voa-audio.voanews.eu/vle/2017/05/03/eecf8810-0d39-4a25-bdf9-d0b7b3d261c0.mp3?download=1" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <p class="small-note">
+          音频直链：
+          <a href="https://voa-audio.voanews.eu/vle/2017/05/03/eecf8810-0d39-4a25-bdf9-d0b7b3d261c0.mp3?download=1" target="_blank" rel="noopener">
+            点击在新标签页打开
+          </a>
+        </p>
+      </div>
+      <p class="part-intro">
+        Directions: Listen to the report about teleworking. For Questions 1–5, choose the best answer for each question.
+      </p>
+
+      <div class="question-block">
+        <div class="question-title">1. According to a Gallup survey mentioned in the report, about what percentage of Americans worked from home in 2015?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_1" value="A" data-section="listening"> A) 9%</label>
+          <label><input type="radio" name="L_MC_1" value="B" data-section="listening"> B) 20%</label>
+          <label><input type="radio" name="L_MC_1" value="C" data-section="listening"> C) 37%</label>
+          <label><input type="radio" name="L_MC_1" value="D" data-section="listening"> D) 50%</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">2. Which of the following is mentioned as an advantage of teleworking?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_2" value="A" data-section="listening"> A) Workers always earn higher salaries.</label>
+          <label><input type="radio" name="L_MC_2" value="B" data-section="listening"> B) Commuting time can be reduced.</label>
+          <label><input type="radio" name="L_MC_2" value="C" data-section="listening"> C) Teleworkers never feel isolated.</label>
+          <label><input type="radio" name="L_MC_2" value="D" data-section="listening"> D) It guarantees shorter working hours.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">3. What is one disadvantage of high-intensity telework according to the report?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_3" value="A" data-section="listening"> A) Families spend too much time together.</label>
+          <label><input type="radio" name="L_MC_3" value="B" data-section="listening"> B) Workers have trouble using technology.</label>
+          <label><input type="radio" name="L_MC_3" value="C" data-section="listening"> C) Teleworkers may feel cut off from colleagues.</label>
+          <label><input type="radio" name="L_MC_3" value="D" data-section="listening"> D) Offices become overcrowded.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">4. In Europe, around 40% of which group reported high stress levels?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_4" value="A" data-section="listening"> A) People who rarely use computers.</label>
+          <label><input type="radio" name="L_MC_4" value="B" data-section="listening"> B) High-intensity teleworkers.</label>
+          <label><input type="radio" name="L_MC_4" value="C" data-section="listening"> C) Traditional office workers.</label>
+          <label><input type="radio" name="L_MC_4" value="D" data-section="listening"> D) Company managers.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">5. What do the authors of the report recommend in order to protect teleworkers’ health?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_5" value="A" data-section="listening"> A) Allow employees to work seven days a week.</label>
+          <label><input type="radio" name="L_MC_5" value="B" data-section="listening"> B) Ban teleworking completely.</label>
+          <label><input type="radio" name="L_MC_5" value="C" data-section="listening"> C) Limit telework to people without families.</label>
+          <label><input type="radio" name="L_MC_5" value="D" data-section="listening"> D) Turn off electronic systems after working hours.</label>
+        </div>
+      </div>
+    </article>
+
+    <!-- Section C Listening MCQ 6–14 -->
+    <article>
+      <h3>Section C · Multiple-choice Questions Based on a Lecture (Questions 6–14)</h3>
+      <div class="audio-block">
+        <p><strong>Audio 3:</strong> Screen Time: How Much Is Too Much? (VOA Learning English · Health &amp; Lifestyle)</p>
+        <audio controls preload="none" data-section="listening">
+          <source src="https://voa-audio.voanews.eu/vle/2017/03/17/547a5456-1abe-4cab-90ee-9e118ecabc96.mp3?download=1" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <p class="small-note">
+          音频直链：
+          <a href="https://voa-audio.voanews.eu/vle/2017/03/17/547a5456-1abe-4cab-90ee-9e118ecabc96.mp3?download=1" target="_blank" rel="noopener">
+            点击在新标签页打开
+          </a>
+        </p>
+      </div>
+
+      <p class="part-intro">
+        Directions: Listen to the lecture about children’s screen time. For Questions 6–14, choose the best answer.
+      </p>
+
+      <div class="question-block">
+        <div class="question-title">6. In the lecture, what does the term “screen time” refer to?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_6" value="A" data-section="listening"> A) Time spent reading printed books.</label>
+          <label><input type="radio" name="L_MC_6" value="B" data-section="listening"> B) Time spent in front of an electronic device.</label>
+          <label><input type="radio" name="L_MC_6" value="C" data-section="listening"> C) Time children spend at school.</label>
+          <label><input type="radio" name="L_MC_6" value="D" data-section="listening"> D) Time parents spend at work.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">7. Before 2016, what limit did the American Academy of Pediatrics suggest for children’s and teenagers’ screen time?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_7" value="A" data-section="listening"> A) One hour a day.</label>
+          <label><input type="radio" name="L_MC_7" value="B" data-section="listening"> B) Two hours a day.</label>
+          <label><input type="radio" name="L_MC_7" value="C" data-section="listening"> C) Four hours a week.</label>
+          <label><input type="radio" name="L_MC_7" value="D" data-section="listening"> D) No specific limit.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">8. According to the new guidelines, which group should generally avoid digital media except for video-chatting?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_8" value="A" data-section="listening"> A) Babies younger than two years old.</label>
+          <label><input type="radio" name="L_MC_8" value="B" data-section="listening"> B) Children aged six to nine.</label>
+          <label><input type="radio" name="L_MC_8" value="C" data-section="listening"> C) Teenagers preparing for exams.</label>
+          <label><input type="radio" name="L_MC_8" value="D" data-section="listening"> D) Parents who work full-time.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">9. For children aged two to five, what does the Academy recommend?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_9" value="A" data-section="listening"> A) Let them choose whatever they like online.</label>
+          <label><input type="radio" name="L_MC_9" value="B" data-section="listening"> B) Avoid any screen-based activities.</label>
+          <label><input type="radio" name="L_MC_9" value="C" data-section="listening"> C) Limit high-quality programming to about one hour a day.</label>
+          <label><input type="radio" name="L_MC_9" value="D" data-section="listening"> D) Allow unlimited educational apps.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">10. Which of the following is one piece of advice for families with older children?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_10" value="A" data-section="listening"> A) Keep televisions on as background noise.</label>
+          <label><input type="radio" name="L_MC_10" value="B" data-section="listening"> B) Have media-free times and places at home.</label>
+          <label><input type="radio" name="L_MC_10" value="C" data-section="listening"> C) Use phones to calm children before sleep.</label>
+          <label><input type="radio" name="L_MC_10" value="D" data-section="listening"> D) Encourage children to answer emails at night.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">11. What is psychologist Christopher Ferguson’s attitude toward strong claims that screen time is very harmful?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_11" value="A" data-section="listening"> A) He strongly agrees with them.</label>
+          <label><input type="radio" name="L_MC_11" value="B" data-section="listening"> B) He says there is little evidence to support them.</label>
+          <label><input type="radio" name="L_MC_11" value="C" data-section="listening"> C) He thinks only social media is dangerous.</label>
+          <label><input type="radio" name="L_MC_11" value="D" data-section="listening"> D) He blames parents for children’s behavior.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">12. According to the British survey, children with six or more hours of screen time a day showed</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_12" value="A" data-section="listening"> A) no change in behaviour at all.</label>
+          <label><input type="radio" name="L_MC_12" value="B" data-section="listening"> B) large increases in violent crime.</label>
+          <label><input type="radio" name="L_MC_12" value="C" data-section="listening"> C) small rises in aggression and depression.</label>
+          <label><input type="radio" name="L_MC_12" value="D" data-section="listening"> D) clear improvements in school grades.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">13. In the U.S. study mentioned in the lecture, which of the following was NOT linked to heavy use of screens?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_13" value="A" data-section="listening"> A) Risky driving.</label>
+          <label><input type="radio" name="L_MC_13" value="B" data-section="listening"> B) Slight increases in depression.</label>
+          <label><input type="radio" name="L_MC_13" value="C" data-section="listening"> C) A small rise in delinquency.</label>
+          <label><input type="radio" name="L_MC_13" value="D" data-section="listening"> D) A small negative effect on grades.</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-title">14. What conclusion does Ferguson reach about how much media young people can consume?</div>
+        <div class="options">
+          <label><input type="radio" name="L_MC_14" value="A" data-section="listening"> A) Any more than two hours is dangerous.</label>
+          <label><input type="radio" name="L_MC_14" value="B" data-section="listening"> B) Up to six hours a day seems acceptable.</label>
+          <label><input type="radio" name="L_MC_14" value="C" data-section="listening"> C) Only one hour is completely safe.</label>
+          <label><input type="radio" name="L_MC_14" value="D" data-section="listening"> D) There is no upper limit at all.</label>
+        </div>
+      </div>
+    </article>
+
+    <div class="section-footer-nav">
+      <button type="button"
+              class="btn btn-primary section-next-btn"
+              data-current="listening"
+              data-next="writing"
+              data-ignore-lock="true">
+        结束本部分，进入写作部分
+      </button>
+    </div>
+  </section>
+
+  <!-- Part II Writing -->
+  <section class="section-card" id="writing-section" data-section-container="writing">
+    <div class="section-header-bar">
+      <div>
+        <span class="section-tag">Part II</span>
+        <h2>Essay Writing (25%)</h2>
+      </div>
+      <div class="timer">
+        <span class="timer-label">本部分剩余时间：</span>
+        <span class="timer-display" data-timer-for="writing">未开始</span>
+      </div>
+    </div>
+    <article>
+      <h3>Directions</h3>
+      <p class="part-intro">
+        Based on the lecture <em>Telework: The Pros and Cons</em> in the Listening section and your own experience,
+        write an essay of <strong>at least 180 words</strong> on the following topic. You may give your own title.
+      </p>
+      <p><strong>Teleworking in the Post-Pandemic World</strong></p>
+      <ul>
+        <li>Summarize the main advantages and disadvantages of teleworking mentioned in the lecture.</li>
+        <li>Explain whether you think teleworking is suitable for university graduates in China, and why.</li>
+      </ul>
+
+      <div class="subjective-question"
+           data-task-title="Part II Essay Writing: Teleworking in the Post-Pandemic World"
+           data-task-requirement="Summarize the main advantages and disadvantages of teleworking mentioned in the lecture, and give your own opinion on whether it is suitable for university graduates in China. Write at least 180 words."
+           data-label="Writing">
+        <div class="subjective-question-header">
+          Write your essay in the box below:
+        </div>
+        <textarea id="writing-essay" data-section="writing" placeholder="Type your essay here..."></textarea>
+        <div class="small-note">
+          提示：本题为主观题，不参与自动计分。你可以在完成后点击下面的按钮，将题目与答案复制到剪贴板并跳转到 ChatGPT，请求详细评分与反馈。
+        </div>
+        <button type="button"
+                class="btn btn-secondary chatgpt-button"
+                data-target-textarea="writing-essay"
+                data-ignore-lock="true">
+          一键跳转至ChatGPT评分
+        </button>
+      </div>
+    </article>
+    <div class="section-footer-nav">
+      <button type="button"
+              class="btn btn-primary section-next-btn"
+              data-current="writing"
+              data-next="reading"
+              data-ignore-lock="true">
+        结束本部分，进入阅读部分
+      </button>
+    </div>
+  </section>
+
+  <!-- Part III Reading -->
+  <section class="section-card" id="reading-section" data-section-container="reading">
+    <div class="section-header-bar">
+      <div>
+        <span class="section-tag">Part III</span>
+        <h2>Reading (25%)</h2>
+        <div class="section-subtitle">Section A: Multiple Choice · Section B: Short Answer Questions</div>
+      </div>
+      <div class="timer">
+        <span class="timer-label">本部分剩余时间：</span>
+        <span class="timer-display" data-timer-for="reading">未开始</span>
+      </div>
+    </div>
+
+    <!-- Section A Reading MCQ -->
+    <article>
+      <h3>Section A · Multiple-choice Questions Based on Short Reading Passages (Questions 15–29)</h3>
+      <p class="part-intro">
+        Directions: There are three short passages. After each passage, there are several questions or unfinished statements,
+        each with four choices marked A), B), C) and D). Choose the one that best answers the question or completes the statement.
+      </p>
+
+      <!-- Passage One -->
+      <div class="question-block">
+        <div class="question-title">Passage One</div>
+        <p>
+          Some people collect stamps, others collect sneakers, and a few collect things that seem completely useless to
+          everyone else. At first glance, collecting may look like a childish hobby. Yet psychologists say that a serious
+          collection can play an important part in a person’s life.
+        </p>
+        <p>
+          A collection gives its owner a sense of identity. When a person spends hours searching for old bus tickets or
+          second-hand vinyl records, he is quietly answering the question “Who am I?”. The items themselves may not be
+          valuable, but they tell a story about what that person cares about: music, travel, or simply the joy of the chase.
+        </p>
+        <p>
+          Collecting can also create a feeling of control. In a world that often seems unpredictable, a neatly arranged
+          collection in a drawer or on a shelf is pleasantly stable. You decide where each object belongs, and nothing moves
+          unless you move it. For some people, this small private order is deeply comforting.
+        </p>
+        <p>
+          Of course, collecting has its dark side. When it becomes impossible to throw anything away, the collector may
+          turn into a hoarder. In extreme cases, people fill their homes with newspapers, bottles and broken furniture until
+          there is hardly any room left to live. At that point, the collection is no longer a source of joy, but a serious
+          problem for both the collector and their family.
+        </p>
+
+        <div class="question-title">15. What is the main purpose of the passage?</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_15" value="A" data-section="reading"> A) To list different kinds of collections.</label>
+          <label><input type="radio" name="R_MC_15" value="B" data-section="reading"> B) To explain why collecting can be meaningful.</label>
+          <label><input type="radio" name="R_MC_15" value="C" data-section="reading"> C) To warn people not to waste money on hobbies.</label>
+          <label><input type="radio" name="R_MC_15" value="D" data-section="reading"> D) To compare collecting with other forms of art.</label>
+        </div>
+
+        <div class="question-title">16. According to the passage, a serious collection often helps its owner</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_16" value="A" data-section="reading"> A) become more competitive at work.</label>
+          <label><input type="radio" name="R_MC_16" value="B" data-section="reading"> B) learn practical skills like repairing furniture.</label>
+          <label><input type="radio" name="R_MC_16" value="C" data-section="reading"> C) understand what kind of person he or she is.</label>
+          <label><input type="radio" name="R_MC_16" value="D" data-section="reading"> D) save money for more important things in life.</label>
+        </div>
+
+        <div class="question-title">17. What does the author say about the feeling of control in collecting?</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_17" value="A" data-section="reading"> A) It is an illusion created by modern technology.</label>
+          <label><input type="radio" name="R_MC_17" value="B" data-section="reading"> B) It only exists when the collection is expensive.</label>
+          <label><input type="radio" name="R_MC_17" value="C" data-section="reading"> C) It comes from arranging and caring for objects.</label>
+          <label><input type="radio" name="R_MC_17" value="D" data-section="reading"> D) It usually disappears when the collector gets older.</label>
+        </div>
+
+        <div class="question-title">18. When does collecting become a serious problem, according to the passage?</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_18" value="A" data-section="reading"> A) When other people cannot understand the hobby.</label>
+          <label><input type="radio" name="R_MC_18" value="B" data-section="reading"> B) When the collection fills up most of the living space.</label>
+          <label><input type="radio" name="R_MC_18" value="C" data-section="reading"> C) When the collector keeps changing the theme.</label>
+          <label><input type="radio" name="R_MC_18" value="D" data-section="reading"> D) When the collection is not neatly arranged.</label>
+        </div>
+
+        <div class="question-title">19. The tone of the passage can best be described as</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_19" value="A" data-section="reading"> A) humorous and casual.</label>
+          <label><input type="radio" name="R_MC_19" value="B" data-section="reading"> B) critical and emotional.</label>
+          <label><input type="radio" name="R_MC_19" value="C" data-section="reading"> C) balanced and explanatory.</label>
+          <label><input type="radio" name="R_MC_19" value="D" data-section="reading"> D) pessimistic and disappointed.</label>
+        </div>
+      </div>
+
+      <!-- Passage Two -->
+      <div class="question-block">
+        <div class="question-title">Passage Two</div>
+        <p>
+          For many years, a university library was a quiet building full of printed books. Students went there to borrow
+          heavy volumes, copy a few pages and then take their work back to the dormitory. Today, however, a large part of the
+          library no longer lives on the shelves but on remote servers.
+        </p>
+        <p>
+          Modern university libraries spend a growing share of their budget on electronic resources: databases, e-books and
+          online journals. In some disciplines, new research articles are now read almost entirely on screen. As a result,
+          librarians must think less about buying individual books and more about negotiating long-term licences with
+          publishers and technology companies.
+        </p>
+        <p>
+          At the same time, the physical library building has not become useless. On the contrary, many students still need
+          a place to study where the internet connection is stable and the chairs are more comfortable than those in their
+          small rooms. In response, libraries have created flexible spaces: silent zones, group-study rooms, and even corners
+          with whiteboards and movable furniture for project work.
+        </p>
+        <p>
+          Some professors worry that students who rely too heavily on online resources may forget how to read more slowly and
+          carefully. Skimming through a PDF on a laptop encourages quick searching rather than deep thinking. Librarians are
+          therefore trying to teach students not only how to find information, but also how to evaluate it and decide when it
+          is worth printing out and reading in full.
+        </p>
+
+        <div class="question-title">20. One major change in university libraries is that they</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_20" value="A" data-section="reading"> A) have stopped buying printed books completely.</label>
+          <label><input type="radio" name="R_MC_20" value="B" data-section="reading"> B) focus more on access to electronic materials.</label>
+          <label><input type="radio" name="R_MC_20" value="C" data-section="reading"> C) no longer need professional librarians.</label>
+          <label><input type="radio" name="R_MC_20" value="D" data-section="reading"> D) lend laptops instead of books.</label>
+        </div>
+
+        <div class="question-title">21. In negotiating licences, librarians are mainly dealing with</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_21" value="A" data-section="reading"> A) dormitory managers.</label>
+          <label><input type="radio" name="R_MC_21" value="B" data-section="reading"> B) publishers and technology firms.</label>
+          <label><input type="radio" name="R_MC_21" value="C" data-section="reading"> C) student unions.</label>
+          <label><input type="radio" name="R_MC_21" value="D" data-section="reading"> D) classroom teachers.</label>
+        </div>
+
+        <div class="question-title">22. Why do many students still come to the library building?</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_22" value="A" data-section="reading"> A) They have no other place to store their books.</label>
+          <label><input type="radio" name="R_MC_22" value="B" data-section="reading"> B) They want to use the librarians’ offices.</label>
+          <label><input type="radio" name="R_MC_22" value="C" data-section="reading"> C) They need comfortable and well-equipped study spaces.</label>
+          <label><input type="radio" name="R_MC_22" value="D" data-section="reading"> D) They are required to do so by their professors.</label>
+        </div>
+
+        <div class="question-title">23. What is one concern some professors have about reading on screens?</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_23" value="A" data-section="reading"> A) It makes students too dependent on librarians.</label>
+          <label><input type="radio" name="R_MC_23" value="B" data-section="reading"> B) It reduces students’ ability to read deeply.</label>
+          <label><input type="radio" name="R_MC_23" value="C" data-section="reading"> C) It prevents students from taking notes by hand.</label>
+          <label><input type="radio" name="R_MC_23" value="D" data-section="reading"> D) It increases printing costs for universities.</label>
+        </div>
+
+        <div class="question-title">24. What new role are librarians trying to play?</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_24" value="A" data-section="reading"> A) Teaching students how to judge the value of information.</label>
+          <label><input type="radio" name="R_MC_24" value="B" data-section="reading"> B) Replacing professors in large lecture courses.</label>
+          <label><input type="radio" name="R_MC_24" value="C" data-section="reading"> C) Designing chairs and tables for study rooms.</label>
+          <label><input type="radio" name="R_MC_24" value="D" data-section="reading"> D) Limiting the time students can spend online.</label>
+        </div>
+      </div>
+
+      <!-- Passage Three -->
+      <div class="question-block">
+        <div class="question-title">Passage Three</div>
+        <p>
+          When people want to change their lives, they often make bold promises: “From next Monday I will run every morning,”
+          or “This semester I will never leave my homework until the last minute.” Such promises sound inspiring, but they
+          rarely last. After a few busy days, the old habits quietly return.
+        </p>
+        <p>
+          Behaviour scientists suggest a different approach: focus on “tiny habits”. Instead of planning to run for thirty
+          minutes a day, you might start with a two-minute walk after lunch. Instead of promising to study for three hours
+          every evening, you might simply open your textbook and read one page after dinner. These actions are too small to
+          fail, but they begin to train your brain to expect a certain routine.
+        </p>
+        <p>
+          The key is to link the new habit to something you already do regularly. For example, “After I brush my teeth, I
+          will practise ten English words,” or “After I sit down on the bus, I will review my notes.” Over time, your brain
+          connects the old action with the new one. The tiny habit gradually grows stronger, like a seed developing roots.
+        </p>
+        <p>
+          Tiny habits do not guarantee success. You still need clear goals and the ability to adjust your plan when life
+          changes. However, they offer a realistic starting point. Rather than waiting for the perfect moment to begin a
+          completely new lifestyle, you can quietly plant one small habit today.
+        </p>
+
+        <div class="question-title">25. According to the passage, bold promises about changing one’s life</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_25" value="A" data-section="reading"> A) are usually effective in the long term.</label>
+          <label><input type="radio" name="R_MC_25" value="B" data-section="reading"> B) often fail after a short period.</label>
+          <label><input type="radio" name="R_MC_25" value="C" data-section="reading"> C) should always be written down.</label>
+          <label><input type="radio" name="R_MC_25" value="D" data-section="reading"> D) work better than small changes.</label>
+        </div>
+
+        <div class="question-title">26. What is the main advantage of “tiny habits”?</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_26" value="A" data-section="reading"> A) They show others how ambitious you are.</label>
+          <label><input type="radio" name="R_MC_26" value="B" data-section="reading"> B) They are small enough to be carried out easily.</label>
+          <label><input type="radio" name="R_MC_26" value="C" data-section="reading"> C) They do not require any planning at all.</label>
+          <label><input type="radio" name="R_MC_26" value="D" data-section="reading"> D) They help you avoid setting long-term goals.</label>
+        </div>
+
+        <div class="question-title">27. To build a tiny habit, it is helpful to</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_27" value="A" data-section="reading"> A) do it at a completely random time each day.</label>
+          <label><input type="radio" name="R_MC_27" value="B" data-section="reading"> B) connect it to an existing daily action.</label>
+          <label><input type="radio" name="R_MC_27" value="C" data-section="reading"> C) change the routine whenever you feel bored.</label>
+          <label><input type="radio" name="R_MC_27" value="D" data-section="reading"> D) avoid thinking about it too much.</label>
+        </div>
+
+        <div class="question-title">28. By comparing a habit to a “seed”, the author suggests that a habit</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_28" value="A" data-section="reading"> A) grows gradually if it is looked after.</label>
+          <label><input type="radio" name="R_MC_28" value="B" data-section="reading"> B) must be planted in a garden.</label>
+          <label><input type="radio" name="R_MC_28" value="C" data-section="reading"> C) cannot survive in difficult times.</label>
+          <label><input type="radio" name="R_MC_28" value="D" data-section="reading"> D) will soon disappear without attention.</label>
+        </div>
+
+        <div class="question-title">29. Which of the following best sums up the writer’s advice?</div>
+        <div class="options">
+          <label><input type="radio" name="R_MC_29" value="A" data-section="reading"> A) Start small instead of waiting for a perfect new life.</label>
+          <label><input type="radio" name="R_MC_29" value="B" data-section="reading"> B) Change all your habits at the same time.</label>
+          <label><input type="radio" name="R_MC_29" value="C" data-section="reading"> C) Avoid setting goals that are too clear.</label>
+          <label><input type="radio" name="R_MC_29" value="D" data-section="reading"> D) Ask other people to design your routines.</label>
+        </div>
+      </div>
+    </article>
+
+    <!-- Section B Reading SAQ -->
+    <article>
+      <h3>Section B · Short Answer Questions Based on a Long Reading Passage</h3>
+      <p class="part-intro">
+        Directions: Read the following passage. Then complete each statement with <strong>NO MORE THAN 3 WORDS</strong>.
+      </p>
+
+      <div class="question-block">
+        <p>
+          Books with bright pictures, wooden blocks in different shapes and number puzzles are just a few of Maya’s favourite
+          things. Her parents, however, see them as more than toys. To them, these objects are tools for thinking.
+        </p>
+        <p>
+          When Maya was three, her father built a “math trail” in their living room. He drew shapes on pieces of paper and
+          taped them to the floor: a triangle near the sofa, a square by the window, a circle next to the door. Maya’s task
+          was to jump from one shape to another as her father called out the names. Later, he added numbers and asked her to
+          hop along in order: “One, three, five … now jump back to two!”
+        </p>
+        <p>
+          “Play is our laboratory,” her mother explains. “It’s a safe space where mistakes don’t matter.” Once a week, they
+          take Maya to a community centre that runs science activities for young children. Instead of giving long
+          explanations, the instructors set up simple hands-on experiments: building a bridge out of paper, making a tiny
+          rocket with a straw, or testing which objects sink and float in water.
+        </p>
+        <p>
+          The centre also encourages children to learn with other people. In one activity, Maya and her friends had to design
+          a playground for an imaginary town. They argued about where to put the slide and how high the swings should be.
+          Afterwards, the instructor pointed out that they had been practising science, maths and communication at the same
+          time.
+        </p>
+        <p>
+          Researchers say that such playful experiences can shape how children see learning itself. If learning feels like
+          discovering answers for themselves, they are more willing to try harder tasks later. If it feels like doing endless
+          exercises for adults, they may lose interest quickly. For parents, the challenge is not to buy more workbooks, but
+          to find moments in daily life when children can explore, imagine and play by themselves.
+        </p>
+
+        <div class="question-title">SAQ1. For Maya’s parents, board games and puzzles are not just toys; they are <u>__________</u>.</div>
+        <input type="text" data-question-id="R_SAQ_1" data-section="reading" autocomplete="off" class="inline-blank">
+
+        <div class="question-title">SAQ2. According to Maya’s mother, play is a safe space where <u>__________</u> don’t matter.</div>
+        <input type="text" data-question-id="R_SAQ_2" data-section="reading" autocomplete="off" class="inline-blank">
+
+        <div class="question-title">SAQ3. At the community centre, instructors turn science ideas into <u>__________</u> experiments.</div>
+        <input type="text" data-question-id="R_SAQ_3" data-section="reading" autocomplete="off" class="inline-blank">
+
+        <div class="question-title">SAQ4. Children are more willing to try difficult tasks when they feel they are solving problems for <u>__________</u>.</div>
+        <input type="text" data-question-id="R_SAQ_4" data-section="reading" autocomplete="off" class="inline-blank">
+
+        <div class="question-title">SAQ5. In the last paragraph, parents are advised to give children more time to <u>__________</u>.</div>
+        <input type="text" data-question-id="R_SAQ_5" data-section="reading" autocomplete="off" class="inline-blank">
+      </div>
+    </article>
+
+    <div class="section-footer-nav">
+      <button type="button"
+              class="btn btn-primary section-next-btn"
+              data-current="reading"
+              data-next="speaking"
+              data-ignore-lock="true">
+        结束本部分，进入口语部分
+      </button>
+    </div>
+  </section>
+
+  <!-- Part IV Speaking -->
+  <section class="section-card" id="speaking-section" data-section-container="speaking">
+    <div class="section-header-bar">
+      <div>
+        <span class="section-tag">Part IV</span>
+        <h2>Speaking (25%)</h2>
+        <div class="section-subtitle">Section A: Responding to a Short Talk · Section B: Topic Talk</div>
+      </div>
+      <div class="timer">
+        <span class="timer-label">本部分剩余时间：</span>
+        <span class="timer-display" data-timer-for="speaking">未开始</span>
+      </div>
+    </div>
+
+    <!-- Section A Speaking -->
+    <article>
+      <h3>Section A · Responding to a Short Talk</h3>
+      <p class="part-intro">
+        Directions: Read the following short talk. Then answer the two questions that follow. In a real speaking test, you
+        would answer orally. Here you are encouraged to write a short script of what you would say.
+      </p>
+
+      <div class="question-block">
+        <p>
+          <strong>Short Talk</strong><br>
+          “A year ago, I realised that I was touching my phone hundreds of times a day. I checked messages while walking
+          across the street, scrolling through social media during meals, and even replying to emails in bed. One evening my
+          younger brother asked, ‘Are you listening to me or to your phone?’ I didn’t know how to answer.
+        </p>
+        <p>
+          So I decided to try a one-week experiment: no smartphone after 8 p.m. I bought a cheap alarm clock and left my
+          phone in the living room overnight. The first two evenings were terrible. I kept hearing imaginary message sounds
+          and felt as if I were missing something important. But by the fourth night, I noticed that I was sleeping better.
+          I finished a novel that had been on my shelf for months, and I finally had a long face-to-face conversation with
+          my parents.
+        </p>
+        <p>
+          At the end of the week, I didn’t throw away my phone. I still need it for maps, payments and keeping in touch
+          with friends. But I now understand that I should be the one using the phone, not the other way round.”
+        </p>
+
+        <div class="subjective-question"
+             data-task-title="Part IV Speaking Section A · Question 1"
+             data-task-requirement="Based on the short talk, give friendly advice to the speaker on how she should use her smartphone in the future. Speak for about 1 minute. Here, write a brief script (around 80–100 words)."
+             data-label="Speaking A1">
+          <div class="question-title">Speaking A1</div>
+          <div class="question-note">
+            If you were the speaker’s friend, what suggestion would you give her about using her phone in the future?
+            Give at least one concrete piece of advice and explain why.
+          </div>
+          <textarea id="speaking-a1" data-section="speaking" placeholder="Write what you would say (about 80–100 words)..."></textarea>
+          <button type="button"
+                  class="btn btn-secondary chatgpt-button"
+                  data-target-textarea="speaking-a1"
+                  data-ignore-lock="true">
+            一键跳转至ChatGPT评分
+          </button>
+        </div>
+
+        <div class="subjective-question"
+             data-task-title="Part IV Speaking Section A · Question 2"
+             data-task-requirement="Explain whether you could spend a week with limited smartphone use, and why. Speak for about 1 minute. Here, write a short script (around 80–100 words)."
+             data-label="Speaking A2">
+          <div class="question-title">Speaking A2</div>
+          <div class="question-note">
+            Do you think you could spend a week without using your smartphone after 8 p.m.? Why or why not? Give reasons
+            and examples.
+          </div>
+          <textarea id="speaking-a2" data-section="speaking" placeholder="Write what you would say (about 80–100 words)..."></textarea>
+          <button type="button"
+                  class="btn btn-secondary chatgpt-button"
+                  data-target-textarea="speaking-a2"
+                  data-ignore-lock="true">
+            一键跳转至ChatGPT评分
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Section B Speaking -->
+    <article>
+      <h3>Section B · Topic Talk</h3>
+      <p class="part-intro">
+        Directions: You see a cartoon showing a student sitting at a desk late at night. The textbooks are open, but his
+        eyes are fixed on the bright screen of his phone. Behind him, his parents look worried. One of them says, “Are you
+        studying or just scrolling again?”
+      </p>
+      <p class="part-intro">
+        You are asked to give a short talk of about 2 minutes on this topic. Here, please write a script of at least
+        <strong>150 words</strong>.
+      </p>
+
+      <div class="subjective-question"
+           data-task-title="Part IV Speaking Section B · Topic Talk"
+           data-task-requirement="Describe the situation shown in the cartoon, explain the message it sends about young people's use of technology, and talk about how you deal with digital distractions when you study. Speak for about 2 minutes; here, write a script of at least 150 words."
+           data-label="Speaking B">
+        <div class="question-title">Speaking B</div>
+        <div class="question-note">
+          In your talk, you should:
+          <ul>
+            <li>describe what is happening in the cartoon;</li>
+            <li>explain what message the cartoon is sending about young people and smartphones;</li>
+            <li>talk about how you manage digital distractions when you need to study.</li>
+          </ul>
+        </div>
+        <textarea id="speaking-b" data-section="speaking" placeholder="Write your 2-minute talk (at least 150 words)..."></textarea>
+        <button type="button"
+                class="btn btn-secondary chatgpt-button"
+                data-target-textarea="speaking-b"
+                data-ignore-lock="true">
+          一键跳转至ChatGPT评分
+        </button>
+      </div>
+    </article>
+  </section>
+
+  <!-- Global actions & results -->
+  <section>
+    <div class="global-actions">
+      <button type="button" class="btn btn-primary" id="submit-score-btn" data-ignore-lock="true">
+        提交并评分（客观题）
+      </button>
+      <button type="button" class="btn btn-outline" id="download-report-btn" data-ignore-lock="true">
+        生成并下载答题报告
+      </button>
+      <span class="small-note">
+        提示：自动评分仅针对客观题（听力填空、听力选择题、阅读客观题）。写作与口语部分请使用各题下方按钮调用 ChatGPT 评分。
+      </span>
+    </div>
+
+    <div id="results-panel">
+      <p class="result-line"><strong>总分（客观题）</strong> 尚未评分</p>
+      <p class="small-note">点击“提交并评分”后，将在此显示各部分得分与错题概览。</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; Mock Exam for Practice Only. All listening materials referenced from VOA Learning English. Online demo interface by HTML5 + JavaScript.
+</footer>
+
+<script>
+  // ===============================
+  // Timer configuration
+  // ===============================
+  const SECTION_DURATIONS = {
+    listening: 25 * 60,
+    writing: 30 * 60,
+    reading: 35 * 60,
+    speaking: 20 * 60
+  };
+
+  const sectionTimers = {};
+  let examResults = null;
+
+  function formatTime(seconds) {
+    const s = Math.max(0, seconds);
+    const m = Math.floor(s / 60);
+    const r = s % 60;
+    const mm = String(m).padStart(2, '0');
+    const ss = String(r).padStart(2, '0');
+    return mm + ':' + ss;
+  }
+
+  function lockSection(sectionId) {
+    const sectionEl = document.querySelector('[data-section-container="' + sectionId + '"]');
+    if (!sectionEl || sectionEl.classList.contains('locked')) return;
+    sectionEl.classList.add('locked');
+
+    const controls = sectionEl.querySelectorAll('input, textarea, select, button');
+    controls.forEach(el => {
+      if (el.dataset && el.dataset.ignoreLock === 'true') return;
+      el.disabled = true;
+    });
+
+    const timerSpan = document.querySelector('.timer-display[data-timer-for="' + sectionId + '"]');
+    if (timerSpan) {
+      timerSpan.textContent = '00:00';
+    }
+  }
+
+  function startSectionTimer(sectionId, durationSeconds) {
+    const timerSpan = document.querySelector('.timer-display[data-timer-for="' + sectionId + '"]');
+    if (!timerSpan) return;
+
+    if (sectionTimers[sectionId] && sectionTimers[sectionId].intervalId) {
+      clearInterval(sectionTimers[sectionId].intervalId);
+    }
+
+    let remaining = durationSeconds;
+    timerSpan.textContent = formatTime(remaining);
+
+    const intervalId = setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        clearInterval(intervalId);
+        timerSpan.textContent = '00:00';
+        lockSection(sectionId);
+      } else {
+        timerSpan.textContent = formatTime(remaining);
+      }
+      if (sectionTimers[sectionId]) {
+        sectionTimers[sectionId].remaining = remaining;
+      }
+    }, 1000);
+
+    sectionTimers[sectionId] = {
+      remaining,
+      intervalId
+    };
+  }
+
+  function initTimers() {
+    // 只启动听力计时，其他部分显示“未开始”
+    startSectionTimer('listening', SECTION_DURATIONS['listening']);
+
+    ['writing', 'reading', 'speaking'].forEach(sec => {
+      const span = document.querySelector('.timer-display[data-timer-for="' + sec + '"]');
+      if (span) {
+        span.textContent = '未开始';
+      }
+    });
+  }
+
+  function endSectionAndStartNext(currentSectionId, nextSectionId) {
+    const confirmMsg = '确定结束本部分并进入下一部分吗？本部分将锁定，无法再修改答案。';
+    if (!confirm(confirmMsg)) return;
+
+    // 停止当前计时器并锁定
+    const t = sectionTimers[currentSectionId];
+    if (t && t.intervalId) {
+      clearInterval(t.intervalId);
+    }
+    lockSection(currentSectionId);
+
+    // 启动下一部分计时并滚动
+    if (nextSectionId && SECTION_DURATIONS[nextSectionId]) {
+      startSectionTimer(nextSectionId, SECTION_DURATIONS[nextSectionId]);
+      const nextEl = document.querySelector('[data-section-container="' + nextSectionId + '"]');
+      if (nextEl) {
+        nextEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  function initSectionNavigation() {
+    document.querySelectorAll('.section-next-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const current = btn.dataset.current;
+        const next = btn.dataset.next;
+        if (!current || !next) return;
+        endSectionAndStartNext(current, next);
+      });
+    });
+  }
+
+  // ===============================
+  // Answer key & scoring
+  // ===============================
+  const answerKey = {
+    // Listening Spot Dictation - from original text
+    'L_D_1': {
+      type: 'text',
+      section: 'listening',
+      part: 'Listening Section A',
+      label: 'L1',
+      answers: ['asleep'],
+      caseSensitive: false,
+      points: 1
+    },
+    'L_D_2': {
+      type: 'text',
+      section: 'listening',
+      part: 'Listening Section A',
+      label: 'L2',
+      answers: ['wasted'],
+      caseSensitive: false,
+      points: 1
+    },
+    'L_D_3': {
+      type: 'text',
+      section: 'listening',
+      part: 'Listening Section A',
+      label: 'L3',
+      answers: ['shut-eye', 'shut eye'],
+      caseSensitive: false,
+      points: 1
+    },
+    'L_D_4': {
+      type: 'text',
+      section: 'listening',
+      part: 'Listening Section A',
+      label: 'L4',
+      answers: ['immune'],
+      caseSensitive: false,
+      points: 1
+    },
+    'L_D_5': {
+      type: 'text',
+      section: 'listening',
+      part: 'Listening Section A',
+      label: 'L5',
+      answers: ['hurts', 'hurt'],
+      caseSensitive: false,
+      points: 1
+    },
+    'L_D_6': {
+      type: 'text',
+      section: 'listening',
+      part: 'Listening Section A',
+      label: 'L6',
+      answers: ['nonprofit', 'non-profit'],
+      caseSensitive: false,
+      points: 1
+    },
+    'L_D_7': {
+      type: 'text',
+      section: 'listening',
+      part: 'Listening Section A',
+      label: 'L7',
+      answers: ['release', 'releases'],
+      caseSensitive: false,
+      points: 1
+    },
+
+    // Listening Section B MCQ 1-5 (Telework)
+    'L_MC_1': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section B',
+      label: 'Q1',
+      correct: 'C',
+      points: 1
+    },
+    'L_MC_2': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section B',
+      label: 'Q2',
+      correct: 'B',
+      points: 1
+    },
+    'L_MC_3': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section B',
+      label: 'Q3',
+      correct: 'C',
+      points: 1
+    },
+    'L_MC_4': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section B',
+      label: 'Q4',
+      correct: 'B',
+      points: 1
+    },
+    'L_MC_5': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section B',
+      label: 'Q5',
+      correct: 'D',
+      points: 1
+    },
+
+    // Listening Section C MCQ 6-14 (Screen Time)
+    'L_MC_6': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q6',
+      correct: 'B',
+      points: 1
+    },
+    'L_MC_7': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q7',
+      correct: 'B',
+      points: 1
+    },
+    'L_MC_8': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q8',
+      correct: 'A',
+      points: 1
+    },
+    'L_MC_9': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q9',
+      correct: 'C',
+      points: 1
+    },
+    'L_MC_10': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q10',
+      correct: 'B',
+      points: 1
+    },
+    'L_MC_11': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q11',
+      correct: 'B',
+      points: 1
+    },
+    'L_MC_12': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q12',
+      correct: 'C',
+      points: 1
+    },
+    'L_MC_13': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q13',
+      correct: 'A',
+      points: 1
+    },
+    'L_MC_14': {
+      type: 'mcq',
+      section: 'listening',
+      part: 'Listening Section C',
+      label: 'Q14',
+      correct: 'B',
+      points: 1
+    },
+
+    // Reading Section A MCQ 15-29
+    'R_MC_15': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q15',
+      correct: 'B',
+      points: 1
+    },
+    'R_MC_16': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q16',
+      correct: 'C',
+      points: 1
+    },
+    'R_MC_17': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q17',
+      correct: 'C',
+      points: 1
+    },
+    'R_MC_18': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q18',
+      correct: 'B',
+      points: 1
+    },
+    'R_MC_19': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q19',
+      correct: 'C',
+      points: 1
+    },
+    'R_MC_20': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q20',
+      correct: 'B',
+      points: 1
+    },
+    'R_MC_21': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q21',
+      correct: 'B',
+      points: 1
+    },
+    'R_MC_22': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q22',
+      correct: 'C',
+      points: 1
+    },
+    'R_MC_23': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q23',
+      correct: 'B',
+      points: 1
+    },
+    'R_MC_24': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q24',
+      correct: 'A',
+      points: 1
+    },
+    'R_MC_25': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q25',
+      correct: 'B',
+      points: 1
+    },
+    'R_MC_26': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q26',
+      correct: 'B',
+      points: 1
+    },
+    'R_MC_27': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q27',
+      correct: 'B',
+      points: 1
+    },
+    'R_MC_28': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q28',
+      correct: 'A',
+      points: 1
+    },
+    'R_MC_29': {
+      type: 'mcq',
+      section: 'reading',
+      part: 'Reading Section A',
+      label: 'Q29',
+      correct: 'A',
+      points: 1
+    },
+
+    // Reading Section B SAQ 1-5
+    'R_SAQ_1': {
+      type: 'text',
+      section: 'reading',
+      part: 'Reading Section B',
+      label: 'SAQ1',
+      answers: ['tools for thinking'],
+      caseSensitive: false,
+      points: 1
+    },
+    'R_SAQ_2': {
+      type: 'text',
+      section: 'reading',
+      part: 'Reading Section B',
+      label: 'SAQ2',
+      answers: ['mistakes'],
+      caseSensitive: false,
+      points: 1
+    },
+    'R_SAQ_3': {
+      type: 'text',
+      section: 'reading',
+      part: 'Reading Section B',
+      label: 'SAQ3',
+      answers: ['hands-on', 'hands on'],
+      caseSensitive: false,
+      points: 1
+    },
+    'R_SAQ_4': {
+      type: 'text',
+      section: 'reading',
+      part: 'Reading Section B',
+      label: 'SAQ4',
+      answers: ['other people'],
+      caseSensitive: false,
+      points: 1
+    },
+    'R_SAQ_5': {
+      type: 'text',
+      section: 'reading',
+      part: 'Reading Section B',
+      label: 'SAQ5',
+      answers: ['play by themselves', 'play alone'],
+      caseSensitive: false,
+      points: 1
+    }
+  };
+
+  function normalizeAnswer(str, caseSensitive) {
+    if (typeof str !== 'string') return '';
+    let s = str.trim();
+    s = s.replace(/[.,!?;:]+$/g, '');
+    s = s.replace(/\s+/g, ' ');
+    if (!caseSensitive) {
+      s = s.toLowerCase();
+    }
+    return s;
+  }
+
+  function collectUserAnswer(qid, meta) {
+    if (meta.type === 'mcq') {
+      const selected = document.querySelector('input[name="' + qid + '"]:checked');
+      return selected ? selected.value : '';
+    }
+    if (meta.type === 'text') {
+      const input = document.querySelector('[data-question-id="' + qid + '"]');
+      return input ? input.value.trim() : '';
+    }
+    return '';
+  }
+
+  function isCorrectAnswer(userAnswer, meta) {
+    if (!userAnswer) return false;
+    if (meta.type === 'mcq') {
+      return String(userAnswer).toUpperCase() === String(meta.correct).toUpperCase();
+    }
+    if (meta.type === 'text') {
+      const normalizedUser = normalizeAnswer(userAnswer, meta.caseSensitive);
+      return meta.answers.some(ans => normalizeAnswer(ans, meta.caseSensitive) === normalizedUser);
+    }
+    return false;
+  }
+
+  function renderResults(results) {
+    const panel = document.getElementById('results-panel');
+    if (!panel) return;
+
+    const lines = [];
+    lines.push('<p class="result-line"><strong>总分（客观题）</strong> ' +
+      results.totalScore + ' / ' + results.maxScore + '</p>');
+
+    const secNames = {
+      listening: '听力',
+      reading: '阅读'
+    };
+    Object.keys(secNames).forEach(sec => {
+      if (results.sectionMax[sec]) {
+        lines.push('<p class="result-line"><strong>' + secNames[sec] + '</strong> ' +
+          (results.sectionScores[sec] || 0) + ' / ' + results.sectionMax[sec] + '</p>');
+      }
+    });
+
+    const wrong = results.details.filter(d => !d.isCorrect);
+    if (wrong.length) {
+      lines.push('<p class="result-line"><strong>答错题目</strong> ' +
+        wrong.map(d => d.label).join(', ') + '</p>');
+    } else {
+      lines.push('<p class="result-line"><strong>答错题目</strong> 暂无，客观题全对！</p>');
+    }
+
+    lines.push('<p class="small-note">说明：写作与口语部分为主观题，未参与自动评分。请使用各题下方的“一键跳转至ChatGPT评分”按钮获取个性化反馈。</p>');
+    panel.innerHTML = lines.join('\n');
+  }
+
+  function handleSubmitScore() {
+    const results = {
+      totalScore: 0,
+      maxScore: 0,
+      sectionScores: {},
+      sectionMax: {},
+      details: []
+    };
+
+    Object.keys(answerKey).forEach(qid => {
+      const meta = answerKey[qid];
+      const userAns = collectUserAnswer(qid, meta);
+      const correct = isCorrectAnswer(userAns, meta);
+      const pts = meta.points || 1;
+
+      results.maxScore += pts;
+      results.sectionMax[meta.section] = (results.sectionMax[meta.section] || 0) + pts;
+
+      if (correct) {
+        results.totalScore += pts;
+        results.sectionScores[meta.section] = (results.sectionScores[meta.section] || 0) + pts;
+      } else {
+        results.sectionScores[meta.section] = (results.sectionScores[meta.section] || 0);
+      }
+
+      results.details.push({
+        id: qid,
+        label: meta.label,
+        section: meta.section,
+        part: meta.part,
+        userAnswer: userAns || '(no answer)',
+        correctAnswer: meta.type === 'mcq' ? meta.correct : meta.answers.join(' / '),
+        isCorrect: correct,
+        points: pts
+      });
+    });
+
+    examResults = results;
+    renderResults(results);
+    alert('客观题已完成自动评分，可在下方查看总分与错题概览。');
+  }
+
+  function collectSubjectiveAnswers() {
+    const items = [];
+    document.querySelectorAll('.subjective-question').forEach(wrapper => {
+      const taskTitle = (wrapper.dataset && wrapper.dataset.taskTitle) || 'Subjective Question';
+      const requirement = (wrapper.dataset && wrapper.dataset.taskRequirement) || '';
+      const label = (wrapper.dataset && wrapper.dataset.label) || taskTitle;
+      const textarea = wrapper.querySelector('textarea');
+      const answer = textarea ? textarea.value.trim() : '';
+      items.push({
+        label,
+        title: taskTitle,
+        prompt: requirement,
+        answer
+      });
+    });
+    return items;
+  }
+
+  function handleDownloadReport() {
+    if (!examResults) {
+      alert('请先点击“提交并评分”完成客观题评分，然后再生成报告。');
+      return;
+    }
+    const r = examResults;
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const timestamp = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate()) +
+      ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes());
+
+    let text = '';
+    text += 'Fudan University English Proficiency Mock Test (Online)\n';
+    text += '英语水平测试在线模拟卷\n\n';
+    text += 'Report generated at: ' + timestamp + '\n\n';
+
+    text += '=== Objective Question Scores ===\n';
+    text += 'Total: ' + r.totalScore + ' / ' + r.maxScore + '\n';
+    const secNamesEn = {
+      listening: 'Listening',
+      reading: 'Reading'
+    };
+    Object.keys(secNamesEn).forEach(sec => {
+      if (r.sectionMax[sec]) {
+        text += secNamesEn[sec] + ': ' +
+          (r.sectionScores[sec] || 0) + ' / ' + r.sectionMax[sec] + '\n';
+      }
+    });
+
+    text += '\n=== Objective Question Details ===\n';
+    r.details.forEach(item => {
+      text += item.label + ' (' + item.part + ')\n';
+      text += '  Your answer: ' + item.userAnswer + '\n';
+      text += '  Correct answer: ' + item.correctAnswer + '\n';
+      text += '  Result: ' + (item.isCorrect ? 'Correct' : 'Incorrect') +
+        '  (Points: ' + item.points + ')\n\n';
+    });
+
+    text += '=== Subjective Answers (Not Auto-scored) ===\n\n';
+    const subjectiveItems = collectSubjectiveAnswers();
+    subjectiveItems.forEach(item => {
+      text += item.label + ' - ' + item.title + '\n';
+      text += 'Prompt / Task:\n' + item.prompt + '\n\n';
+      text += 'Your answer:\n' + (item.answer || '(no answer)') + '\n\n';
+      text += '----------------------------------------\n\n';
+    });
+
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'english_mock_exam_report.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  // ===============================
+  // ChatGPT helper
+  // ===============================
+  function fallbackCopyTextToClipboard(text, callback) {
+    const temp = document.createElement('textarea');
+    temp.value = text;
+    temp.style.position = 'fixed';
+    temp.style.top = '-9999px';
+    document.body.appendChild(temp);
+    temp.focus();
+    temp.select();
+    try {
+      document.execCommand('copy');
+      alert('已尝试将内容复制到剪贴板。若复制失败，请手动复制。现在将打开 ChatGPT。');
+    } catch (e) {
+      alert('浏览器不支持自动复制，请手动复制内容。');
+    }
+    document.body.removeChild(temp);
+    if (typeof callback === 'function') {
+      callback();
+    }
+  }
+
+  function copyTextAndOpenChatGPT(text) {
+    const openChat = () => {
+      try {
+        window.open('https://chat.openai.com/', '_blank');
+      } catch (e) {}
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('题目、要求和你的答案已复制到剪贴板。现在将打开 ChatGPT，请粘贴并请求评分。');
+        openChat();
+      }).catch(err => {
+        console.error('Clipboard error:', err);
+        fallbackCopyTextToClipboard(text, openChat);
+      });
+    } else {
+      fallbackCopyTextToClipboard(text, openChat);
+    }
+  }
+
+  function initChatGPTButtons() {
+    document.querySelectorAll('.chatgpt-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const textareaId = btn.dataset.targetTextarea;
+        const textarea = document.getElementById(textareaId);
+        if (!textarea) {
+          alert('未找到该题的答题区域。');
+          return;
+        }
+        const wrapper = btn.closest('.subjective-question');
+        const taskTitle = wrapper && wrapper.dataset.taskTitle ? wrapper.dataset.taskTitle : 'Subjective Question';
+        const requirement = wrapper && wrapper.dataset.taskRequirement ? wrapper.dataset.taskRequirement : '';
+        const userAnswer = textarea.value.trim() || '[No answer provided]';
+
+        const composed =
+          taskTitle + '\n\n' +
+          'Task / 要求:\n' + requirement + '\n\n' +
+          'Scoring guideline:\n' +
+          '请根据内容完整性、结构与连贯性、语言准确性和词汇多样性，对下面的学生答案进行详细点评，并给出一个合理的分数（满分 25 分）。\n\n' +
+          '=== 学生答案 / Student answer ===\n' +
+          userAnswer + '\n';
+
+        copyTextAndOpenChatGPT(composed);
+      });
+    });
+  }
+
+  // ===============================
+  // Initialization
+  // ===============================
+  document.addEventListener('DOMContentLoaded', () => {
+    initTimers();
+    initSectionNavigation();
+    initChatGPTButtons();
+
+    const submitBtn = document.getElementById('submit-score-btn');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', handleSubmitScore);
+    }
+    const reportBtn = document.getElementById('download-report-btn');
+    if (reportBtn) {
+      reportBtn.addEventListener('click', handleDownloadReport);
+    }
+  });
+</script>
+</body>
+</html>
+
